@@ -1,12 +1,11 @@
-import {Item} from '../types/PlaylistSearchResults';
-import {get, set} from 'idb-keyval';
+import {getPlaylistItems, Item} from '../youtube';
+import {addSubscribedPlaylist, setPlaylistItems} from '../idb';
 
 export function PlaylistItem(item: Item) {
   const handleClick = async () => {
-    const currentSubscriptions =
-      (await get<Array<string>>('subscriptions')) || [];
-    currentSubscriptions.push(item.id.playlistId);
-    await set('subscriptions', currentSubscriptions);
+    await addSubscribedPlaylist(item.id.playlistId);
+    const playlistItems = await getPlaylistItems(item.id.playlistId);
+    await setPlaylistItems(item.id.playlistId, playlistItems);
   };
 
   return (

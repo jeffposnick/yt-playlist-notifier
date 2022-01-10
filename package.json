@@ -5,6 +5,7 @@
   "devDependencies": {
     "@preact/preset-vite": "^2.1.5",
     "idb-keyval": "^6.0.3",
+    "react-async-hook": "^4.0.0",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
   },

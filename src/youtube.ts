@@ -58,3 +58,30 @@ export interface PageInfo {
   totalResults: number;
   resultsPerPage: number;
 }
+
+const BASE_URL = 'https://youtube.googleapis.com/youtube/v3/';
+const SEARCH_URL = BASE_URL + 'search';
+const PLAYLIST_ITEMS_URL = BASE_URL + 'playlistItems';
+
+export async function playlistSearch(searchTerm: string) {
+  const url = new URL(SEARCH_URL);
+  url.searchParams.set('key', import.meta.env.VITE_YT_API_KEY);
+  url.searchParams.set('maxResults', '50');
+  url.searchParams.set('part', 'snippet');
+  url.searchParams.set('q', searchTerm);
+  url.searchParams.set('type', 'playlist');
+
+  const response = await fetch(url.href);
+  return (await response.json()) as PlaylistSearchResults;
+}
+
+export async function getPlaylistItems(playlistID: string) {
+  const url = new URL(PLAYLIST_ITEMS_URL);
+  url.searchParams.set('key', import.meta.env.VITE_YT_API_KEY);
+  url.searchParams.set('maxResults', '50');
+  url.searchParams.set('part', 'snippet');
+  url.searchParams.set('playlistId', playlistID);
+
+  const response = await fetch(url.href);
+  return await response.json();
+}
