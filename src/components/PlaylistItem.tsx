@@ -1,7 +1,7 @@
-import {getPlaylistItems, Item} from '../youtube';
+import {getPlaylistItems, PlaylistSearch} from '../youtube';
 import {addSubscribedPlaylist, setPlaylistItems} from '../idb';
 
-export function PlaylistItem(item: Item) {
+export function PlaylistItem(item: PlaylistSearch.Item) {
   const handleClick = async () => {
     await addSubscribedPlaylist(item.id.playlistId);
     const playlistItems = await getPlaylistItems(item.id.playlistId);
