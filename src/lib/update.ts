@@ -20,8 +20,8 @@ export async function update() {
   const subscribedPlaylists = await getSubscribedPlaylists();
   for (const playlistID of subscribedPlaylists) {
     const oldItems = await getSavedPlaylistItems(playlistID);
-    const latestResults = await getPlaylistItems(playlistID);
-    const newItems = findNewItems(oldItems, latestResults.items);
+    const latestItems = await getPlaylistItems(playlistID);
+    const newItems = findNewItems(oldItems, latestItems);
     for (const item of newItems) {
       showNotification(item);
     }

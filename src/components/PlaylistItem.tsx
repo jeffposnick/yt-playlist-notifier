@@ -6,7 +6,7 @@ export function PlaylistItem(item: PlaylistSearch.Item) {
   const handleClick = async () => {
     await addSubscribedPlaylist(item.id.playlistId);
     const playlistItems = await getPlaylistItems(item.id.playlistId);
-    await setPlaylistItems(item.id.playlistId, playlistItems.items);
+    await setPlaylistItems(item.id.playlistId, playlistItems);
     const result = await requestPermission();
     console.log(result);
   };

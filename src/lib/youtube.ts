@@ -1,5 +1,5 @@
 export namespace PlaylistSearch {
-  export interface PlaylistSearchResults {
+  export interface Results {
     kind: string;
     etag: string;
     nextPageToken: string;
@@ -62,7 +62,7 @@ export namespace PlaylistSearch {
 }
 
 export namespace PlaylistItemList {
-  export interface PlaylistItemListResults {
+  export interface Results {
     kind: string;
     etag: string;
     items: Item[];
@@ -128,7 +128,8 @@ export async function playlistSearch(searchTerm: string) {
   url.searchParams.set('type', 'playlist');
 
   const response = await fetch(url.href);
-  return (await response.json()) as PlaylistSearch.PlaylistSearchResults;
+  const results = (await response.json()) as PlaylistSearch.Results;
+  return results.items;
 }
 
 export async function getPlaylistItems(playlistID: string) {
@@ -139,5 +140,6 @@ export async function getPlaylistItems(playlistID: string) {
   url.searchParams.set('playlistId', playlistID);
 
   const response = await fetch(url.href);
-  return (await response.json()) as PlaylistItemList.PlaylistItemListResults;
+  const results = (await response.json()) as PlaylistItemList.Results;
+  return results.items;
 }

@@ -1,8 +1,8 @@
 import {JSX} from 'preact';
-import {playlistSearch} from '../lib/youtube';
 import {PlaylistItem} from './PlaylistItem';
-import {useRef, useState} from 'preact/hooks';
+import {playlistSearch} from '../lib/youtube';
 import {useAsync} from 'react-async-hook';
+import {useRef, useState} from 'preact/hooks';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
   if (!searchTerm) {
@@ -32,9 +32,7 @@ export function PlaylistSearchForm() {
       </form>
       <ul>
         {asyncSearchResults.result &&
-          asyncSearchResults.result.items.map((item) => (
-            <PlaylistItem {...item} />
-          ))}
+          asyncSearchResults.result.map((item) => <PlaylistItem {...item} />)}
       </ul>
     </>
   );
