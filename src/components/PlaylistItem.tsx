@@ -13,6 +13,7 @@ export function PlaylistItem({
     <div class="card">
       <h6>{item.snippet.title}</h6>
       <p>from {item.snippet.channelTitle}</p>
+      <p>updated {new Date(item.snippet.publishTime).toLocaleDateString()}</p>
       <button onClick={() => clickCallback(item)}>{buttonText}</button>
     </div>
   );
