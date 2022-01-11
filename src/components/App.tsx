@@ -1,19 +1,14 @@
-import {useState, useMemo, useEffect} from 'preact/hooks';
+import {useState, useEffect} from 'preact/hooks';
 
 import {CurrentSubscriptions} from './CurrentSubscriptions';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
 import {update} from '../lib/update';
-import {SubscriptionsContext} from '../context';
+import {SubscribedPlaylists, SetSubscribedPlaylists} from '../context';
 
 export function App() {
   const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
     [],
-  );
-  
-  const context = useMemo(
-    () => [subscribedPlaylists, setSubscribedPlaylists],
-    [subscribedPlaylists]
   );
 
   useEffect(() => {
@@ -21,11 +16,13 @@ export function App() {
   }, []);
 
   return (
-    <SubscriptionsContext.Provider value={context}>
-      <h1>YT Playlist Notifier</h1>
-      <CurrentSubscriptions />
-      <button onClick={update}>Check for Updates</button>
-      <PlaylistSearchForm />
-    </SubscriptionsContext.Provider>
+    <SetSubscribedPlaylists.Provider value={setSubscribedPlaylists}>
+      <SubscribedPlaylists.Provider value={subscribedPlaylists}>
+        <h1>YT Playlist Notifier</h1>
+        <CurrentSubscriptions />
+        <button onClick={update}>Check for Updates</button>
+        <PlaylistSearchForm />
+      </SubscribedPlaylists.Provider>
+    </SetSubscribedPlaylists.Provider>
   );
 }

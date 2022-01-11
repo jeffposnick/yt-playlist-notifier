@@ -3,10 +3,10 @@ import {useContext} from 'preact/hooks';
 import {getPlaylistItems, PlaylistSearch} from '../lib/youtube';
 import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {requestPermission} from '../lib/notifications';
-import {SubscriptionsContext} from '../context';
+import {SetSubscribedPlaylists} from '../context';
 
 export function PlaylistItem({item}: {item: PlaylistSearch.Item}) {
-  const [_, setSubscribedPlaylists] = useContext(SubscriptionsContext);
+  const setSubscribedPlaylists = useContext(SetSubscribedPlaylists);
 
   const handleClick = async () => {
     const playlistItems = await getPlaylistItems(item.id.playlistId);

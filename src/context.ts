@@ -3,7 +3,7 @@ import {StateUpdater} from 'preact/hooks';
 
 import {Value} from './lib/idb';
 
-export const SubscriptionsContext =
-  // We don't need to provide a default value here.
-  // @ts-expect-error
-  createContext<[Value[], StateUpdater<Value[]>]>();
+// @ts-ignore-error
+export const SubscribedPlaylists = createContext<Value[]>();
+// @ts-ignore-error
+export const SetSubscribedPlaylists = createContext<StateUpdater<Value[]>>();

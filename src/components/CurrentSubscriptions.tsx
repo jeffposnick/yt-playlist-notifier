@@ -1,9 +1,9 @@
 import {useContext} from 'preact/hooks';
 
-import {SubscriptionsContext} from '../context';
+import {SubscribedPlaylists} from '../context';
 
 export function CurrentSubscriptions() {
-  const [subscribedPlaylists] = useContext(SubscriptionsContext);
+  const subscribedPlaylists = useContext(SubscribedPlaylists);
 
   return (
     <>
