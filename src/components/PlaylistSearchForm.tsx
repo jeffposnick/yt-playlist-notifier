@@ -1,9 +1,12 @@
 import {JSX} from 'preact';
 import {useAsync} from 'react-async-hook';
-import {useRef, useState} from 'preact/hooks';
+import {useContext, useRef, useState} from 'preact/hooks';
 
+import {getPlaylistItems, playlistSearch, PlaylistSearch} from '../lib/youtube';
+import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
-import {playlistSearch} from '../lib/youtube';
+import {requestPermission} from '../lib/notifications';
+import {SetSubscribedPlaylists} from '../context';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
   if (!searchTerm) {
@@ -16,12 +19,21 @@ export function PlaylistSearchForm() {
   const search = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const asyncSearchResults = useAsync(performPlaylistSearch, [searchTerm]);
+  const setSubscribedPlaylists = useContext(SetSubscribedPlaylists);
 
   const handleSubmit = async (
     event: JSX.TargetedEvent<HTMLFormElement, Event>,
   ) => {
     event.preventDefault();
     setSearchTerm(search.current?.value || '');
+  };
+
+  const handleClick = async (item: PlaylistSearch.Item) => {
+    const playlistItems = await getPlaylistItems(item.id.playlistId);
+    await setPlaylistItems(item, playlistItems);
+    await requestPermission();
+    const subscribedPlaylists = await getSubscribedPlaylists();
+    setSubscribedPlaylists?.(subscribedPlaylists);
   };
 
   return (
@@ -33,7 +45,13 @@ export function PlaylistSearchForm() {
       </form>
       <ul>
         {asyncSearchResults.result &&
-          asyncSearchResults.result.map((item) => <PlaylistItem item={item} />)}
+          asyncSearchResults.result.map((item) => (
+            <PlaylistItem
+              buttonText="Notify"
+              item={item}
+              clickCallback={handleClick}
+            />
+          ))}
       </ul>
     </>
   );
