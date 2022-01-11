@@ -23,7 +23,7 @@
   },
   "scripts": {
     "build": "tsc && vite build",
-    "deploy": "firebase deploy",
+    "deploy": "npm run build && firebase deploy",
     "dev": "vite",
     "preview": "vite preview"
   },
