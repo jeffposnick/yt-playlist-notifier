@@ -21,6 +21,7 @@ export function App() {
         <h1>YT Playlist Notifier</h1>
         <CurrentSubscriptions />
         <button onClick={update}>Check for Updates</button>
+        <hr></hr>
         <PlaylistSearchForm />
       </SubscribedPlaylists.Provider>
     </SetSubscribedPlaylists.Provider>

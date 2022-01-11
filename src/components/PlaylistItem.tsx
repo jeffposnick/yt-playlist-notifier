@@ -10,9 +10,10 @@ export function PlaylistItem({
   clickCallback: (item: PlaylistSearch.Item) => Promise<void>;
 }) {
   return (
-    <li>
-      <b>{item.snippet.title}</b> from {item.snippet.channelTitle}
+    <div class="card">
+      <h6>{item.snippet.title}</h6>
+      <p>from {item.snippet.channelTitle}</p>
       <button onClick={() => clickCallback(item)}>{buttonText}</button>
-    </li>
+    </div>
   );
 }

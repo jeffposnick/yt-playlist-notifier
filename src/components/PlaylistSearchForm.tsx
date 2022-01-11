@@ -38,12 +38,13 @@ export function PlaylistSearchForm() {
 
   return (
     <>
+      <h4>Find more playlists</h4>
       <form onSubmit={handleSubmit}>
-        <label for="playlist-search">Search for playlists: </label>
+        <label for="playlist-search">Search for: </label>
         <input type="search" id="playlist-search" ref={search} />
         <button type="submit">Search</button>
       </form>
-      <ul>
+      <div class="card-container">
         {asyncSearchResults.result &&
           asyncSearchResults.result.map((item) => (
             <PlaylistItem
@@ -52,7 +53,7 @@ export function PlaylistSearchForm() {
               clickCallback={handleClick}
             />
           ))}
-      </ul>
+      </div>
     </>
   );
 }

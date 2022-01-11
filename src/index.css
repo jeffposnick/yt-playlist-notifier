@@ -1,0 +1,43 @@
+@import 'open-props/style';
+@import 'open-props/normalize';
+
+body {
+  background: var(--gradient-22);
+  padding: var(--size-fluid-2);
+}
+
+.card-container {
+  align-items: flex-start;
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--size-5);
+  justify-content: space-around;
+  max-inline-size: calc(var(--size-content-1) * 4);
+  min-width: 80vw;
+  padding: var(--size-5);
+}
+
+.card {
+  background: var(--surface-3);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--surface-4);
+  box-shadow: var(--shadow-2);
+  display: flex;
+  flex-basis: var(--size-content-1);
+  flex-direction: column;
+  gap: var(--size-2);
+  padding: var(--size-4);
+}
+
+.card > button {
+  margin-top: var(--size-fluid-2);
+}
+
+form {
+  margin-top: var(--size-fluid-2);
+  margin-bottom: var(--size-fluid-2);
+}
+
+form > button {
+  margin-left: var(--size-fluid-2);
+}
