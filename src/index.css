@@ -1,8 +1,13 @@
 @import 'open-props/style';
 @import 'open-props/normalize';
 
+html {
+  block-size: 100%;
+}
+
 body {
   background: var(--gradient-22);
+  min-block-size: 100%;
   padding: var(--size-fluid-2);
 }
 
@@ -13,8 +18,8 @@ body {
   gap: var(--size-5);
   justify-content: space-around;
   max-inline-size: calc(var(--size-content-1) * 4);
-  min-width: 80vw;
   padding: var(--size-5);
+  min-width: 100%;
 }
 
 .card {
@@ -27,6 +32,28 @@ body {
   flex-direction: column;
   gap: var(--size-2);
   padding: var(--size-4);
+}
+
+button {
+  background-color: var(--blue-1);
+  border-radius: var(--radius-2);
+  border: var(--border-size-2) solid var(--blue-5);
+  color: var(--blue-9);
+  font-size: var(--font-size-fluid-0);
+  font-weight: var(--font-weight-4);
+  padding-block: var(--size-1);
+  padding-inline: var(--size-6);
+  white-space: nowrap;
+}
+
+button:hover {
+  cursor: pointer;
+  color: var(--blue-0);
+  background-color: var(--blue-4);
+}
+
+button:active {
+  box-shadow: var(--shadow-2);
 }
 
 .card > button {
