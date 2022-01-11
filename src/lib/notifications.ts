@@ -1,12 +1,15 @@
-import {PlaylistItemList} from './youtube';
+import {PlaylistSearch, PlaylistItemList} from './youtube';
 
 export async function requestPermission() {
   return await Notification.requestPermission();
 }
 
-export async function showNotification(video: PlaylistItemList.Item) {
+export async function showNotification(
+  playlistItem: PlaylistSearch.Item,
+  video: PlaylistItemList.Item,
+) {
   const notification = new Notification(video.snippet.title, {
-    body: video.snippet.description,
+    body: `A new video was added to '${playlistItem.snippet.title}'`,
     icon: video.snippet.thumbnails.high.url,
   });
 

@@ -1,14 +1,12 @@
 import {getPlaylistItems, PlaylistSearch} from '../lib/youtube';
-import {addSubscribedPlaylist, setPlaylistItems} from '../lib/idb';
 import {requestPermission} from '../lib/notifications';
+import {setPlaylistItems} from '../lib/idb';
 
 export function PlaylistItem(item: PlaylistSearch.Item) {
   const handleClick = async () => {
-    await addSubscribedPlaylist(item.id.playlistId);
     const playlistItems = await getPlaylistItems(item.id.playlistId);
-    await setPlaylistItems(item.id.playlistId, playlistItems);
-    const result = await requestPermission();
-    console.log(result);
+    await setPlaylistItems(item, playlistItems);
+    await requestPermission();
   };
 
   return (

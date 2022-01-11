@@ -1,13 +1,13 @@
 import {getPlaylistItems, PlaylistItemList} from './youtube';
-import {getSubscribedPlaylists, getSavedPlaylistItems} from './idb';
+import {getSubscribedPlaylists, setPlaylistItems} from './idb';
 import {showNotification} from './notifications';
 
-function findNewItems(
-  oldItems: Array<PlaylistItemList.Item>,
+function findNewVideos(
+  previousItems: Array<PlaylistItemList.Item>,
   latestItems: Array<PlaylistItemList.Item>,
 ) {
   const oldVideoIDs = new Set<string>();
-  for (const item of oldItems) {
+  for (const item of previousItems) {
     oldVideoIDs.add(item.snippet.resourceId.videoId);
   }
 
@@ -17,14 +17,13 @@ function findNewItems(
 }
 
 export async function update() {
-  const subscribedPlaylists = await getSubscribedPlaylists();
-  for (const playlistID of subscribedPlaylists) {
-    const oldItems = await getSavedPlaylistItems(playlistID);
-    const latestItems = await getPlaylistItems(playlistID);
-    const newItems = findNewItems(oldItems, latestItems);
-    for (const item of newItems) {
-      showNotification(item);
+  const playlists = await getSubscribedPlaylists();
+  for (const {playlistItem, videos} of playlists) {
+    const latestVideos = await getPlaylistItems(playlistItem.id.playlistId);
+    await setPlaylistItems(playlistItem, latestVideos);
+
+    for (const video of findNewVideos(videos, latestVideos)) {
+      showNotification(playlistItem, video);
     }
-    // setPlaylistItems()
   }
 }

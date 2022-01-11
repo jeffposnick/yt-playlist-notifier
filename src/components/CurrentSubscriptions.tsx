@@ -8,10 +8,12 @@ export function CurrentSubscriptions() {
 
   return (
     <>
-      <p>You're currently subscribed to updates to:</p>
+      <p>You're currently getting updates to:</p>
       <ul>
         {subscriptions.result &&
-          [...subscriptions.result.values()].map((name) => <li>{name}</li>)}
+          subscriptions.result.map(({playlistItem}) => (
+            <li>{playlistItem.snippet.title}</li>
+          ))}
       </ul>
     </>
   );
