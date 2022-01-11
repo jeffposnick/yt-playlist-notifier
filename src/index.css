@@ -63,7 +63,7 @@ button:active {
 input[type='search'] {
   border: var(--border-size-2) solid var(--blue-5);
   margin-top: var(--size-fluid-2);
-  width: var(--size-fluid-10);
+  width: var(--size-fluid-9);
 }
 
 .card > button {
