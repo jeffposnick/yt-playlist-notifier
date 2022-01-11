@@ -34,6 +34,10 @@ body {
   padding: var(--size-4);
 }
 
+.card a {
+  color: inherit;
+}
+
 button {
   background-color: var(--blue-1);
   border-radius: var(--radius-2);

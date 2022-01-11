@@ -34,6 +34,7 @@ export function PlaylistSearchForm() {
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
+    document.querySelector('#current')?.scrollIntoView();
   };
 
   return (
@@ -49,7 +50,7 @@ export function PlaylistSearchForm() {
         {asyncSearchResults.result &&
           asyncSearchResults.result.map((item) => (
             <PlaylistItem
-              buttonText="Notify"
+              buttonText="Notify 🔔"
               item={item}
               clickCallback={handleClick}
             />

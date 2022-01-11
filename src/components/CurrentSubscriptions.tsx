@@ -17,11 +17,11 @@ export function CurrentSubscriptions() {
 
   return (
     <>
-      <h4>You're currently getting updates to:</h4>
+      <h4 id="current">You're currently getting updates to:</h4>
       <div class="card-container">
         {subscribedPlaylists?.map(({playlistItem}) => (
           <PlaylistItem
-            buttonText="Remove"
+            buttonText="Remove 🚫"
             item={playlistItem}
             clickCallback={handleClick}
           />
