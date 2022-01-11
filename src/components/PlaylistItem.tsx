@@ -18,7 +18,7 @@ export function PlaylistItem({
         <a href={playlistHref}>{item.snippet.title}</a>
       </h6>
       <p>
-        created by <a href={channelHref}>{item.snippet.channelTitle}</a>
+        curated by <a href={channelHref}>{item.snippet.channelTitle}</a>
       </p>
       <button onClick={() => clickCallback(item)}>{buttonText}</button>
     </div>
