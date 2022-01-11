@@ -17,7 +17,7 @@ export function CurrentSubscriptions() {
 
   return (
     <>
-      <h4 id="current">You're currently getting updates to:</h4>
+      <h4 id="current">You're getting updates to:</h4>
       <div class="card-container">
         {subscribedPlaylists?.map(({playlistItem}) => (
           <PlaylistItem

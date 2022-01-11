@@ -1,6 +1,5 @@
-import {getPlaylistItems, PlaylistItemList} from './youtube';
+import {getPlaylistItems, PlaylistSearch, PlaylistItemList} from './youtube';
 import {getSubscribedPlaylists, setPlaylistItems} from './idb';
-import {showNotification} from './notifications';
 
 function findNewVideos(
   previousItems: Array<PlaylistItemList.Item>,
@@ -16,14 +15,21 @@ function findNewVideos(
   );
 }
 
-export async function update() {
+export async function getNewVideos() {
+  const newVideos: Array<{
+    playlistItem: PlaylistSearch.Item;
+    video: PlaylistItemList.Item;
+  }> = [];
   const playlists = await getSubscribedPlaylists();
+
   for (const {playlistItem, videos} of playlists) {
     const latestVideos = await getPlaylistItems(playlistItem.id.playlistId);
     await setPlaylistItems(playlistItem, latestVideos);
 
     for (const video of findNewVideos(videos, latestVideos)) {
-      showNotification(playlistItem, video);
+      newVideos.push({playlistItem, video});
     }
   }
+
+  return newVideos;
 }

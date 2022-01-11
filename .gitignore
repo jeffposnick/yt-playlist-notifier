@@ -4,4 +4,5 @@
 *.local
 dist
 dist-ssr
+firebase-debug.log
 node_modules

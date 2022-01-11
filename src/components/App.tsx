@@ -3,7 +3,6 @@ import {useState, useEffect} from 'preact/hooks';
 import {CurrentSubscriptions} from './CurrentSubscriptions';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
-import {update} from '../lib/update';
 import {SubscribedPlaylists, SetSubscribedPlaylists} from '../context';
 
 export function App() {
@@ -15,6 +14,10 @@ export function App() {
     getSubscribedPlaylists().then((value) => setSubscribedPlaylists(value));
   }, []);
 
+  const handleClick = async () => {
+    navigator.serviceWorker.controller?.postMessage('update-check');
+  };
+
   return (
     <SetSubscribedPlaylists.Provider value={setSubscribedPlaylists}>
       <SubscribedPlaylists.Provider value={subscribedPlaylists}>
@@ -22,7 +25,7 @@ export function App() {
         <PlaylistSearchForm />
         <hr></hr>
         <CurrentSubscriptions />
-        <button onClick={update}>Check for Updates</button>
+        <button onClick={handleClick}>Check Now</button>
       </SubscribedPlaylists.Provider>
     </SetSubscribedPlaylists.Provider>
   );
