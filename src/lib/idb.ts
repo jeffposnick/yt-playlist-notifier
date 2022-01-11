@@ -1,7 +1,7 @@
 import {get, set, values, del} from 'idb-keyval';
 import {PlaylistItemList, PlaylistSearch} from './youtube';
 
-interface Value {
+export interface Value {
   playlistItem: PlaylistSearch.Item;
   videos: Array<PlaylistItemList.Item>;
 }

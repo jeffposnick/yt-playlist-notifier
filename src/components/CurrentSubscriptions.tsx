@@ -1,19 +1,17 @@
-import {getSubscribedPlaylists} from '../lib/idb';
-import {useAsync} from 'react-async-hook';
+import {Value} from '../lib/idb';
 
-const getSubscriptions = async () => await getSubscribedPlaylists();
-
-export function CurrentSubscriptions() {
-  const subscriptions = useAsync(getSubscriptions, []);
-
+export function CurrentSubscriptions({
+  subscribedPlaylists,
+}: {
+  subscribedPlaylists: Array<Value>;
+}) {
   return (
     <>
       <p>You're currently getting updates to:</p>
       <ul>
-        {subscriptions.result &&
-          subscriptions.result.map(({playlistItem}) => (
-            <li>{playlistItem.snippet.title}</li>
-          ))}
+        {subscribedPlaylists.map(({playlistItem}) => (
+          <li>{playlistItem.snippet.title}</li>
+        ))}
       </ul>
     </>
   );
