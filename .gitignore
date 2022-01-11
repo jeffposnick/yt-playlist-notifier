@@ -1,5 +1,6 @@
-node_modules
 .DS_Store
+.firebaserc
+*.local
 dist
 dist-ssr
-*.local
+node_modules
