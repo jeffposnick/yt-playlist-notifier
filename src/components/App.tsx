@@ -1,4 +1,4 @@
-import {useState} from 'preact/hooks';
+import {useState, useMemo, useEffect} from 'preact/hooks';
 
 import {CurrentSubscriptions} from './CurrentSubscriptions';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
@@ -10,12 +10,18 @@ export function App() {
   const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
     [],
   );
-  getSubscribedPlaylists().then((value) => setSubscribedPlaylists(value));
+  
+  const context = useMemo(
+    () => [subscribedPlaylists, setSubscribedPlaylists],
+    [subscribedPlaylists]
+  );
+
+  useEffect(() => {
+    getSubscribedPlaylists().then((value) => setSubscribedPlaylists(value));
+  }, []);
 
   return (
-    <SubscriptionsContext.Provider
-      value={[subscribedPlaylists, setSubscribedPlaylists]}
-    >
+    <SubscriptionsContext.Provider value={context}>
       <h1>YT Playlist Notifier</h1>
       <CurrentSubscriptions />
       <button onClick={update}>Check for Updates</button>
