@@ -9,7 +9,7 @@ export function CurrentSubscriptions() {
     <>
       <p>You're currently getting updates to:</p>
       <ul>
-        {subscribedPlaylists.map(({playlistItem}) => (
+        {subscribedPlaylists?.map(({playlistItem}) => (
           <li>{playlistItem.snippet.title}</li>
         ))}
       </ul>

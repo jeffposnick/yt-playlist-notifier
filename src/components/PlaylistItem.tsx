@@ -13,7 +13,7 @@ export function PlaylistItem({item}: {item: PlaylistSearch.Item}) {
     await setPlaylistItems(item, playlistItems);
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
-    setSubscribedPlaylists(subscribedPlaylists);
+    setSubscribedPlaylists?.(subscribedPlaylists);
   };
 
   return (
