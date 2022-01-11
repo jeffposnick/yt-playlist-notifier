@@ -1,10 +1,10 @@
-import {Value} from '../lib/idb';
+import {useContext} from 'preact/hooks';
 
-export function CurrentSubscriptions({
-  subscribedPlaylists,
-}: {
-  subscribedPlaylists: Array<Value>;
-}) {
+import {SubscriptionsContext} from '../context';
+
+export function CurrentSubscriptions() {
+  const [subscribedPlaylists] = useContext(SubscriptionsContext);
+
   return (
     <>
       <p>You're currently getting updates to:</p>

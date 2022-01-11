@@ -1,16 +1,13 @@
-import {StateUpdater} from 'preact/hooks';
+import {useContext} from 'preact/hooks';
 
 import {getPlaylistItems, PlaylistSearch} from '../lib/youtube';
-import {getSubscribedPlaylists, setPlaylistItems, Value} from '../lib/idb';
+import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {requestPermission} from '../lib/notifications';
+import {SubscriptionsContext} from '../context';
 
-export function PlaylistItem({
-  item,
-  setSubscribedPlaylists,
-}: {
-  item: PlaylistSearch.Item;
-  setSubscribedPlaylists: StateUpdater<Value[]>;
-}) {
+export function PlaylistItem({item}: {item: PlaylistSearch.Item}) {
+  const [_, setSubscribedPlaylists] = useContext(SubscriptionsContext);
+
   const handleClick = async () => {
     const playlistItems = await getPlaylistItems(item.id.playlistId);
     await setPlaylistItems(item, playlistItems);
