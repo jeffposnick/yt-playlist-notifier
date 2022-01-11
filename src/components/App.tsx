@@ -19,10 +19,10 @@ export function App() {
     <SetSubscribedPlaylists.Provider value={setSubscribedPlaylists}>
       <SubscribedPlaylists.Provider value={subscribedPlaylists}>
         <h1>YT Playlist Notifier</h1>
+        <PlaylistSearchForm />
+        <hr></hr>
         <CurrentSubscriptions />
         <button onClick={update}>Check for Updates</button>
-        <hr></hr>
-        <PlaylistSearchForm />
       </SubscribedPlaylists.Provider>
     </SetSubscribedPlaylists.Provider>
   );

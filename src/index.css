@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  background: var(--gradient-22);
+  background: var(--cyan-0);
   min-block-size: 100%;
   padding: var(--size-fluid-2);
 }
@@ -23,7 +23,7 @@ body {
 }
 
 .card {
-  background: var(--surface-3);
+  background: var(--grape-0);
   border-radius: var(--radius-3);
   border: 1px solid var(--surface-4);
   box-shadow: var(--shadow-2);
@@ -54,6 +54,12 @@ button:hover {
 
 button:active {
   box-shadow: var(--shadow-2);
+}
+
+input[type='search'] {
+  border: var(--border-size-2) solid var(--blue-5);
+  margin-top: var(--size-fluid-2);
+  width: var(--size-fluid-10);
 }
 
 .card > button {

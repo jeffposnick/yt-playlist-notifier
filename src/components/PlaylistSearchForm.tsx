@@ -38,9 +38,10 @@ export function PlaylistSearchForm() {
 
   return (
     <>
-      <h4>Find more playlists</h4>
       <form onSubmit={handleSubmit}>
-        <label for="playlist-search">Search for: </label>
+        <label for="playlist-search">
+          <h4>Find playlists:</h4>
+        </label>
         <input type="search" id="playlist-search" ref={search} />
         <button type="submit">Search</button>
       </form>
