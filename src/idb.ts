@@ -21,7 +21,11 @@ export async function removeSubscribedPlaylist(playlistID: string) {
 
 export async function setPlaylistItems(
   playlistID: string,
-  playlistItems: PlaylistItemList.PlaylistItemListResults,
+  playlistItems: Array<PlaylistItemList.Item>,
 ) {
   await set(playlistID, playlistItems);
+}
+
+export async function getSavedPlaylistItems(playlistID: string) {
+  return (await get(playlistID)) as Array<PlaylistItemList.Item>;
 }
