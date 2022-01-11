@@ -1,6 +1,6 @@
 import {CurrentSubscriptions} from './CurrentSubscriptions';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
-import {update} from '../update';
+import {update} from '../lib/update';
 
 export function App() {
   return (

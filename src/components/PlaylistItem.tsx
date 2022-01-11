@@ -1,6 +1,6 @@
-import {getPlaylistItems, PlaylistSearch} from '../youtube';
-import {addSubscribedPlaylist, setPlaylistItems} from '../idb';
-import {requestPermission} from '../notifications';
+import {getPlaylistItems, PlaylistSearch} from '../lib/youtube';
+import {addSubscribedPlaylist, setPlaylistItems} from '../lib/idb';
+import {requestPermission} from '../lib/notifications';
 
 export function PlaylistItem(item: PlaylistSearch.Item) {
   const handleClick = async () => {

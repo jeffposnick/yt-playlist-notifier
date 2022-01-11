@@ -1,4 +1,4 @@
-import {getSubscribedPlaylists} from '../idb';
+import {getSubscribedPlaylists} from '../lib/idb';
 import {useAsync} from 'react-async-hook';
 
 const getSubscriptions = async () => await getSubscribedPlaylists();

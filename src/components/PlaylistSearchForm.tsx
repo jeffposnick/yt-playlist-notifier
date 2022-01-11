@@ -1,5 +1,5 @@
 import {JSX} from 'preact';
-import {playlistSearch} from '../youtube';
+import {playlistSearch} from '../lib/youtube';
 import {PlaylistItem} from './PlaylistItem';
 import {useRef, useState} from 'preact/hooks';
 import {useAsync} from 'react-async-hook';
