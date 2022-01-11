@@ -7,9 +7,12 @@ export function CurrentSubscriptions() {
   const subscriptions = useAsync(getSubscriptions, []);
 
   return (
-    <ul>
-      {subscriptions.result &&
-        [...subscriptions.result.values()].map((name) => <li>{name}</li>)}
-    </ul>
+    <>
+      <p>You're currently subscribed to updates to:</p>
+      <ul>
+        {subscriptions.result &&
+          [...subscriptions.result.values()].map((name) => <li>{name}</li>)}
+      </ul>
+    </>
   );
 }
