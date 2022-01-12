@@ -18,8 +18,8 @@ body {
   gap: var(--size-5);
   justify-content: space-around;
   max-inline-size: calc(var(--size-content-1) * 4);
-  padding: var(--size-5);
-  min-width: 100%;
+  min-width: var(--size-14);
+  padding: var(--size-fluid-1);
 }
 
 .card {
