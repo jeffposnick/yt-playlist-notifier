@@ -58,6 +58,10 @@ button {
   white-space: nowrap;
 }
 
+button:active {
+  filter: opacity(0.7);
+}
+
 input[type='search'] {
   border: var(--border-size-2) solid var(--blue-5);
   margin-top: var(--size-fluid-2);
