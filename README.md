@@ -33,7 +33,7 @@ If you're using a browser that supports [periodic background sync](https://web.d
 
 To run a copy of this project, first [register for YouTube Data API access](https://developers.google.com/youtube/v3/getting-started), and obtain a browser API key.
 
-Create an `.env.local` file at the root of this project, and include the following:
+Create an [`.env.local` file](https://vitejs.dev/guide/env-and-mode.html#env-files) at the root of this project, and include the following:
 
 ```sh
 VITE_YT_API_KEY=<your API key here>
