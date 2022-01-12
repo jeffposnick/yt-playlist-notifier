@@ -57,6 +57,11 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
               clickCallback={handleClick}
             />
           ))}
+        {asyncSearchResults.error && (
+          <p>
+            Could not load search results: {asyncSearchResults.error.message}
+          </p>
+        )}
       </div>
     </>
   );
