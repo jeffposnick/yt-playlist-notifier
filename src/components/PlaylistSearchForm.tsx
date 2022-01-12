@@ -34,7 +34,7 @@ export function PlaylistSearchForm() {
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
-    document.querySelector('#current')?.scrollIntoView();
+    document.querySelector('#check-now')?.scrollIntoView();
   };
 
   return (

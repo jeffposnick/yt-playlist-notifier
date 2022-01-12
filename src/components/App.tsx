@@ -36,7 +36,11 @@ export function App() {
         <PlaylistSearchForm />
         <hr></hr>
         <CurrentSubscriptions />
-        <button disabled={controlled ? false : true} onClick={handleClick}>
+        <button
+          id="check-now"
+          disabled={controlled ? false : true}
+          onClick={handleClick}
+        >
           Check Now
         </button>
       </SubscribedPlaylists.Provider>
