@@ -27,15 +27,21 @@ if (import.meta.env.MODE === 'production') {
     }
 
     navigator.serviceWorker.ready.then(async (registration) => {
-      const status = await navigator.permissions.query({
-        // @ts-expect-error
-        name: 'periodic-background-sync',
-      });
-
-      if (status.state === 'granted') {
-        await registration.periodicSync.register('update-check', {
-          minInterval: 24 * 60 * 60 * 1000,
+      if ('periodicSync' in registration) {
+        const status = await navigator.permissions.query({
+          // @ts-expect-error
+          name: 'periodic-background-sync',
         });
+
+        if (status.state === 'granted') {
+          await registration.periodicSync.register('update-check', {
+            minInterval: 24 * 60 * 60 * 1000,
+          });
+        } else {
+          navigator.serviceWorker.controller?.postMessage('update-check');
+        }
+      } else {
+        navigator.serviceWorker.controller?.postMessage('update-check');
       }
     });
   });
