@@ -26,6 +26,6 @@
     "src"
   ],
   "exclude": [
-    "src/sw.ts"
+    "src/service-worker"
   ]
 }

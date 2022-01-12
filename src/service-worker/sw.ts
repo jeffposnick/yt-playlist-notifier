@@ -1,6 +1,4 @@
-/// <reference lib="ESNext" />
 /// <reference lib="webworker" />
-
 declare const self: ServiceWorkerGlobalScope;
 
 interface PeriodicBackgroundSyncEvent extends ExtendableEvent {
@@ -9,8 +7,7 @@ interface PeriodicBackgroundSyncEvent extends ExtendableEvent {
 
 import {precacheAndRoute} from 'workbox-precaching';
 
-import {getNewVideos} from './lib/update-check';
-import {PlaylistSearch, PlaylistItemList} from './lib/youtube';
+import {updateCheck} from './update-check';
 
 const filteredManifest = (self.__WB_MANIFEST || []).filter((entry) => {
   if (typeof entry === 'string' || entry.url !== 'registerSW.js') {
@@ -26,24 +23,6 @@ self.addEventListener('notificationclick', (event) => {
   event.waitUntil(self.clients.openWindow(event.notification.tag));
   event.notification.close();
 });
-
-async function showNotification(
-  playlistItem: PlaylistSearch.Item,
-  video: PlaylistItemList.Item,
-) {
-  self.registration.showNotification(video.snippet.title, {
-    body: `A new video was added to '${playlistItem.snippet.title}'`,
-    icon: video.snippet.thumbnails.high.url,
-    tag: `https://youtu.be/${video.snippet.resourceId.videoId}`,
-  });
-}
-
-async function updateCheck() {
-  const newVideos = await getNewVideos();
-  for (const {playlistItem, video} of newVideos) {
-    showNotification(playlistItem, video);
-  }
-}
 
 // @ts-expect-error
 self.addEventListener('periodicsync', (event: PeriodicBackgroundSyncEvent) => {

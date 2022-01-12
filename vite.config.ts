@@ -8,7 +8,7 @@ export default defineConfig({
     preact(),
     VitePWA({
       strategies: 'injectManifest',
-      srcDir: 'src',
+      srcDir: 'src/service-worker',
       filename: 'sw.ts',
       includeManifestIcons: false,
       manifest: {
