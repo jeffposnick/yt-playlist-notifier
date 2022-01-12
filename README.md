@@ -1,3 +1,8 @@
+- [YT Playlist Notifier](#yt-playlist-notifier)
+- [When will I see updates?](#when-will-i-see-updates)
+- [Technologies used](#technologies-used)
+- [Local development](#local-development)
+
 _This is a hackathon project—don't expect anything production-quality!_
 
 ## YT Playlist Notifier
@@ -23,3 +28,13 @@ If you're using a browser that supports [periodic background sync](https://web.d
 - [Workbox](https://workboxjs.org/), via the [vite-plugin-pwa plugin](https://github.com/antfu/vite-plugin-pwa).
 - [Open Props](https://open-props.style/)
 - [YouTube Data API](https://developers.google.com/youtube/v3)
+
+## Local development
+
+To run a copy of this project, first [register for YouTube Data API access](https://developers.google.com/youtube/v3/getting-started), and obtain a browser API key.
+
+Create an `.env.local` file at the root of this project, and include the following:
+
+```sh
+VITE_YT_API_KEY=<your API key here>
+```
