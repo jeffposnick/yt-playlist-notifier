@@ -15,7 +15,7 @@ async function getNewestVideos() {
 
   return allVideos
     .sort((a, b) => {
-      return a.snippet.publishedAt < b.snippet.publishedAt ? 1 : 0;
+      return b.snippet.publishedAt.localeCompare(a.snippet.publishedAt);
     })
     .slice(0, 5);
 }
