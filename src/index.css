@@ -24,7 +24,7 @@ body {
   align-items: center;
   background: var(--grape-0);
   border-radius: var(--radius-3);
-  border: 1px solid var(--surface-4);
+  border: var(--border-size-1) solid var(--surface-4);
   box-shadow: var(--shadow-2);
   display: flex;
   flex-direction: row;
@@ -103,8 +103,22 @@ main {
 footer {
   align-content: center;
   background-color: var(--cyan-2);
+  border-top: var(--border-size-1) solid var(--surface-4);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  justify-content: space-evenly;
   padding: var(--size-fluid-2);
+}
+
+footer > a {
+  background-color: var(--blue-1);
+  border-radius: var(--radius-2);
+  border: var(--border-size-2) solid var(--blue-5);
+  color: var(--blue-9);
+  font-size: var(--font-size-fluid-0);
+  font-weight: var(--font-weight-4);
+  padding: var(--size-fluid-1);
+  text-align: center;
+  text-decoration: none;
 }
