@@ -1,3 +1,4 @@
+import {FunctionalComponent} from 'preact';
 import {useAsync} from 'react-async-hook';
 
 import {VideoItem} from './VideoItem';
@@ -20,7 +21,7 @@ async function getNewestVideos() {
     .slice(0, 5);
 }
 
-export function LatestVideos() {
+export const LatestVideos: FunctionalComponent = () => {
   const asyncNewestVideos = useAsync(getNewestVideos, []);
 
   return (
@@ -32,4 +33,4 @@ export function LatestVideos() {
       </div>
     </>
   );
-}
+};

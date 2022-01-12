@@ -7,6 +7,7 @@
     "firebase-tools": "^10.0.1",
     "idb-keyval": "^6.0.3",
     "open-props": "^1.1.2",
+    "preact-router": "^4.0.0",
     "react-async-hook": "^4.0.0",
     "typescript": "^4.4.4",
     "vite": "^2.7.2",

@@ -7,8 +7,6 @@ html {
 
 body {
   background: var(--cyan-0);
-  min-block-size: 100%;
-  padding: var(--size-fluid-2);
 }
 
 .card-container {
@@ -84,4 +82,28 @@ button:disabled {
 .form-controls > input[type='search'] {
   border: var(--border-size-2) solid var(--blue-5);
   flex-grow: 1;
+}
+
+#app {
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+main {
+  padding: var(--size-fluid-2);
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+footer {
+  align-items: center;
+  background-color: var(--cyan-2);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

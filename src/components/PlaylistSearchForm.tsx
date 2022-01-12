@@ -1,4 +1,4 @@
-import {JSX} from 'preact';
+import {FunctionalComponent, JSX} from 'preact';
 import {useAsync} from 'react-async-hook';
 import {useContext, useRef, useState} from 'preact/hooks';
 
@@ -15,7 +15,7 @@ const performPlaylistSearch = async (searchTerm?: string) => {
   return await playlistSearch(searchTerm);
 };
 
-export function PlaylistSearchForm() {
+export const PlaylistSearchForm: FunctionalComponent = () => {
   const search = useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const asyncSearchResults = useAsync(performPlaylistSearch, [searchTerm]);
@@ -60,4 +60,4 @@ export function PlaylistSearchForm() {
       </div>
     </>
   );
-}
+};

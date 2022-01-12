@@ -1,3 +1,4 @@
+import {FunctionalComponent} from 'preact';
 import {useContext} from 'preact/hooks';
 
 import {PlaylistItem} from './PlaylistItem';
@@ -5,7 +6,7 @@ import {PlaylistSearch} from '../lib/youtube';
 import {getSubscribedPlaylists, removeSubscribedPlaylist} from '../lib/idb';
 import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
 
-export function CurrentSubscriptions() {
+export const CurrentSubscriptions: FunctionalComponent = () => {
   const subscribedPlaylists = useContext(SubscribedPlaylists);
   const setSubscribedPlaylists = useContext(SetSubscribedPlaylists);
 
@@ -29,4 +30,4 @@ export function CurrentSubscriptions() {
       </div>
     </>
   );
-}
+};
