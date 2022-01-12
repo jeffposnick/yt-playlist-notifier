@@ -23,12 +23,19 @@ export function App() {
             <LatestVideos path="/" />
             <PlaylistSearchForm path="/search" />
             <CurrentSubscriptions path="/current" />
+            <div path="/about">
+              You can learn about this project at{' '}
+              <a href="https://github.com/jeffposnick/yt-playlist-notifier">
+                https://github.com/jeffposnick/yt-playlist-notifier
+              </a>
+            </div>
           </Router>
         </main>
         <footer>
-          <a href="/">Newest Videos</a>
-          <a href="/search">Search for Playlists</a>
-          <a href="/current">Current Subscriptions</a>
+          <a href="/">Videos</a>
+          <a href="/search">Search</a>
+          <a href="/current">Subscriptions</a>
+          <a href="/about">About</a>
         </footer>
       </SubscribedPlaylists.Provider>
     </SetSubscribedPlaylists.Provider>
