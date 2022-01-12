@@ -12,7 +12,10 @@
     "typescript": "^4.4.4",
     "vite": "^2.7.2",
     "vite-plugin-pwa": "^0.11.12",
-    "workbox-precaching": "^6.4.2"
+    "workbox-expiration": "^6.4.2",
+    "workbox-precaching": "^6.4.2",
+    "workbox-routing": "^6.4.2",
+    "workbox-strategies": "^6.4.2"
   },
   "name": "yt-playlist-notifier",
   "prettier": {

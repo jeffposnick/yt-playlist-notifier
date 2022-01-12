@@ -5,12 +5,23 @@ interface PeriodicBackgroundSyncEvent extends ExtendableEvent {
   tag: string;
 }
 
+import {ExpirationPlugin} from 'workbox-expiration';
 import {precacheAndRoute} from 'workbox-precaching';
+import {registerRoute} from 'workbox-routing';
+import {StaleWhileRevalidate} from 'workbox-strategies';
 
 import {UPDATE_CHECK} from '../constants';
 import {checkForUpdates} from './updates';
 
 precacheAndRoute(self.__WB_MANIFEST || []);
+
+registerRoute(
+  ({url}) => url.origin === 'https://i.ytimg.com',
+  new StaleWhileRevalidate({
+    cacheName: 'yt-thumbnails',
+    plugins: [new ExpirationPlugin({maxEntries: 50})],
+  }),
+);
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', () => self.clients.claim());
