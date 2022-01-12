@@ -31,7 +31,6 @@ async function showNotification(
   playlistItem: PlaylistSearch.Item,
   video: PlaylistItemList.Item,
 ) {
-  console.log('notifying:', playlistItem, video);
   self.registration.showNotification(video.snippet.title, {
     body: `A new video was added to '${playlistItem.snippet.title}'`,
     icon: video.snippet.thumbnails.high.url,
@@ -40,7 +39,6 @@ async function showNotification(
 }
 
 async function updateCheck() {
-  console.log('update check...');
   const newVideos = await getNewVideos();
   for (const {playlistItem, video} of newVideos) {
     showNotification(playlistItem, video);
