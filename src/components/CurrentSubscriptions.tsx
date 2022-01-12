@@ -3,7 +3,7 @@ import {useContext} from 'preact/hooks';
 import {PlaylistItem} from './PlaylistItem';
 import {PlaylistSearch} from '../lib/youtube';
 import {getSubscribedPlaylists, removeSubscribedPlaylist} from '../lib/idb';
-import {SetSubscribedPlaylists, SubscribedPlaylists} from '../context';
+import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
 
 export function CurrentSubscriptions() {
   const subscribedPlaylists = useContext(SubscribedPlaylists);

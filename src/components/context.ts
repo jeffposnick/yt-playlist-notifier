@@ -1,7 +1,7 @@
 import {createContext} from 'preact';
 import {StateUpdater} from 'preact/hooks';
 
-import {Value} from './lib/idb';
+import {Value} from '../lib/idb';
 
 export const SubscribedPlaylists = createContext<Value[] | undefined>(
   undefined,

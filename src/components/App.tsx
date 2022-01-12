@@ -3,7 +3,7 @@ import {useState, useEffect} from 'preact/hooks';
 import {CurrentSubscriptions} from './CurrentSubscriptions';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
-import {SubscribedPlaylists, SetSubscribedPlaylists} from '../context';
+import {SubscribedPlaylists, SetSubscribedPlaylists} from './context';
 import {UPDATE_CHECK} from '../constants';
 
 export function App() {

@@ -6,7 +6,7 @@ import {getPlaylistItems, playlistSearch, PlaylistSearch} from '../lib/youtube';
 import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
 import {requestPermission} from '../lib/notifications';
-import {SetSubscribedPlaylists} from '../context';
+import {SetSubscribedPlaylists} from './context';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
   if (!searchTerm) {
