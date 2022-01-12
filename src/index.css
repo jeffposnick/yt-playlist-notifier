@@ -76,7 +76,7 @@ button:disabled {
   gap: var(--size-4);
   justify-content: space-between;
   padding: var(--size-4);
-  width: 100%;
+  width: 80%;
 }
 
 .form-controls > input[type='search'] {
@@ -101,9 +101,10 @@ main {
 }
 
 footer {
-  align-items: center;
+  align-content: center;
   background-color: var(--cyan-2);
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  padding: var(--size-fluid-2);
 }
