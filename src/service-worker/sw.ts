@@ -10,12 +10,7 @@ import {precacheAndRoute} from 'workbox-precaching';
 import {UPDATE_CHECK} from '../constants';
 import {checkForUpdates} from './updates';
 
-const filteredManifest = (self.__WB_MANIFEST || []).filter((entry) => {
-  if (typeof entry === 'string' || entry.url !== 'registerSW.js') {
-    return entry;
-  }
-});
-precacheAndRoute(filteredManifest);
+precacheAndRoute(self.__WB_MANIFEST || []);
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', () => self.clients.claim());

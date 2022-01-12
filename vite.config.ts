@@ -7,10 +7,9 @@ export default defineConfig({
   plugins: [
     preact(),
     VitePWA({
-      strategies: 'injectManifest',
-      srcDir: 'src/service-worker',
       filename: 'sw.ts',
       includeManifestIcons: false,
+      injectRegister: false,
       manifest: {
         name: 'YT Playlist Notifier',
         short_name: 'YT Playlist Notifier',
@@ -35,6 +34,8 @@ export default defineConfig({
           },
         ],
       },
+      srcDir: 'src/service-worker',
+      strategies: 'injectManifest',
     }),
   ],
 });
