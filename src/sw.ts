@@ -32,7 +32,7 @@ async function showNotification(
   video: PlaylistItemList.Item,
 ) {
   self.registration.showNotification(video.snippet.title, {
-    badge: `/icon-192.png`,
+    badge: `${self.location.origin}/icon-192.png`,
     body: `A new video was added to '${playlistItem.snippet.title}'`,
     icon: video.snippet.thumbnails.high.url,
     tag: `https://youtu.be/${video.snippet.resourceId.videoId}`,
