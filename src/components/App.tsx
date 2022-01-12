@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'preact/hooks';
 
 import {CurrentSubscriptions} from './CurrentSubscriptions';
+import {LatestVideos} from './LatestVideos';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
 import {SubscribedPlaylists, SetSubscribedPlaylists} from './context';
@@ -33,8 +34,10 @@ export function App() {
     <SetSubscribedPlaylists.Provider value={setSubscribedPlaylists}>
       <SubscribedPlaylists.Provider value={subscribedPlaylists}>
         <h2>YT Playlist Notifier</h2>
+        <LatestVideos />
+        <hr />
         <PlaylistSearchForm />
-        <hr></hr>
+        <hr />
         <CurrentSubscriptions />
         <button
           id="check-now"
