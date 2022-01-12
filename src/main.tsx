@@ -23,6 +23,7 @@ if (import.meta.env.MODE === 'production') {
     }
 
     if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage(UPDATE_CHECK);
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         window.location.reload();
       });
