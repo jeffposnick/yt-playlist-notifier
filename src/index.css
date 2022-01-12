@@ -14,7 +14,7 @@ body {
 .card-container {
   align-items: flex-start;
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
   gap: var(--size-5);
   justify-content: space-around;
   max-inline-size: calc(var(--size-content-1) * 4);
@@ -23,19 +23,27 @@ body {
 }
 
 .card {
+  align-items: center;
   background: var(--grape-0);
   border-radius: var(--radius-3);
   border: 1px solid var(--surface-4);
   box-shadow: var(--shadow-2);
   display: flex;
-  flex-basis: var(--size-content-1);
-  flex-direction: column;
+  flex-direction: row;
   gap: var(--size-2);
+  justify-content: space-between;
   padding: var(--size-4);
+  width: 100%;
+}
+
+.card .title {
+  font-weight: var(--font-weight-8);
 }
 
 .card a {
   color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--surface-4);
 }
 
 button {
@@ -50,24 +58,10 @@ button {
   white-space: nowrap;
 }
 
-button:hover {
-  cursor: pointer;
-  color: var(--blue-0);
-  background-color: var(--blue-4);
-}
-
-button:active {
-  box-shadow: var(--shadow-2);
-}
-
 input[type='search'] {
   border: var(--border-size-2) solid var(--blue-5);
   margin-top: var(--size-fluid-2);
   width: var(--size-fluid-9);
-}
-
-.card > button {
-  margin-top: var(--size-fluid-2);
 }
 
 form {

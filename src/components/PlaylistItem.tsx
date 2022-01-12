@@ -14,12 +14,12 @@ export function PlaylistItem({
 
   return (
     <div class="card">
-      <h6>
-        <a href={playlistHref}>{item.snippet.title}</a>
-      </h6>
-      <p>
-        curated by <a href={channelHref}>{item.snippet.channelTitle}</a>
-      </p>
+      <span>
+        <a class="title" href={playlistHref}>
+          {item.snippet.title}
+        </a>
+        , curated by <a href={channelHref}>{item.snippet.channelTitle}</a>
+      </span>
       <button onClick={() => clickCallback(item)}>{buttonText}</button>
     </div>
   );
