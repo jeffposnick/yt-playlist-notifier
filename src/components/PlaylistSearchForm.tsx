@@ -43,8 +43,10 @@ export function PlaylistSearchForm() {
         <label for="playlist-search">
           <h4>Find playlists:</h4>
         </label>
-        <input type="search" id="playlist-search" ref={search} />
-        <button type="submit">Search</button>
+        <div class="form-controls">
+          <input type="search" id="playlist-search" ref={search} />
+          <button type="submit">Search</button>
+        </div>
       </form>
       <div class="card-container">
         {asyncSearchResults.result &&

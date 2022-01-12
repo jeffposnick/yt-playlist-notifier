@@ -71,17 +71,17 @@ button:disabled {
   cursor: initial;
 }
 
-input[type='search'] {
+.form-controls {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: var(--size-4);
+  justify-content: space-between;
+  padding: var(--size-4);
+  width: 100%;
+}
+
+.form-controls > input[type='search'] {
   border: var(--border-size-2) solid var(--blue-5);
-  margin-top: var(--size-fluid-2);
-  width: var(--size-fluid-9);
-}
-
-form {
-  margin-top: var(--size-fluid-2);
-  margin-bottom: var(--size-fluid-2);
-}
-
-form > button {
-  margin-left: var(--size-fluid-2);
+  flex-grow: 1;
 }
