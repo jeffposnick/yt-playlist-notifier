@@ -41,7 +41,7 @@ export function App() {
           disabled={controlled ? false : true}
           onClick={handleClick}
         >
-          Check Now
+          {controlled ? 'Check Now' : 'No SW Found'}
         </button>
       </SubscribedPlaylists.Provider>
     </SetSubscribedPlaylists.Provider>
