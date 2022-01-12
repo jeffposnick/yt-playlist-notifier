@@ -52,7 +52,7 @@ async function getNewVideos() {
   return newVideos;
 }
 
-export async function updateCheck() {
+export async function checkForUpdates() {
   const newVideos = await getNewVideos();
   for (const {playlistItem, video} of newVideos) {
     showNotification(playlistItem, video);

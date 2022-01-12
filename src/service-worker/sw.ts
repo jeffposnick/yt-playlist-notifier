@@ -7,7 +7,8 @@ interface PeriodicBackgroundSyncEvent extends ExtendableEvent {
 
 import {precacheAndRoute} from 'workbox-precaching';
 
-import {updateCheck} from './update-check';
+import {UPDATE_CHECK} from '../constants';
+import {checkForUpdates} from './updates';
 
 const filteredManifest = (self.__WB_MANIFEST || []).filter((entry) => {
   if (typeof entry === 'string' || entry.url !== 'registerSW.js') {
@@ -26,13 +27,13 @@ self.addEventListener('notificationclick', (event) => {
 
 // @ts-expect-error
 self.addEventListener('periodicsync', (event: PeriodicBackgroundSyncEvent) => {
-  if (event.tag === 'update-check') {
-    event.waitUntil(updateCheck());
+  if (event.tag === UPDATE_CHECK) {
+    event.waitUntil(checkForUpdates());
   }
 });
 
 self.addEventListener('message', (event) => {
-  if (event.data === 'update-check') {
-    event.waitUntil(updateCheck());
+  if (event.data === UPDATE_CHECK) {
+    event.waitUntil(checkForUpdates());
   }
 });

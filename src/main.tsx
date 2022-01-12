@@ -1,6 +1,8 @@
 import {render} from 'preact';
-import {App} from './components/App';
+
 import './index.css';
+import {App} from './components/App';
+import {UPDATE_CHECK} from './constants';
 
 render(<App />, document.getElementById('app')!);
 
@@ -34,14 +36,14 @@ if (import.meta.env.MODE === 'production') {
         });
 
         if (status.state === 'granted') {
-          await registration.periodicSync.register('update-check', {
+          await registration.periodicSync.register(UPDATE_CHECK, {
             minInterval: 24 * 60 * 60 * 1000,
           });
         } else {
-          navigator.serviceWorker.controller?.postMessage('update-check');
+          navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
         }
       } else {
-        navigator.serviceWorker.controller?.postMessage('update-check');
+        navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
       }
     });
   });
