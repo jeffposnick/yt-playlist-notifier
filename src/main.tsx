@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-if (import.meta.env.MODE === 'production') {
+if (import.meta.env.MODE !== 'development') {
   window.addEventListener('load', () => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js');
