@@ -25,7 +25,7 @@ If you're using a browser that supports [periodic background sync](https://web.d
 
 - [Preact](https://preactjs.com/) (thanks for the debugging help, [Jason](https://twitter.com/_developit)!)
 - [Vite](https://vitejs.dev/)
-- [Workbox](https://workboxjs.org/), via the [vite-plugin-pwa plugin](https://github.com/antfu/vite-plugin-pwa).
+- [Workbox](https://workboxjs.org/), via the [`vite-plugin-pwa plugin`](https://github.com/antfu/vite-plugin-pwa).
 - [Open Props](https://open-props.style/)
 - [YouTube Data API](https://developers.google.com/youtube/v3)
 - [`idb-keyval`](https://github.com/jakearchibald/idb-keyval) for persisting local state.
