@@ -28,6 +28,7 @@ If you're using a browser that supports [periodic background sync](https://web.d
 - [Workbox](https://workboxjs.org/), via the [vite-plugin-pwa plugin](https://github.com/antfu/vite-plugin-pwa).
 - [Open Props](https://open-props.style/)
 - [YouTube Data API](https://developers.google.com/youtube/v3)
+- [`idb-keyval`](https://github.com/jakearchibald/idb-keyval) for persisting local state.
 
 ## Local development
 
