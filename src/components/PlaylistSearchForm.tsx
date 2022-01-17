@@ -1,4 +1,5 @@
 import {FunctionalComponent, JSX} from 'preact';
+import {route} from 'preact-router';
 import {useAsync} from 'react-async-hook';
 import {useContext, useRef, useState} from 'preact/hooks';
 
@@ -48,6 +49,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
+    route('/current');
   };
 
   return (
