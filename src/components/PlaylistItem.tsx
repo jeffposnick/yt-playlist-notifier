@@ -1,4 +1,4 @@
-import {PlaylistSearch} from '../lib/youtube';
+import {PlaylistList, PlaylistSearch} from '../lib/youtube';
 
 export function PlaylistItem({
   buttonText,
@@ -6,8 +6,10 @@ export function PlaylistItem({
   clickCallback,
 }: {
   buttonText: string;
-  item: PlaylistSearch.Item;
-  clickCallback: (item: PlaylistSearch.Item) => Promise<void>;
+  item: PlaylistSearch.Item | PlaylistList.Item;
+  clickCallback: (
+    item: PlaylistList.Item | PlaylistSearch.Item,
+  ) => Promise<void>;
 }) {
   const playlistHref = `https://www.youtube.com/playlist?list=${item.id.playlistId}`;
   const channelHref = `https://www.youtube.com/channel/${item.snippet.channelId}`;

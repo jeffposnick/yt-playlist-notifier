@@ -1,5 +1,5 @@
 import {get, set, values, del} from 'idb-keyval';
-import {PlaylistItemList, PlaylistSearch} from './youtube';
+import {PlaylistItemList, PlaylistSearch, PlaylistList} from './youtube';
 
 export interface Value {
   playlistItem: PlaylistSearch.Item;
@@ -15,10 +15,15 @@ export async function removeSubscribedPlaylist(playlistID: string) {
 }
 
 export async function setPlaylistItems(
-  playlistItem: PlaylistSearch.Item,
+  playlistItem: PlaylistList.Item | PlaylistSearch.Item,
   videos: Array<PlaylistItemList.Item>,
 ) {
-  await set(playlistItem.id.playlistId, {playlistItem, videos});
+  await set(
+    typeof playlistItem.id === 'string'
+      ? playlistItem.id
+      : playlistItem.id.playlistId,
+    {playlistItem, videos},
+  );
 }
 
 export async function getPlaylistInfo(playlistID: string) {

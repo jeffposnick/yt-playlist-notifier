@@ -2,6 +2,7 @@
 .firebase
 .firebaserc
 *.local
+.vscode
 dist
 dist-ssr
 firebase-debug.log

@@ -1,3 +1,53 @@
+export namespace PlaylistList {
+  export interface Results {
+    kind: string;
+    etag: string;
+    pageInfo: PageInfo;
+    items: Item[];
+  }
+
+  export interface Item {
+    kind: string;
+    etag: string;
+    id: string;
+    snippet: Snippet;
+  }
+
+  export interface Snippet {
+    publishedAt: Date;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: Thumbnails;
+    channelTitle: string;
+    localized: Localized;
+  }
+
+  export interface Localized {
+    title: string;
+    description: string;
+  }
+
+  export interface Thumbnails {
+    default: Default;
+    medium: Default;
+    high: Default;
+    standard: Default;
+    maxres: Default;
+  }
+
+  export interface Default {
+    url: string;
+    width: number;
+    height: number;
+  }
+
+  export interface PageInfo {
+    totalResults: number;
+    resultsPerPage: number;
+  }
+}
+
 export namespace PlaylistSearch {
   export interface Results {
     kind: string;
@@ -116,8 +166,21 @@ export namespace PlaylistItemList {
 }
 
 const BASE_URL = 'https://youtube.googleapis.com/youtube/v3/';
+const PLAYLIST_LIST_URL = BASE_URL + 'playlists';
 const SEARCH_URL = BASE_URL + 'search';
 const PLAYLIST_ITEMS_URL = BASE_URL + 'playlistItems';
+
+export async function playlistList(playlistID: string) {
+  const url = new URL(PLAYLIST_LIST_URL);
+  url.searchParams.set('key', import.meta.env.VITE_YT_API_KEY);
+  url.searchParams.set('maxResults', '50');
+  url.searchParams.set('part', 'snippet');
+  url.searchParams.set('id', playlistID);
+
+  const response = await fetch(url.href);
+  const results = (await response.json()) as PlaylistList.Results;
+  return results.items;
+}
 
 export async function playlistSearch(searchTerm: string) {
   const url = new URL(SEARCH_URL);
