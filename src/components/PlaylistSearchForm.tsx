@@ -14,6 +14,7 @@ import {
 import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
 import {requestPermission} from '../lib/notifications';
+import {ROUTES} from '../constants';
 import {SetSubscribedPlaylists} from './context';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
@@ -49,7 +50,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
-    route('/current');
+    route(ROUTES.get('Subscriptions')!);
   };
 
   return (

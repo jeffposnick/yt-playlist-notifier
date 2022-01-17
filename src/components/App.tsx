@@ -2,9 +2,10 @@ import {useState, useEffect} from 'preact/hooks';
 import Router from 'preact-router';
 
 import {CurrentSubscriptions} from './CurrentSubscriptions';
-import {LatestVideos} from './LatestVideos';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
+import {LatestVideos} from './LatestVideos';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
+import {ROUTES} from '../constants';
 import {SubscribedPlaylists, SetSubscribedPlaylists} from './context';
 
 export function App() {
@@ -20,10 +21,10 @@ export function App() {
       <SubscribedPlaylists.Provider value={subscribedPlaylists}>
         <main>
           <Router>
-            <LatestVideos path="/" />
-            <PlaylistSearchForm path="/search" />
-            <CurrentSubscriptions path="/current" />
-            <div path="/about">
+            <LatestVideos path={ROUTES.get('Videos')} />
+            <PlaylistSearchForm path={ROUTES.get('Search')} />
+            <CurrentSubscriptions path={ROUTES.get('Subscriptions')} />
+            <div path={ROUTES.get('About')}>
               You can learn about this project at{' '}
               <a href="https://github.com/jeffposnick/yt-playlist-notifier">
                 https://github.com/jeffposnick/yt-playlist-notifier
@@ -32,10 +33,9 @@ export function App() {
           </Router>
         </main>
         <footer>
-          <a href="/">Videos</a>
-          <a href="/search">Search</a>
-          <a href="/current">Subscriptions</a>
-          <a href="/about">About</a>
+          {Array.from(ROUTES.entries()).map(([routeName, routeUrl]) => (
+            <a href={routeUrl}>{routeName}</a>
+          ))}
         </footer>
       </SubscribedPlaylists.Provider>
     </SetSubscribedPlaylists.Provider>
