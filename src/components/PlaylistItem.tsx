@@ -1,4 +1,4 @@
-import {PlaylistList, PlaylistSearch} from '../lib/youtube';
+import {getPlaylistID, PlaylistList, PlaylistSearch} from '../lib/youtube';
 
 export function PlaylistItem({
   buttonText,
@@ -11,7 +11,9 @@ export function PlaylistItem({
     item: PlaylistList.Item | PlaylistSearch.Item,
   ) => Promise<void>;
 }) {
-  const playlistHref = `https://www.youtube.com/playlist?list=${item.id.playlistId}`;
+  const playlistHref = `https://www.youtube.com/playlist?list=${getPlaylistID(
+    item,
+  )}`;
   const channelHref = `https://www.youtube.com/channel/${item.snippet.channelId}`;
 
   return (

@@ -1,8 +1,13 @@
 import {get, set, values, del} from 'idb-keyval';
-import {PlaylistItemList, PlaylistSearch, PlaylistList} from './youtube';
+import {
+  getPlaylistID,
+  PlaylistItemList,
+  PlaylistSearch,
+  PlaylistList,
+} from './youtube';
 
 export interface Value {
-  playlistItem: PlaylistSearch.Item;
+  playlistItem: PlaylistList.Item | PlaylistSearch.Item;
   videos: Array<PlaylistItemList.Item>;
 }
 
@@ -18,12 +23,7 @@ export async function setPlaylistItems(
   playlistItem: PlaylistList.Item | PlaylistSearch.Item,
   videos: Array<PlaylistItemList.Item>,
 ) {
-  await set(
-    typeof playlistItem.id === 'string'
-      ? playlistItem.id
-      : playlistItem.id.playlistId,
-    {playlistItem, videos},
-  );
+  await set(getPlaylistID(playlistItem), {playlistItem, videos});
 }
 
 export async function getPlaylistInfo(playlistID: string) {

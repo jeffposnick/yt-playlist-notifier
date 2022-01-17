@@ -206,3 +206,7 @@ export async function getPlaylistItems(playlistID: string) {
   const results = (await response.json()) as PlaylistItemList.Results;
   return results.items;
 }
+
+export function getPlaylistID(item: PlaylistList.Item | PlaylistSearch.Item) {
+  return typeof item.id === 'string' ? item.id : item.id.playlistId;
+}

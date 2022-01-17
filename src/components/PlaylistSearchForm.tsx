@@ -3,6 +3,7 @@ import {useAsync} from 'react-async-hook';
 import {useContext, useRef, useState} from 'preact/hooks';
 
 import {
+  getPlaylistID,
   getPlaylistItems,
   playlistList,
   playlistSearch,
@@ -42,9 +43,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
   };
 
   const handleClick = async (item: PlaylistList.Item | PlaylistSearch.Item) => {
-    const playlistItems = await getPlaylistItems(
-      typeof item.id === 'string' ? item.id : item.id.playlistId,
-    );
+    const playlistItems = await getPlaylistItems(getPlaylistID(item));
     await setPlaylistItems(item, playlistItems);
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
