@@ -165,45 +165,56 @@ export namespace PlaylistItemList {
   }
 }
 
+type YTResults =
+  | PlaylistItemList.Item
+  | PlaylistSearch.Results
+  | PlaylistList.Results;
+
 const BASE_URL = 'https://youtube.googleapis.com/youtube/v3/';
 const PLAYLIST_LIST_URL = BASE_URL + 'playlists';
 const SEARCH_URL = BASE_URL + 'search';
 const PLAYLIST_ITEMS_URL = BASE_URL + 'playlistItems';
 
-export async function playlistList(playlistID: string) {
-  const url = new URL(PLAYLIST_LIST_URL);
-  url.searchParams.set('key', import.meta.env.VITE_YT_API_KEY);
-  url.searchParams.set('maxResults', '50');
-  url.searchParams.set('part', 'snippet');
-  url.searchParams.set('id', playlistID);
+async function fetchAPI<T>(
+  url: string,
+  params: Record<string, string>,
+): Promise<T> {
+  const urlObj = new URL(url);
+  urlObj.searchParams.set('key', import.meta.env.VITE_YT_API_KEY);
+  urlObj.searchParams.set('maxResults', '50');
+  urlObj.searchParams.set('part', 'snippet');
+  for (const [key, value] of Object.entries(params)) {
+    urlObj.searchParams.set(key, value);
+  }
 
-  const response = await fetch(url.href);
-  const results = (await response.json()) as PlaylistList.Results;
+  const response = await fetch(urlObj.href);
+  const json = await response.json();
+
+  if (response.ok) {
+    return json as T;
+  }
+  throw new Error(JSON.stringify(json, null, 2));
+}
+
+export async function playlistList(playlistID: string) {
+  const results = await fetchAPI<PlaylistList.Results>(PLAYLIST_LIST_URL, {
+    id: playlistID,
+  });
   return results.items;
 }
 
 export async function playlistSearch(searchTerm: string) {
-  const url = new URL(SEARCH_URL);
-  url.searchParams.set('key', import.meta.env.VITE_YT_API_KEY);
-  url.searchParams.set('maxResults', '50');
-  url.searchParams.set('part', 'snippet');
-  url.searchParams.set('q', searchTerm);
-  url.searchParams.set('type', 'playlist');
-
-  const response = await fetch(url.href);
-  const results = (await response.json()) as PlaylistSearch.Results;
+  const results = await fetchAPI<PlaylistSearch.Results>(SEARCH_URL, {
+    q: searchTerm,
+    type: 'playlist',
+  });
   return results.items;
 }
 
 export async function getPlaylistItems(playlistID: string) {
-  const url = new URL(PLAYLIST_ITEMS_URL);
-  url.searchParams.set('key', import.meta.env.VITE_YT_API_KEY);
-  url.searchParams.set('maxResults', '50');
-  url.searchParams.set('part', 'snippet');
-  url.searchParams.set('playlistId', playlistID);
-
-  const response = await fetch(url.href);
-  const results = (await response.json()) as PlaylistItemList.Results;
+  const results = await fetchAPI<PlaylistItemList.Results>(PLAYLIST_ITEMS_URL, {
+    playlistId: playlistID,
+  });
   return results.items;
 }
 

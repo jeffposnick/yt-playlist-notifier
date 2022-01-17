@@ -73,9 +73,10 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
             />
           ))}
         {asyncSearchResults.error && (
-          <p>
-            Could not load search results: {asyncSearchResults.error.message}
-          </p>
+          <>
+            <p>Could not load search results:</p>
+            <pre>{asyncSearchResults.error.message}</pre>
+          </>
         )}
       </div>
     </>
