@@ -1,3 +1,4 @@
+import {decode} from '../lib/decode-html-entities';
 import {PlaylistItemList} from '../lib/youtube';
 
 export function VideoItem({item}: {item: PlaylistItemList.Item}) {
@@ -8,9 +9,10 @@ export function VideoItem({item}: {item: PlaylistItemList.Item}) {
     <div class="card">
       <span>
         <a class="title" href={videoHref}>
-          {item.snippet.title}
+          {decode(item.snippet.title)}
         </a>
-        , by <a href={channelHref}>{item.snippet.videoOwnerChannelTitle}</a>
+        , by{' '}
+        <a href={decode(channelHref)}>{item.snippet.videoOwnerChannelTitle}</a>
       </span>
       <img
         height={item.snippet.thumbnails.default.height}

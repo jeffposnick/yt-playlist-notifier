@@ -1,3 +1,4 @@
+import {decode} from '../lib/decode-html-entities';
 import {getPlaylistID, PlaylistList, PlaylistSearch} from '../lib/youtube';
 
 export function PlaylistItem({
@@ -20,9 +21,10 @@ export function PlaylistItem({
     <div class="card">
       <span>
         <a class="title" href={playlistHref}>
-          {item.snippet.title}
+          {decode(item.snippet.title)}
         </a>
-        , curated by <a href={channelHref}>{item.snippet.channelTitle}</a>
+        , curated by{' '}
+        <a href={channelHref}>{decode(item.snippet.channelTitle)}</a>
       </span>
       <button onClick={() => clickCallback(item)}>{buttonText}</button>
     </div>
