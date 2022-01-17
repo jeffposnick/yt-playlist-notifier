@@ -1,9 +1,11 @@
 import {FunctionalComponent} from 'preact';
+import {useContext} from 'preact/hooks';
 import {useAsync} from 'react-async-hook';
 
-import {VideoItem} from './VideoItem';
 import {getSubscribedPlaylists} from '../lib/idb';
 import {PlaylistItemList} from '../lib/youtube';
+import {SubscribedPlaylists} from './context';
+import {VideoItem} from './VideoItem';
 
 async function getNewestVideos() {
   const allVideos: Array<PlaylistItemList.Item> = [];
@@ -22,7 +24,8 @@ async function getNewestVideos() {
 }
 
 export const LatestVideos: FunctionalComponent = () => {
-  const asyncNewestVideos = useAsync(getNewestVideos, []);
+  const subscribedPlaylists = useContext(SubscribedPlaylists);
+  const asyncNewestVideos = useAsync(getNewestVideos, [subscribedPlaylists]);
 
   return (
     <>
