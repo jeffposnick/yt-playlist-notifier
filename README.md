@@ -30,6 +30,7 @@ If you're using a browser that supports [periodic background sync](https://web.d
 - [YouTube Data API](https://developers.google.com/youtube/v3)
 - [`idb-keyval`](https://github.com/jakearchibald/idb-keyval) for persisting local state.
 - [Icon Kitchen](https://icon.kitchen/) for the icons.
+- [quicktype](https://app.quicktype.io/) for generating TypeScript types out of the YouTube Data API responses.
 
 ## Local development
 
