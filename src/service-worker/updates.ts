@@ -3,13 +3,14 @@ declare const self: ServiceWorkerGlobalScope;
 
 import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {
+  getPlaylistID,
   getPlaylistItems,
-  PlaylistSearch,
+  PlaylistItemLike,
   PlaylistItemList,
 } from '../lib/youtube';
 
 async function showNotification(
-  playlistItem: PlaylistSearch.Item,
+  playlistItem: PlaylistItemLike,
   video: PlaylistItemList.Item,
 ) {
   self.registration.showNotification(video.snippet.title, {
@@ -35,13 +36,13 @@ function filterNewVideos(
 
 async function getNewVideos() {
   const newVideos: Array<{
-    playlistItem: PlaylistSearch.Item;
+    playlistItem: PlaylistItemLike;
     video: PlaylistItemList.Item;
   }> = [];
   const playlists = await getSubscribedPlaylists();
 
   for (const {playlistItem, videos} of playlists) {
-    const latestVideos = await getPlaylistItems(playlistItem.id.playlistId);
+    const latestVideos = await getPlaylistItems(getPlaylistID(playlistItem));
     await setPlaylistItems(playlistItem, latestVideos);
 
     for (const video of filterNewVideos(videos, latestVideos)) {

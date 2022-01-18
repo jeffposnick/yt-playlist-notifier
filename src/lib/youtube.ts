@@ -165,10 +165,7 @@ export namespace PlaylistItemList {
   }
 }
 
-type YTResults =
-  | PlaylistItemList.Item
-  | PlaylistSearch.Results
-  | PlaylistList.Results;
+export type PlaylistItemLike = PlaylistList.Item | PlaylistSearch.Item;
 
 const BASE_URL = 'https://youtube.googleapis.com/youtube/v3/';
 const PLAYLIST_LIST_URL = BASE_URL + 'playlists';
@@ -218,6 +215,6 @@ export async function getPlaylistItems(playlistID: string) {
   return results.items;
 }
 
-export function getPlaylistID(item: PlaylistList.Item | PlaylistSearch.Item) {
+export function getPlaylistID(item: PlaylistItemLike) {
   return typeof item.id === 'string' ? item.id : item.id.playlistId;
 }

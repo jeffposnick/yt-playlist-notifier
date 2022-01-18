@@ -8,8 +8,7 @@ import {
   getPlaylistItems,
   playlistList,
   playlistSearch,
-  PlaylistList,
-  PlaylistSearch,
+  PlaylistItemLike,
 } from '../lib/youtube';
 import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
@@ -44,7 +43,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     setSearchTerm(search.current?.value || '');
   };
 
-  const handleClick = async (item: PlaylistList.Item | PlaylistSearch.Item) => {
+  const handleClick = async (item: PlaylistItemLike) => {
     const playlistItems = await getPlaylistItems(getPlaylistID(item));
     await setPlaylistItems(item, playlistItems);
     await requestPermission();

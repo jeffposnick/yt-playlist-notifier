@@ -2,7 +2,7 @@ import {FunctionalComponent} from 'preact';
 import {useContext} from 'preact/hooks';
 
 import {PlaylistItem} from './PlaylistItem';
-import {getPlaylistID, PlaylistList, PlaylistSearch} from '../lib/youtube';
+import {getPlaylistID, PlaylistItemLike} from '../lib/youtube';
 import {getSubscribedPlaylists, removeSubscribedPlaylist} from '../lib/idb';
 import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
 
@@ -10,7 +10,7 @@ export const CurrentSubscriptions: FunctionalComponent = () => {
   const subscribedPlaylists = useContext(SubscribedPlaylists);
   const setSubscribedPlaylists = useContext(SetSubscribedPlaylists);
 
-  const handleClick = async (item: PlaylistList.Item | PlaylistSearch.Item) => {
+  const handleClick = async (item: PlaylistItemLike) => {
     await removeSubscribedPlaylist(getPlaylistID(item));
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
