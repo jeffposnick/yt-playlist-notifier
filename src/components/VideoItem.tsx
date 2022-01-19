@@ -11,8 +11,10 @@ export function VideoItem({item}: {item: PlaylistItemList.Item}) {
         <a class="title" href={videoHref}>
           {decode(item.snippet.title)}
         </a>
-        , by{' '}
-        <a href={decode(channelHref)}>{item.snippet.videoOwnerChannelTitle}</a>
+        <div>
+          by{' '}
+          <a href={decode(channelHref)}>{item.snippet.videoOwnerChannelTitle}</a>
+        </div>
       </span>
       <img
         height={item.snippet.thumbnails.default.height}
