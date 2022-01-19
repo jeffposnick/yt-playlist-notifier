@@ -6,3 +6,5 @@ export const ROUTES = new Map<string, string>([
   ['Subscriptions', '/current'],
   ['About', '/about'],
 ]);
+
+export const NUMBER_OF_LATEST_VIDEOS = 10;
