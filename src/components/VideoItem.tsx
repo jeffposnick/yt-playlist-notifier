@@ -13,7 +13,9 @@ export function VideoItem({item}: {item: PlaylistItemList.Item}) {
         </a>
         <div>
           by{' '}
-          <a href={decode(channelHref)}>{item.snippet.videoOwnerChannelTitle}</a>
+          <a href={decode(channelHref)}>
+            {item.snippet.videoOwnerChannelTitle}
+          </a>
         </div>
       </span>
       <img

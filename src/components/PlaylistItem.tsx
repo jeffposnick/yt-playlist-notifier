@@ -21,8 +21,10 @@ export function PlaylistItem({
         <a class="title" href={playlistHref}>
           {decode(item.snippet.title)}
         </a>
-        , curated by{' '}
-        <a href={channelHref}>{decode(item.snippet.channelTitle)}</a>
+        <div>
+          curated by{' '}
+          <a href={channelHref}>{decode(item.snippet.channelTitle)}</a>
+        </div>
       </span>
       <button onClick={() => clickCallback(item)}>{buttonText}</button>
     </div>
