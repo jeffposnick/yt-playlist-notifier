@@ -1,14 +1,6 @@
 @import 'open-props/style';
 @import 'open-props/normalize';
 
-html {
-  block-size: 100%;
-}
-
-body {
-  background: var(--cyan-0);
-}
-
 .card-container {
   align-items: flex-start;
   display: flex;
@@ -22,7 +14,7 @@ body {
 
 .card {
   align-items: center;
-  background: var(--grape-0);
+  background: var(--surface-2);
   border-radius: var(--radius-3);
   border: var(--border-size-1) solid var(--surface-4);
   box-shadow: var(--shadow-2);
@@ -35,42 +27,21 @@ body {
 }
 
 .card .title {
+  font-size: var(--font-size-3);
   font-weight: var(--font-weight-8);
 }
 
 .card a {
-  color: inherit;
   text-decoration: underline;
   text-decoration-color: var(--surface-4);
 }
 
-button {
-  background-color: var(--blue-1);
-  border-radius: var(--radius-2);
-  border: var(--border-size-2) solid var(--blue-5);
-  color: var(--blue-9);
-  font-size: var(--font-size-fluid-0);
-  font-weight: var(--font-weight-4);
-  padding-block: var(--size-1);
-  padding-inline: var(--size-6);
-  white-space: nowrap;
-}
-
-button:hover {
-  filter: opacity(0.8);
-}
-
-button:active {
-  filter: opacity(0.7);
-}
-
-button:disabled {
-  filter: opacity(0.3);
-  cursor: initial;
+.card > span {
+  display: grid;
+  gap: var(--size-2);
 }
 
 .form-controls {
-  align-items: center;
   display: flex;
   flex-direction: row;
   gap: var(--size-4);
@@ -82,6 +53,7 @@ button:disabled {
 .form-controls > input[type='search'] {
   border: var(--border-size-2) solid var(--blue-5);
   flex-grow: 1;
+  border-radius: var(--radius-2);
 }
 
 #app {
@@ -102,23 +74,142 @@ main {
 
 footer {
   align-content: center;
-  background-color: var(--cyan-2);
-  border-top: var(--border-size-1) solid var(--surface-4);
+  background-color: var(--surface-2);
+  border-top: var(--border-size-1) solid var(--surface-3);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
-  padding: var(--size-fluid-2);
 }
 
 footer > a {
-  background-color: var(--blue-1);
-  border-radius: var(--radius-2);
-  border: var(--border-size-2) solid var(--blue-5);
-  color: var(--blue-9);
   font-size: var(--font-size-fluid-0);
   font-weight: var(--font-weight-4);
-  padding: var(--size-fluid-1);
   text-align: center;
   text-decoration: none;
+  padding: var(--size-fluid-2);
+}
+
+:where(button) {
+  --_text: inherit;
+  --_bg: white;
+  --_border: var(--surface-3);
+  --_highlight-size: 0;
+  --_highlight-color: hsl(210 11% 71% / 25%);
+  --_ink-shadow: 0 1px 0 var(--gray-3);
+  --_icon-size: var(--size-4);
+  --_icon-color: var(--link);
+  
+  background: var(--_bg);
+  color: var(--_text);
+  border: var(--border-size-2) solid var(--_border);
+  box-shadow: 
+    var(--shadow-2),
+    0 1px var(--surface-3),
+    0 0 0 var(--_highlight-size) var(--_highlight-color)
+  ;
+  text-shadow: var(--_ink-shadow);
+  
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  place-self: start;
+  gap: var(--size-2);
+  
+  font-weight: var(--font-weight-7);
+  border-radius: var(--radius-2);
+  padding-block: var(--size-2);
+  padding-inline: var(--size-4);
+  
+  transition: border-color .5s var(--ease-3) 3s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :where(button) {
+    transition: 
+      border-color .5s var(--ease-3) 3s,
+      box-shadow .5s var(--ease-elastic-3);
+  }
+}
+
+/* icon */
+:where(button > svg) {
+  filter: drop-shadow(var(--_ink-shadow));
+  block-size: var(--_icon-size);
+  inline-size: var(--_icon-size);
+  stroke: var(--_icon-color);
+  stroke-width: var(--border-size-2);
+}
+
+/* adaptive indigo outlines */
+:where(button:not([type="reset"])):focus-visible { 
+  outline-color: var(--link);
+}
+
+/* adaptive indigo text */
+:where(button[type="submit"],
+form button:not([type],[disabled])) {
+  --_text: var(--link);
+}
+
+/* red reset */
+:where(button[type="reset"]) {
+  --_text: var(--red-6);
+  --_border: var(--red-3);
+}
+
+/* disabled */
+:where(button[disabled]) {
+  --_bg: none;
+  --_text: var(--gray-6);
+  cursor: not-allowed;
+  box-shadow: var(--shadow-1);
+}
+
+/* pressing */
+:where(button:not(:active):is(:hover,:focus-visible)) {
+  --_highlight-size: var(--size-1);
+  transition-delay: 0s;
+  transition-duration: .1s;
+}
+
+/* submit, form > button, reset matching hover border color */
+:where(button[type="submit"], button[type="reset"], form button:not([type])):is(:hover, :focus-visible):not([disabled]) {
+  --_border: currentColor;
+}
+
+@media (hover: none) {
+  :where(button:active) {
+    --_highlight-size: var(--size-2);
+  }
+  
+  :where(button[type="submit"], button[type="reset"], form button:not([type])):active:not([disabled]) {
+    --_border: currentColor;
+    transition-delay: 0s;
+    transition-duration: .1s;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :where(button) {
+    --_highlight-color: hsl(210 10% 5% / 25%);
+    --_bg: var(--surface-3);
+    --_ink-shadow: 0 1px 0 var(--surface-1);
+  }
+  
+  :where(button[type="reset"]) {
+    --_text: var(--red-2);
+    --_border: var(--surface-2);
+  }
+  
+  :where(button[disabled]) {
+    --_text: var(--gray-5);
+  }
+  
+  :where(button[type="submit"]),
+  :where(form button:not([type="button"])),
+  :where(button[type="reset"]), 
+  :where(button[disabled]) {
+    --_bg: var(--surface-1);
+  }
 }
