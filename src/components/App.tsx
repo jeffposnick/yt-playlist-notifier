@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'preact/hooks';
 import Router from 'preact-router';
+import {Link} from 'preact-router/match';
 
 import {CurrentSubscriptions} from './CurrentSubscriptions';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
@@ -34,7 +35,9 @@ export function App() {
         </main>
         <footer>
           {Array.from(ROUTES.entries()).map(([routeName, routeUrl]) => (
-            <a href={routeUrl}>{routeName}</a>
+            <Link activeClassName="active" href={routeUrl}>
+              {routeName}
+            </Link>
           ))}
         </footer>
       </SubscribedPlaylists.Provider>
