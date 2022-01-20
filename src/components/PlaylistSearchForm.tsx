@@ -65,12 +65,16 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
       </form>
       <div class="card-container">
         {asyncSearchResults.result &&
-          asyncSearchResults.result.map((item) => (
-            <PlaylistItem
-              buttonText="🔔"
-              item={item}
-              clickCallback={handleClick}
-            />
+          (asyncSearchResults.result.length === 0 ? (
+            <p>No matching playlists found.</p>
+          ) : (
+            asyncSearchResults.result.map((item) => (
+              <PlaylistItem
+                buttonText="🔔"
+                item={item}
+                clickCallback={handleClick}
+              />
+            ))
           ))}
         {asyncSearchResults.error && (
           <>

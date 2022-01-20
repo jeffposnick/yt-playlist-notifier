@@ -1,9 +1,10 @@
 import {FunctionalComponent} from 'preact';
 import {useContext} from 'preact/hooks';
 
-import {PlaylistItem} from './PlaylistItem';
 import {getPlaylistID, PlaylistItemLike} from '../lib/youtube';
 import {getSubscribedPlaylists, removeSubscribedPlaylist} from '../lib/idb';
+import {PlaylistItem} from './PlaylistItem';
+import {ROUTES} from '../constants';
 import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
 
 export const CurrentSubscriptions: FunctionalComponent = () => {
@@ -20,13 +21,20 @@ export const CurrentSubscriptions: FunctionalComponent = () => {
     <>
       <h4>You're getting updates to:</h4>
       <div class="card-container">
-        {subscribedPlaylists?.map(({playlistItem}) => (
-          <PlaylistItem
-            buttonText="🚫"
-            item={playlistItem}
-            clickCallback={handleClick}
-          />
-        ))}
+        {subscribedPlaylists?.length === 0 ? (
+          <p>
+            <a href={ROUTES.get('Search')}>Find and subscribe</a> to a playlist
+            with videos to get started.
+          </p>
+        ) : (
+          subscribedPlaylists?.map(({playlistItem}) => (
+            <PlaylistItem
+              buttonText="🚫"
+              item={playlistItem}
+              clickCallback={handleClick}
+            />
+          ))
+        )}
       </div>
     </>
   );
