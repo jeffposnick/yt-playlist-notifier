@@ -33,7 +33,7 @@
     "deploy": "npm run build && firebase deploy",
     "dev": "vite",
     "preview": "vite preview",
-    "stage": "vite build --mode staging && vite preview"
+    "stage": "vite build --mode staging && firebase emulators:start"
   },
   "version": "0.0.0",
   "volta": {

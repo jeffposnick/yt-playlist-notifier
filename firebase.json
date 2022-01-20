@@ -9,7 +9,7 @@
             "value": "max-age=0"
           }
         ],
-        "source": "sw.js"
+        "source": "**/*"
       },
       {
         "headers": [
@@ -18,16 +18,7 @@
             "value": "max-age=31536000"
           }
         ],
-        "source": "**/*.@(js|css)"
-      },
-      {
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=0"
-          }
-        ],
-        "source": "index.html"
+        "regex": ".+\\.[0-9a-f]{8}\\.(js|css)$"
       }
     ],
     "ignore": [
