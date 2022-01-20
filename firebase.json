@@ -1,17 +1,37 @@
 {
   "hosting": {
-    "public": "dist",
+    "cleanUrls": true,
+    "headers": [
+      {
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ],
+        "source": "**/*.@(js|css)"
+      },
+      {
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=0"
+          }
+        ],
+        "source": "index.html"
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
+    "public": "dist",
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "destination": "/index.html",
+        "source": "**"
       }
-    ],
-    "cleanUrls": true
+    ]
   }
 }
