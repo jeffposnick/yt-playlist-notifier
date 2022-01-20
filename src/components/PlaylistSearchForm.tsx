@@ -56,7 +56,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     <>
       <form onSubmit={handleSubmit}>
         <label for="playlist-search">
-          <h4>Find playlists:</h4>
+          <h4>Subscribe to playlists:</h4>
         </label>
         <div class="form-controls">
           <input type="search" id="playlist-search" ref={search} />
@@ -67,7 +67,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
         {asyncSearchResults.result &&
           asyncSearchResults.result.map((item) => (
             <PlaylistItem
-              buttonText="Subscribe"
+              buttonText="🔔"
               item={item}
               clickCallback={handleClick}
             />

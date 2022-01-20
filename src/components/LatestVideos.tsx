@@ -30,7 +30,7 @@ export const LatestVideos: FunctionalComponent = () => {
 
   return (
     <>
-      <h4>Newest videos:</h4>
+      <h4>Videos from subscriptions:</h4>
       <div class="card-container">
         {asyncNewestVideos.result &&
           asyncNewestVideos.result.map((item) => <VideoItem item={item} />)}
