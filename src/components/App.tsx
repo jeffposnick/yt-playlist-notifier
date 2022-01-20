@@ -22,7 +22,7 @@ export function App() {
       <SubscribedPlaylists.Provider value={subscribedPlaylists}>
         <main>
           <Router>
-            <LatestVideos path={ROUTES.get('Videos')} />
+            <LatestVideos path={ROUTES.get('Videos')} default />
             <PlaylistSearchForm path={ROUTES.get('Search')} />
             <CurrentSubscriptions path={ROUTES.get('Subscriptions')} />
             <div path={ROUTES.get('About')}>
