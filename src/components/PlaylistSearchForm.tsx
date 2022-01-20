@@ -67,7 +67,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
         {asyncSearchResults.result &&
           asyncSearchResults.result.map((item) => (
             <PlaylistItem
-              buttonText="Notify 🔔"
+              buttonText="Subscribe"
               item={item}
               clickCallback={handleClick}
             />

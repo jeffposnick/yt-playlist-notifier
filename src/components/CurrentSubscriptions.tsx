@@ -22,7 +22,7 @@ export const CurrentSubscriptions: FunctionalComponent = () => {
       <div class="card-container">
         {subscribedPlaylists?.map(({playlistItem}) => (
           <PlaylistItem
-            buttonText="Remove 🚫"
+            buttonText="Unsubscribe"
             item={playlistItem}
             clickCallback={handleClick}
           />
