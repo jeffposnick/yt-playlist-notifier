@@ -35,7 +35,7 @@ export const LatestVideos: FunctionalComponent = () => {
         {asyncNewestVideos.result &&
           (asyncNewestVideos.result.length === 0 ? (
             <p>
-              <a href={ROUTES.get('Search')}>Find and subscribe</a> to a
+              <a href={ROUTES.get('SEARCH')?.path}>Find and subscribe</a> to a
               playlist with videos to get started.
             </p>
           ) : (

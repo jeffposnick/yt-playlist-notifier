@@ -49,7 +49,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
-    route(ROUTES.get('Subscriptions')!);
+    route(ROUTES.get('SUBSCRIPTIONS')?.path!);
   };
 
   return (
