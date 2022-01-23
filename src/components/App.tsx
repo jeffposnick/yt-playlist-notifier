@@ -22,10 +22,10 @@ export function App() {
       <SubscribedPlaylists.Provider value={subscribedPlaylists}>
         <main>
           <Router>
-            <LatestVideos path={ROUTES.get('Videos')} default />
-            <PlaylistSearchForm path={ROUTES.get('Search')} />
-            <CurrentSubscriptions path={ROUTES.get('Subscriptions')} />
-            <div path={ROUTES.get('About')}>
+            <LatestVideos path={ROUTES.get('VIDEOS')?.path} default />
+            <PlaylistSearchForm path={ROUTES.get('SEARCH')?.path} />
+            <CurrentSubscriptions path={ROUTES.get('SUBSCRIPTIONS')?.path} />
+            <div path={ROUTES.get('ABOUT')?.path}>
               You can learn about this project at{' '}
               <a href="https://github.com/jeffposnick/yt-playlist-notifier">
                 https://github.com/jeffposnick/yt-playlist-notifier
@@ -34,9 +34,9 @@ export function App() {
           </Router>
         </main>
         <footer>
-          {Array.from(ROUTES.entries()).map(([routeName, routeUrl]) => (
-            <Link activeClassName="active" href={routeUrl}>
-              {routeName}
+          {Array.from(ROUTES.values()).map(({iconUrl, path, title}) => (
+            <Link activeClassName="active" href={path} title={title}>
+              <img class="svgIcon" src={iconUrl}></img>
             </Link>
           ))}
         </footer>

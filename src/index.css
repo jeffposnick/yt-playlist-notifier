@@ -83,16 +83,16 @@ footer {
 }
 
 footer > a {
-  font-size: var(--font-size-fluid-0);
-  font-weight: var(--font-weight-4);
-  text-align: center;
-  text-decoration: none;
   padding: var(--size-fluid-2);
+  opacity: 0.4;
 }
 
-.active {
-  background: var(--surface-1);
-  margin-top: 1px;
+footer > a.active {
+  opacity: 1;
+}
+
+.svgIcon {
+  block-size: 3vh;
 }
 
 :where(button) {
@@ -188,5 +188,9 @@ footer > a {
   :where(button[type='reset']),
   :where(button[disabled]) {
     --_bg: var(--surface-1);
+  }
+
+  .svgIcon {
+    filter: invert(100%);
   }
 }
