@@ -19,9 +19,9 @@ export function VideoItem({item}: {item: PlaylistItemList.Item}) {
         </div>
       </span>
       <img
-        height={item.snippet.thumbnails.default.height}
-        src={item.snippet.thumbnails.default.url}
-        width={item.snippet.thumbnails.default.width}
+        height={item.snippet.thumbnails.medium.height / 2}
+        src={item.snippet.thumbnails.medium.url}
+        width={item.snippet.thumbnails.medium.width / 2}
       />
     </div>
   );

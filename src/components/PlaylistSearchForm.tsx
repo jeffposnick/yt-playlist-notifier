@@ -76,10 +76,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
           <button type="submit">Search</button>
         </div>
       </form>
-      <p>
-        Tip: You can search for a "PL..." ID, or YouTube.com playlist watch page
-        URL!
-      </p>
+      <p>Tip: You can also search for a "PL..." ID, or playlist page URL!</p>
       <div class="card-container">
         {asyncSearchResults.result &&
           (asyncSearchResults.result.length === 0 ? (
