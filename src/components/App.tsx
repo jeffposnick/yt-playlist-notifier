@@ -2,6 +2,7 @@ import {useState, useEffect} from 'preact/hooks';
 import Router from 'preact-router';
 import {Link} from 'preact-router/match';
 
+import {About} from './About';
 import {CurrentSubscriptions} from './CurrentSubscriptions';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {LatestVideos} from './LatestVideos';
@@ -25,12 +26,7 @@ export function App() {
             <LatestVideos path={ROUTES.get('VIDEOS')?.path} default />
             <PlaylistSearchForm path={ROUTES.get('SEARCH')?.path} />
             <CurrentSubscriptions path={ROUTES.get('SUBSCRIPTIONS')?.path} />
-            <div path={ROUTES.get('ABOUT')?.path}>
-              You can learn about this project at{' '}
-              <a href="https://github.com/jeffposnick/yt-playlist-notifier">
-                https://github.com/jeffposnick/yt-playlist-notifier
-              </a>
-            </div>
+            <About path={ROUTES.get('ABOUT')?.path} />
           </Router>
         </main>
         <footer>
