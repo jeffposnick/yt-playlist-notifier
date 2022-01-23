@@ -8,6 +8,7 @@ export default defineConfig({
     preact(),
     VitePWA({
       filename: 'sw.ts',
+      includeAssets: ['*.svg'],
       includeManifestIcons: false,
       injectRegister: false,
       manifest: {
