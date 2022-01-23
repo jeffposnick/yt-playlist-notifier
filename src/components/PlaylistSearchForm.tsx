@@ -21,6 +21,19 @@ const performPlaylistSearch = async (searchTerm?: string) => {
     return;
   }
 
+  try {
+    const url = new URL(searchTerm);
+    const listParam = url.searchParams.get('list');
+    if (listParam) {
+      const results = await playlistList(listParam);
+      if (results.length > 0) {
+        return results;
+      }
+    }
+  } catch (error: unknown) {
+    // no-op
+  }
+
   if (searchTerm.startsWith('PL')) {
     const results = await playlistList(searchTerm);
     if (results.length > 0) {
@@ -63,6 +76,10 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
           <button type="submit">Search</button>
         </div>
       </form>
+      <p>
+        Tip: You can search for a "PL..." ID, or YouTube.com playlist watch page
+        URL!
+      </p>
       <div class="card-container">
         {asyncSearchResults.result &&
           (asyncSearchResults.result.length === 0 ? (
