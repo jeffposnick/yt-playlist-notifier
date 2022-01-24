@@ -31,8 +31,8 @@ export function App() {
         </main>
         <footer>
           {Array.from(ROUTES.values()).map(({iconUrl, path, title}) => (
-            <Link activeClassName="active" href={path} title={title}>
-              <img class="svgIcon" src={iconUrl} alt="Navigation button."></img>
+            <Link activeClassName="active" href={path}>
+              <img class="svgIcon" src={iconUrl} alt={title}></img>
             </Link>
           ))}
         </footer>
