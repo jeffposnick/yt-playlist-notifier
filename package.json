@@ -8,6 +8,7 @@
     "firebase-tools": "^10.1.1",
     "idb-keyval": "^6.1.0",
     "open-props": "^1.1.4",
+    "postcss-jit-props": "^1.0.4",
     "preact-router": "^4.0.1",
     "react-async-hook": "^4.0.0",
     "typescript": "^4.5.5",
