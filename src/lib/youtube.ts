@@ -129,15 +129,15 @@ export namespace PlaylistItemList {
   export interface Snippet {
     publishedAt: string;
     channelId: string;
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
     thumbnails: Thumbnails;
-    channelTitle: string;
+    channelTitle?: string;
     playlistId: string;
     position: number;
     resourceId: ResourceID;
-    videoOwnerChannelTitle: string;
-    videoOwnerChannelId: string;
+    videoOwnerChannelTitle?: string;
+    videoOwnerChannelId?: string;
   }
 
   export interface ResourceID {
