@@ -5,6 +5,9 @@ export function VideoItem({item}: {item: PlaylistItemList.Item}) {
   const videoHref = `https://youtu.be/${item.snippet.resourceId.videoId}`;
   const channelHref = `https://www.youtube.com/channel/${item.snippet.videoOwnerChannelId}`;
 
+  const thumbnail =
+    item.snippet.thumbnails.medium || item.snippet.thumbnails.default;
+
   return (
     <div class="card">
       <span>
@@ -19,9 +22,9 @@ export function VideoItem({item}: {item: PlaylistItemList.Item}) {
         </div>
       </span>
       <img
-        height={item.snippet.thumbnails.medium.height / 3}
-        src={item.snippet.thumbnails.medium.url}
-        width={item.snippet.thumbnails.medium.width / 3}
+        height={thumbnail.height / 3}
+        src={thumbnail.url}
+        width={thumbnail.width / 3}
       />
     </div>
   );
