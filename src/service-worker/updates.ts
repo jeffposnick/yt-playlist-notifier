@@ -1,6 +1,10 @@
 /// <reference lib="webworker" />
 declare const self: ServiceWorkerGlobalScope;
 
+// src/lib/decode-html-entities.ts relies on DOMParser, which isn't available in
+// a service worker. Use a module here instead.
+import {parseEntities} from 'parse-entities';
+
 import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
 import {
   getPlaylistID,
@@ -13,8 +17,10 @@ async function showNotification(
   playlistItem: PlaylistItemLike,
   video: PlaylistItemList.Item,
 ) {
-  self.registration.showNotification(video.snippet.title, {
-    body: `A new video was added to '${playlistItem.snippet.title}'`,
+  self.registration.showNotification(parseEntities(video.snippet.title), {
+    body: `A new video was added to '${parseEntities(
+      playlistItem.snippet.title,
+    )}'`,
     icon: video.snippet.thumbnails.high.url,
     tag: `https://youtu.be/${video.snippet.resourceId.videoId}`,
   });
