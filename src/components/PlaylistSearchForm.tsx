@@ -10,11 +10,15 @@ import {
   playlistSearch,
   PlaylistItemLike,
 } from '../lib/youtube';
-import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
+import {
+  getSubscribedPlaylists,
+  removeSubscribedPlaylist,
+  setPlaylistItems,
+} from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
 import {requestPermission} from '../lib/notifications';
 import {ROUTES} from '../constants';
-import {SetSubscribedPlaylists} from './context';
+import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
   if (!searchTerm) {
@@ -48,6 +52,13 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const asyncSearchResults = useAsync(performPlaylistSearch, [searchTerm]);
   const setSubscribedPlaylists = useContext(SetSubscribedPlaylists);
+  const subscribedPlaylists = useContext(SubscribedPlaylists);
+
+  const isSubscribed = (item: PlaylistItemLike) =>
+    subscribedPlaylists?.some(
+      (subscribedItem) =>
+        getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
+    ) || false;
 
   const handleSubmit = async (
     event: JSX.TargetedEvent<HTMLFormElement, Event>,
@@ -56,7 +67,14 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     setSearchTerm(search.current?.value || '');
   };
 
-  const handleClick = async (item: PlaylistItemLike) => {
+  const handleUnsubscribeClick = async (item: PlaylistItemLike) => {
+    await removeSubscribedPlaylist(getPlaylistID(item));
+    const subscribedPlaylists = await getSubscribedPlaylists();
+    setSubscribedPlaylists?.(subscribedPlaylists);
+    route(ROUTES.get('SUBSCRIPTIONS')?.path!);
+  };
+
+  const handleSubscribeClick = async (item: PlaylistItemLike) => {
     const playlistItems = await getPlaylistItems(getPlaylistID(item));
     await setPlaylistItems(item, playlistItems);
     await requestPermission();
@@ -82,13 +100,21 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
           (asyncSearchResults.result.length === 0 ? (
             <p>No matching playlists found.</p>
           ) : (
-            asyncSearchResults.result.map((item) => (
-              <PlaylistItem
-                buttonText="🔔"
-                item={item}
-                clickCallback={handleClick}
-              />
-            ))
+            asyncSearchResults.result.map((item) => {
+              return isSubscribed(item) ? (
+                <PlaylistItem
+                  buttonText="🚫"
+                  item={item}
+                  clickCallback={handleUnsubscribeClick}
+                />
+              ) : (
+                <PlaylistItem
+                  buttonText="🔔"
+                  item={item}
+                  clickCallback={handleSubscribeClick}
+                />
+              );
+            })
           ))}
         {asyncSearchResults.error && (
           <>
