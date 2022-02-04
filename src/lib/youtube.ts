@@ -59,23 +59,15 @@ export namespace PlaylistSearch {
   }
 
   export interface Item {
-    kind: ItemKind;
+    kind: string;
     etag: string;
     id: ID;
     snippet: Snippet;
   }
 
   export interface ID {
-    kind: IDKind;
+    kind: string;
     playlistId: string;
-  }
-
-  export enum IDKind {
-    YoutubePlaylist = 'youtube#playlist',
-  }
-
-  export enum ItemKind {
-    YoutubeSearchResult = 'youtube#searchResult',
   }
 
   export interface Snippet {
@@ -85,12 +77,8 @@ export namespace PlaylistSearch {
     description: string;
     thumbnails: Thumbnails;
     channelTitle: string;
-    liveBroadcastContent: LiveBroadcastContent;
+    liveBroadcastContent: string;
     publishTime: Date;
-  }
-
-  export enum LiveBroadcastContent {
-    None = 'none',
   }
 
   export interface Thumbnails {
