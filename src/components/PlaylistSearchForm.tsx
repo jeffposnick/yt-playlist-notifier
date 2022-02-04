@@ -1,5 +1,4 @@
 import {FunctionalComponent, JSX} from 'preact';
-import {route} from 'preact-router';
 import {useAsync} from 'react-async-hook';
 import {useContext, useRef, useState} from 'preact/hooks';
 
@@ -17,7 +16,6 @@ import {
 } from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
 import {requestPermission} from '../lib/notifications';
-import {ROUTES} from '../constants';
 import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
@@ -71,7 +69,6 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     await removeSubscribedPlaylist(getPlaylistID(item));
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
-    route(ROUTES.get('SUBSCRIPTIONS')?.path!);
   };
 
   const handleSubscribeClick = async (item: PlaylistItemLike) => {
@@ -80,7 +77,6 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
     await requestPermission();
     const subscribedPlaylists = await getSubscribedPlaylists();
     setSubscribedPlaylists?.(subscribedPlaylists);
-    route(ROUTES.get('SUBSCRIPTIONS')?.path!);
   };
 
   return (
