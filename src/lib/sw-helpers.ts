@@ -33,16 +33,13 @@ export function initSW() {
             await registration.periodicSync.register(UPDATE_CHECK, {
               minInterval: 24 * 60 * 60 * 1000,
             });
-          } else {
-            navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
           }
-        } else {
-          navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
         }
 
         if (window.matchMedia('(display-mode: standalone)').matches) {
           document.addEventListener('visibilitychange', () => {
             if (document.visibilityState !== 'hidden') {
+              navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
               registration.update();
             }
           });
