@@ -91,7 +91,7 @@ footer > a.active {
 }
 
 .svgIcon {
-  block-size: 3vh;
+  block-size: 2.5em;
 }
 
 :where(button) {
