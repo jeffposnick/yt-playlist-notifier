@@ -39,6 +39,6 @@ export const ROUTES = new Map<string, RouteInfo>([
   ],
 ]);
 
-export const NUMBER_OF_LATEST_VIDEOS = 10;
+export const NUMBER_OF_LATEST_VIDEOS = 20;
 
 export const UPDATE_CHECK = 'update-check';
