@@ -24,7 +24,7 @@ export default defineConfig({
         name: 'YT Playlist Notifier',
         short_name: 'YT Playlist Notifier',
         description: 'Get notifications when YouTube playlists are updated.',
-        theme_color: '#e9ecef',
+        theme_color: '#ced4da',
         icons: [
           {
             src: 'icon-192.png',
