@@ -14,7 +14,6 @@ import {PlaylistItemList} from '../lib/youtube';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
 
 async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
-	console.log('loadNewestVideosFromIDB');
 	const allVideos: Array<PlaylistItemList.Item> = [];
 
 	for (const playlist of subscribedPlaylists) {
