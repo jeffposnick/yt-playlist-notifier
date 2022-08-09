@@ -1,7 +1,11 @@
+import {FunctionalComponent} from 'preact';
+
 import {decode} from '../lib/decode-html-entities';
 import {PlaylistItemList} from '../lib/youtube';
 
-export function VideoItem({item}: {item: PlaylistItemList.Item}) {
+export const VideoItem: FunctionalComponent<{
+	item: PlaylistItemList.Item;
+}> = ({item}) => {
 	if (
 		!(
 			item.snippet.title &&
@@ -38,4 +42,4 @@ export function VideoItem({item}: {item: PlaylistItemList.Item}) {
 			/>
 		</div>
 	);
-}
+};

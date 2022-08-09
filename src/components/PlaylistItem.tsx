@@ -1,15 +1,13 @@
+import {FunctionalComponent} from 'preact';
+
 import {decode} from '../lib/decode-html-entities';
 import {getPlaylistID, PlaylistItemLike} from '../lib/youtube';
 
-export function PlaylistItem({
-	buttonText,
-	item,
-	clickCallback,
-}: {
+export const PlaylistItem: FunctionalComponent<{
 	buttonText: string;
 	item: PlaylistItemLike;
 	clickCallback: (item: PlaylistItemLike) => Promise<void>;
-}) {
+}> = ({buttonText, item, clickCallback}) => {
 	const playlistHref = `https://www.youtube.com/playlist?list=${getPlaylistID(
 		item,
 	)}`;
@@ -29,4 +27,4 @@ export function PlaylistItem({
 			<button onClick={() => clickCallback(item)}>{buttonText}</button>
 		</div>
 	);
-}
+};

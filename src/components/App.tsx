@@ -1,6 +1,7 @@
+import {FunctionalComponent} from 'preact';
+import {Link} from 'preact-router/match';
 import {useState, useEffect} from 'preact/hooks';
 import Router from 'preact-router';
-import {Link} from 'preact-router/match';
 
 import {About} from './About';
 import {CurrentSubscriptions} from './CurrentSubscriptions';
@@ -10,7 +11,7 @@ import {PlaylistSearchForm} from './PlaylistSearchForm';
 import {ROUTES} from '../constants';
 import {SubscribedPlaylists, SetSubscribedPlaylists} from './context';
 
-export function App() {
+export const App: FunctionalComponent = () => {
 	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
 		[],
 	);
@@ -39,4 +40,4 @@ export function App() {
 			</SubscribedPlaylists.Provider>
 		</SetSubscribedPlaylists.Provider>
 	);
-}
+};
