@@ -1,195 +1,201 @@
 @import 'open-props/normalize';
 
 #app {
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+#toast {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
 }
 
 main {
-  padding: var(--size-fluid-2);
-  flex-grow: 1;
-  overflow-y: auto;
+	padding: var(--size-fluid-2);
+	flex-grow: 1;
+	overflow-y: auto;
 }
 
 .card-container {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-5);
-  justify-content: space-around;
-  max-inline-size: calc(var(--size-content-1) * 4);
-  min-width: var(--size-14);
-  padding: var(--size-fluid-1);
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-5);
+	justify-content: space-around;
+	max-inline-size: calc(var(--size-content-1) * 4);
+	min-width: var(--size-14);
+	padding: var(--size-fluid-1);
 }
 
 .card {
-  align-items: center;
-  background: var(--surface-2);
-  border-radius: var(--radius-3);
-  border: var(--border-size-1) solid var(--surface-4);
-  box-shadow: var(--shadow-2);
-  display: flex;
-  flex-direction: row;
-  gap: var(--size-2);
-  justify-content: space-between;
-  padding: var(--size-4);
-  width: 100%;
+	align-items: center;
+	background: var(--surface-2);
+	border-radius: var(--radius-3);
+	border: var(--border-size-1) solid var(--surface-4);
+	box-shadow: var(--shadow-2);
+	display: flex;
+	flex-direction: row;
+	gap: var(--size-2);
+	justify-content: space-between;
+	padding: var(--size-4);
+	width: 100%;
 }
 
 .card .title {
-  font-size: var(--font-size-3);
-  font-weight: var(--font-weight-8);
+	font-size: var(--font-size-3);
+	font-weight: var(--font-weight-8);
 }
 
 .card a {
-  text-decoration: underline;
-  text-decoration-color: var(--surface-4);
+	text-decoration: underline;
+	text-decoration-color: var(--surface-4);
 }
 
 .card > span {
-  display: grid;
-  gap: var(--size-2);
+	display: grid;
+	gap: var(--size-2);
 }
 
 .form-controls {
-  display: flex;
-  flex-direction: row;
-  gap: var(--size-4);
-  justify-content: space-between;
-  padding: var(--size-4);
-  width: 80%;
+	display: flex;
+	flex-direction: row;
+	gap: var(--size-4);
+	justify-content: space-between;
+	padding: var(--size-4);
+	width: 80%;
 }
 
 .form-controls > input[type='search'] {
-  border: var(--border-size-2) solid var(--blue-5);
-  flex-grow: 1;
-  border-radius: var(--radius-2);
+	border: var(--border-size-2) solid var(--blue-5);
+	flex-grow: 1;
+	border-radius: var(--radius-2);
 }
 
 footer {
-  align-content: center;
-  background-color: var(--surface-2);
-  border-top: var(--border-size-1) solid var(--surface-3);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-evenly;
+	align-content: center;
+	background-color: var(--surface-2);
+	border-top: var(--border-size-1) solid var(--surface-3);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-evenly;
 }
 
 footer > a {
-  padding: var(--size-fluid-2);
-  opacity: 0.4;
+	padding: var(--size-fluid-2);
+	opacity: 0.4;
 }
 
 footer > a.active {
-  opacity: 1;
+	opacity: 1;
 }
 
 .svgIcon {
-  block-size: 2.5em;
+	block-size: 2.5em;
 }
 
 :where(button) {
-  --_text: inherit;
-  --_bg: white;
-  --_border: var(--surface-3);
-  --_highlight-size: 0;
-  --_highlight-color: hsl(210 11% 71% / 25%);
-  --_ink-shadow: 0 1px 0 var(--gray-3);
-  --_icon-size: var(--size-4);
-  --_icon-color: var(--link);
+	--_text: inherit;
+	--_bg: white;
+	--_border: var(--surface-3);
+	--_highlight-size: 0;
+	--_highlight-color: hsl(210 11% 71% / 25%);
+	--_ink-shadow: 0 1px 0 var(--gray-3);
+	--_icon-size: var(--size-4);
+	--_icon-color: var(--link);
 
-  background: var(--_bg);
-  color: var(--_text);
-  border: var(--border-size-2) solid var(--_border);
-  box-shadow: var(--shadow-2), 0 1px var(--surface-3),
-    0 0 0 var(--_highlight-size) var(--_highlight-color);
-  text-shadow: var(--_ink-shadow);
+	background: var(--_bg);
+	color: var(--_text);
+	border: var(--border-size-2) solid var(--_border);
+	box-shadow: var(--shadow-2), 0 1px var(--surface-3),
+		0 0 0 var(--_highlight-size) var(--_highlight-color);
+	text-shadow: var(--_ink-shadow);
 
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  place-self: start;
-  gap: var(--size-2);
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	place-self: start;
+	gap: var(--size-2);
 
-  font-weight: var(--font-weight-7);
-  border-radius: var(--radius-2);
-  padding-block: var(--size-2);
-  padding-inline: var(--size-4);
+	font-weight: var(--font-weight-7);
+	border-radius: var(--radius-2);
+	padding-block: var(--size-2);
+	padding-inline: var(--size-4);
 
-  transition: border-color 0.5s var(--ease-3) 3s;
+	transition: border-color 0.5s var(--ease-3) 3s;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  :where(button) {
-    transition: border-color 0.5s var(--ease-3) 3s,
-      box-shadow 0.5s var(--ease-elastic-3);
-  }
+	:where(button) {
+		transition: border-color 0.5s var(--ease-3) 3s,
+			box-shadow 0.5s var(--ease-elastic-3);
+	}
 }
 
 :where(button:not([type='reset'])):focus-visible {
-  outline-color: var(--link);
+	outline-color: var(--link);
 }
 
 :where(button[type='submit'], form button:not([type], [disabled])) {
-  --_text: var(--link);
+	--_text: var(--link);
 }
 
 :where(button[disabled]) {
-  --_bg: none;
-  --_text: var(--gray-6);
-  cursor: not-allowed;
-  box-shadow: var(--shadow-1);
+	--_bg: none;
+	--_text: var(--gray-6);
+	cursor: not-allowed;
+	box-shadow: var(--shadow-1);
 }
 
 :where(button:not(:active):is(:hover, :focus-visible)) {
-  --_highlight-size: var(--size-1);
-  transition-delay: 0s;
-  transition-duration: 0.1s;
+	--_highlight-size: var(--size-1);
+	transition-delay: 0s;
+	transition-duration: 0.1s;
 }
 
 @media (hover: none) {
-  :where(button:active) {
-    --_highlight-size: var(--size-2);
-  }
+	:where(button:active) {
+		--_highlight-size: var(--size-2);
+	}
 
-  :where(button[type='submit'], button[type='reset'], form
-      button:not([type])):active:not([disabled]) {
-    --_border: currentColor;
-    transition-delay: 0s;
-    transition-duration: 0.1s;
-  }
+	:where(button[type='submit'], button[type='reset'], form
+			button:not([type])):active:not([disabled]) {
+		--_border: currentColor;
+		transition-delay: 0s;
+		transition-duration: 0.1s;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
-  :where(button) {
-    --_highlight-color: hsl(210 10% 5% / 25%);
-    --_bg: var(--surface-3);
-    --_ink-shadow: 0 1px 0 var(--surface-1);
-  }
+	:where(button) {
+		--_highlight-color: hsl(210 10% 5% / 25%);
+		--_bg: var(--surface-3);
+		--_ink-shadow: 0 1px 0 var(--surface-1);
+	}
 
-  :where(button[type='reset']) {
-    --_text: var(--red-2);
-    --_border: var(--surface-2);
-  }
+	:where(button[type='reset']) {
+		--_text: var(--red-2);
+		--_border: var(--surface-2);
+	}
 
-  :where(button[disabled]) {
-    --_text: var(--gray-5);
-  }
+	:where(button[disabled]) {
+		--_text: var(--gray-5);
+	}
 
-  :where(button[type='submit']),
-  :where(form button:not([type='button'])),
-  :where(button[type='reset']),
-  :where(button[disabled]) {
-    --_bg: var(--surface-1);
-  }
+	:where(button[type='submit']),
+	:where(form button:not([type='button'])),
+	:where(button[type='reset']),
+	:where(button[disabled]) {
+		--_bg: var(--surface-1);
+	}
 
-  .svgIcon {
-    filter: invert(100%);
-  }
+	.svgIcon {
+		filter: invert(100%);
+	}
 }

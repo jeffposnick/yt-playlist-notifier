@@ -1,3 +1,8 @@
+if (import.meta.env.MODE === 'development') {
+	// @ts-ignore
+	import('preact/debug');
+}
+
 import {render} from 'preact';
 
 import './index.css';

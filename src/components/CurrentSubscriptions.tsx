@@ -1,20 +1,20 @@
 import {FunctionalComponent} from 'preact';
-import {useContext} from 'preact/hooks';
+import {StateUpdater} from 'preact/hooks';
 
 import {getPlaylistID, PlaylistItemLike} from '../lib/youtube';
 import {getSubscribedPlaylists, removeSubscribedPlaylist} from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
 import {ROUTES} from '../constants';
-import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
+import {Value} from '../lib/idb';
 
-export const CurrentSubscriptions: FunctionalComponent = () => {
-	const subscribedPlaylists = useContext(SubscribedPlaylists);
-	const setSubscribedPlaylists = useContext(SetSubscribedPlaylists);
-
+export const CurrentSubscriptions: FunctionalComponent<{
+	setSubscribedPlaylists: StateUpdater<Array<Value>>;
+	subscribedPlaylists: Value[];
+}> = ({setSubscribedPlaylists, subscribedPlaylists}) => {
 	const handleClick = async (item: PlaylistItemLike) => {
 		await removeSubscribedPlaylist(getPlaylistID(item));
 		const subscribedPlaylists = await getSubscribedPlaylists();
-		setSubscribedPlaylists?.(subscribedPlaylists);
+		setSubscribedPlaylists(subscribedPlaylists);
 	};
 
 	return (

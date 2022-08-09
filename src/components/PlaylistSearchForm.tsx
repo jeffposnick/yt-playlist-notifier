@@ -1,6 +1,6 @@
 import {FunctionalComponent, JSX} from 'preact';
 import {useAsync} from 'react-async-hook';
-import {useContext, useRef, useState} from 'preact/hooks';
+import {StateUpdater, useRef, useState} from 'preact/hooks';
 
 import {
 	getPlaylistID,
@@ -13,10 +13,10 @@ import {
 	getSubscribedPlaylists,
 	removeSubscribedPlaylist,
 	setPlaylistItems,
+	Value,
 } from '../lib/idb';
 import {PlaylistItem} from './PlaylistItem';
 import {requestPermission} from '../lib/notifications';
-import {SetSubscribedPlaylists, SubscribedPlaylists} from './context';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
 	if (!searchTerm) {
@@ -45,12 +45,13 @@ const performPlaylistSearch = async (searchTerm?: string) => {
 	return await playlistSearch(searchTerm);
 };
 
-export const PlaylistSearchForm: FunctionalComponent = () => {
-	const search = useRef<HTMLInputElement>(null);
+export const PlaylistSearchForm: FunctionalComponent<{
+	setSubscribedPlaylists: StateUpdater<Array<Value>>;
+	subscribedPlaylists: Array<Value>;
+}> = ({setSubscribedPlaylists, subscribedPlaylists}) => {
+	const search = useRef<HTMLInputElement>();
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const asyncSearchResults = useAsync(performPlaylistSearch, [searchTerm]);
-	const setSubscribedPlaylists = useContext(SetSubscribedPlaylists);
-	const subscribedPlaylists = useContext(SubscribedPlaylists);
 
 	const isSubscribed = (item: PlaylistItemLike) =>
 		subscribedPlaylists?.some(
