@@ -13,13 +13,9 @@ import {NUMBER_OF_LATEST_VIDEOS, ROUTES} from '../constants';
 import {PlaylistItemList} from '../lib/youtube';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
 
-async function getNewestVideos(subscribedPlaylists: Array<Value>) {
+async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
+	console.log('loadNewestVideosFromIDB');
 	const allVideos: Array<PlaylistItemList.Item> = [];
-	if (subscribedPlaylists.length === 0) {
-		return allVideos;
-	}
-
-	await getNewVideos();
 
 	for (const playlist of subscribedPlaylists) {
 		for (const video of playlist.videos) {
@@ -38,10 +34,21 @@ export const App: FunctionalComponent = () => {
 	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
 		[],
 	);
-	const asyncNewestVideos = useAsync(getNewestVideos, [subscribedPlaylists]);
+	const asyncNewestVideos = useAsync(loadNewestVideosFromIDB, [
+		subscribedPlaylists,
+	]);
 
 	useEffect(() => {
-		getSubscribedPlaylists().then((value) => setSubscribedPlaylists(value));
+		const initData = async () => {
+			const subscribedPlaylistsFromIDB = await getSubscribedPlaylists();
+			setSubscribedPlaylists(subscribedPlaylistsFromIDB);
+			const newVideosFromYT = await getNewVideos();
+			if (newVideosFromYT.length > 0) {
+				await asyncNewestVideos.execute(subscribedPlaylistsFromIDB);
+			}
+		};
+
+		initData();
 	}, []);
 
 	return (
