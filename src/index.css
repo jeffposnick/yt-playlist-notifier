@@ -10,12 +10,6 @@
 	top: 0;
 }
 
-#toast {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-}
-
 main {
 	padding: var(--size-fluid-2);
 	flex-grow: 1;

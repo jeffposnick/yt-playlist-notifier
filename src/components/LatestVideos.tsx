@@ -1,7 +1,7 @@
 import {FunctionalComponent} from 'preact';
 import {useAsync} from 'react-async-hook';
 
-import {getSubscribedPlaylists} from '../lib/idb';
+import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {NUMBER_OF_LATEST_VIDEOS, ROUTES} from '../constants';
 import {PlaylistItemList} from '../lib/youtube';
 import {VideoItem} from './VideoItem';
@@ -23,7 +23,7 @@ async function getNewestVideos() {
 }
 
 export const LatestVideos: FunctionalComponent<{
-	subscribedPlaylists: Value[];
+	subscribedPlaylists: Array<Value>;
 }> = ({subscribedPlaylists}) => {
 	const asyncNewestVideos = useAsync(getNewestVideos, [subscribedPlaylists]);
 

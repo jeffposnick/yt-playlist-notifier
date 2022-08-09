@@ -9,14 +9,11 @@ import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {LatestVideos} from './LatestVideos';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
 import {ROUTES} from '../constants';
-import {Toast} from './Toast';
 
 export const App: FunctionalComponent = () => {
 	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
 		[],
 	);
-
-	const [toastMessage, setToastMessage] = useState<string>('initial');
 
 	useEffect(() => {
 		getSubscribedPlaylists().then((value) => setSubscribedPlaylists(value));
@@ -24,7 +21,6 @@ export const App: FunctionalComponent = () => {
 
 	return (
 		<>
-			<Toast setToastMessage={setToastMessage} toastMessage={toastMessage} />
 			<main>
 				<Router>
 					<LatestVideos
