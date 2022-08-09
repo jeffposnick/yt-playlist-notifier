@@ -49,7 +49,7 @@ export const PlaylistSearchForm: FunctionalComponent<{
 	setSubscribedPlaylists: StateUpdater<Array<Value>>;
 	subscribedPlaylists: Array<Value>;
 }> = ({setSubscribedPlaylists, subscribedPlaylists}) => {
-	const search = useRef<HTMLInputElement>();
+	const search = useRef<HTMLInputElement>(null);
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const asyncSearchResults = useAsync(performPlaylistSearch, [searchTerm]);
 
