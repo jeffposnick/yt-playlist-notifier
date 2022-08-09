@@ -48,4 +48,7 @@ export default defineConfig({
 			strategies: 'injectManifest',
 		}),
 	],
+	esbuild: {
+		logOverride: {'this-is-undefined-in-esm': 'silent'},
+	},
 });

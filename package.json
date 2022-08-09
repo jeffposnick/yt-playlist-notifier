@@ -1,25 +1,25 @@
 {
 	"dependencies": {
-		"preact": "^10.6.4"
+		"preact": "^10.10.1"
 	},
 	"devDependencies": {
-		"@babel/preset-react": "^7.16.7",
-		"@preact/preset-vite": "^2.1.7",
-		"firebase-tools": "^10.1.1",
-		"idb-keyval": "^6.1.0",
-		"open-props": "^1.1.4",
+		"@babel/preset-react": "^7.18.6",
+		"@preact/preset-vite": "^2.3.0",
+		"firebase-tools": "^11.5.0",
+		"idb-keyval": "^6.2.0",
+		"open-props": "^1.4.8",
 		"parse-entities": "^4.0.0",
-		"postcss-jit-props": "^1.0.4",
-		"preact-router": "^4.0.1",
+		"postcss-jit-props": "^1.0.7",
+		"preact-router": "^4.1.0",
 		"react-async-hook": "^4.0.0",
-		"typescript": "^4.5.5",
-		"vite": "^2.7.13",
-		"vite-plugin-markdown": "^2.0.2",
-		"vite-plugin-pwa": "^0.11.13",
-		"workbox-expiration": "^6.4.2",
-		"workbox-precaching": "^6.4.2",
-		"workbox-routing": "^6.4.2",
-		"workbox-strategies": "^6.4.2"
+		"typescript": "^4.7.4",
+		"vite": "^3.0.5",
+		"vite-plugin-markdown": "^2.1.0",
+		"vite-plugin-pwa": "^0.12.3",
+		"workbox-expiration": "^6.5.4",
+		"workbox-precaching": "^6.5.4",
+		"workbox-routing": "^6.5.4",
+		"workbox-strategies": "^6.5.4"
 	},
 	"name": "yt-playlist-notifier",
 	"prettier": {
@@ -41,6 +41,6 @@
 	},
 	"version": "0.0.0",
 	"volta": {
-		"node": "16.13.2"
+		"node": "16.16.0"
 	}
 }
