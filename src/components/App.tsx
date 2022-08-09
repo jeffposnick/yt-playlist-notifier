@@ -1,19 +1,44 @@
 import {FunctionalComponent} from 'preact';
 import {Link} from 'preact-router/match';
+import {useAsync} from 'react-async-hook';
 import {useState, useEffect} from 'preact/hooks';
 import Router from 'preact-router';
 
 import {About} from './About';
 import {CurrentSubscriptions} from './CurrentSubscriptions';
+import {getNewVideos} from '../lib/get-new-videos';
 import {getSubscribedPlaylists, Value} from '../lib/idb';
 import {LatestVideos} from './LatestVideos';
+import {NUMBER_OF_LATEST_VIDEOS, ROUTES} from '../constants';
+import {PlaylistItemList} from '../lib/youtube';
 import {PlaylistSearchForm} from './PlaylistSearchForm';
-import {ROUTES} from '../constants';
+
+async function getNewestVideos(subscribedPlaylists: Array<Value>) {
+	const allVideos: Array<PlaylistItemList.Item> = [];
+	if (subscribedPlaylists.length === 0) {
+		return allVideos;
+	}
+
+	await getNewVideos();
+
+	for (const playlist of subscribedPlaylists) {
+		for (const video of playlist.videos) {
+			allVideos.push(video);
+		}
+	}
+
+	return allVideos
+		.sort((a, b) => {
+			return b.snippet.publishedAt.localeCompare(a.snippet.publishedAt);
+		})
+		.slice(0, NUMBER_OF_LATEST_VIDEOS);
+}
 
 export const App: FunctionalComponent = () => {
 	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
 		[],
 	);
+	const asyncNewestVideos = useAsync(getNewestVideos, [subscribedPlaylists]);
 
 	useEffect(() => {
 		getSubscribedPlaylists().then((value) => setSubscribedPlaylists(value));
@@ -24,9 +49,9 @@ export const App: FunctionalComponent = () => {
 			<main>
 				<Router>
 					<LatestVideos
+						asyncNewestVideos={asyncNewestVideos}
 						default
 						path={ROUTES.get('VIDEOS')?.path}
-						subscribedPlaylists={subscribedPlaylists}
 					/>
 					<PlaylistSearchForm
 						path={ROUTES.get('SEARCH')?.path}
