@@ -1,37 +1,33 @@
 {
-  "hosting": {
-    "cleanUrls": true,
-    "headers": [
-      {
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=0"
-          }
-        ],
-        "source": "**/*"
-      },
-      {
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=31536000"
-          }
-        ],
-        "regex": ".+\\.[0-9a-f]{8}\\.(js|css)$"
-      }
-    ],
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "public": "dist",
-    "rewrites": [
-      {
-        "destination": "/index.html",
-        "source": "**"
-      }
-    ]
-  }
+	"hosting": {
+		"cleanUrls": true,
+		"headers": [
+			{
+				"headers": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0"
+					}
+				],
+				"source": "**/*"
+			},
+			{
+				"headers": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=31536000"
+					}
+				],
+				"regex": ".+\\.[0-9a-f]{8}\\.(js|css)$"
+			}
+		],
+		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"public": "dist",
+		"rewrites": [
+			{
+				"destination": "/index.html",
+				"source": "**"
+			}
+		]
+	}
 }
