@@ -1,4 +1,10 @@
 {
+	"emulators": {
+		"hosting": {
+			"host": "localhost",
+			"port": "3000"
+		}
+	},
 	"hosting": {
 		"cleanUrls": true,
 		"headers": [
@@ -21,7 +27,11 @@
 				"regex": ".+\\.[0-9a-f]{8}\\.(js|css)$"
 			}
 		],
-		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"ignore": [
+			"firebase.json",
+			"**/.*",
+			"**/node_modules/**"
+		],
 		"public": "dist",
 		"rewrites": [
 			{

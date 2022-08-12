@@ -1,9 +1,12 @@
 .DS_Store
 .firebase
 .firebaserc
-*.local
 .vscode
-dist
-dist-ssr
+*.local
+/dist-ssr/
+/dist/
+/node_modules/
+/playwright-report/
+/playwright/.cache/
+/test-results/
 firebase-debug.log
-node_modules
