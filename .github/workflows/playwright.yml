@@ -1,6 +1,4 @@
 name: Playwright Tests
-env:
-  DEBUG: 'pw:webserver'
 on:
   push:
     branches: [main]
