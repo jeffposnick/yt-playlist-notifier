@@ -7,6 +7,10 @@ import OpenProps from 'open-props';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	preview: {
+		port: 3000,
+		strictPort: true,
+	},
 	css: {
 		postcss: {
 			plugins: [postcssJitProps(OpenProps)],
