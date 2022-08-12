@@ -1,5 +1,10 @@
 export async function requestPermission() {
-	await navigator.permissions?.query({
-		name: 'notifications',
-	});
+	try {
+		await navigator.permissions?.query({
+			name: 'notifications',
+		});
+	} catch (e) {
+		// Log error, but otherwise ignore.
+		console.error(e);
+	}
 }
