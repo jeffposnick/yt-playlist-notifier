@@ -1,8 +1,6 @@
 import type {PlaywrightTestConfig} from '@playwright/test';
 import {devices} from '@playwright/test';
 
-const PORT = 3000;
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -30,8 +28,6 @@ const config: PlaywrightTestConfig = {
 	use: {
 		/* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
 		actionTimeout: 0,
-		/* Base URL to use in actions like `await page.goto('/')`. */
-		baseURL: `http://localhost:${PORT}/`,
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: 'on-first-retry',
 	},
@@ -94,7 +90,7 @@ const config: PlaywrightTestConfig = {
 	/* Run your local dev server before starting the tests */
 	webServer: {
 		command: 'npm run preview',
-		port: PORT,
+		port: 3000,
 		reuseExistingServer: !process.env.CI,
 	},
 };

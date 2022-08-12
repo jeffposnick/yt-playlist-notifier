@@ -7,7 +7,7 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 		const registration = await navigator.serviceWorker.ready;
 		return registration.active?.scriptURL;
 	});
-	expect(swURL).toBe(`${baseURL}sw.js`);
+	expect(swURL).toBe(`${baseURL}/sw.js`);
 
 	const cacheContents = await page.evaluate(async () => {
 		const cacheState: Record<string, Array<string>> = {};
@@ -18,7 +18,7 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 		return cacheState;
 	});
 
-	const expectedPrecacheName = `workbox-precache-v2-${baseURL}`;
+	const expectedPrecacheName = `workbox-precache-v2-${baseURL}/`;
 	expect(Object.keys(cacheContents)).toEqual([expectedPrecacheName]);
 	expect(cacheContents[expectedPrecacheName]).toHaveLength(8);
 });
