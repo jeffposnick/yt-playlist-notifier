@@ -25,15 +25,15 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 	}
 
 	expect(cacheContents).toEqual({
-		'workbox-precache-v2-http://localhost:3000/': [
-			'http://localhost:3000/assets/index.[hash].css',
-			'http://localhost:3000/assets/index.[hash].js',
-			'http://localhost:3000/index.html?__WB_REVISION__=[hash]',
-			'http://localhost:3000/information.svg?__WB_REVISION__=[hash]',
-			'http://localhost:3000/movie-search.svg?__WB_REVISION__=[hash]',
-			'http://localhost:3000/youtube-subscription.svg?__WB_REVISION__=[hash]',
-			'http://localhost:3000/youtube.svg?__WB_REVISION__=[hash]',
-			'http://localhost:3000/manifest.webmanifest?__WB_REVISION__=[hash]',
+		'workbox-precache-v2-http://127.0.0.1:3000/': [
+			'http://127.0.0.1:3000/assets/index.[hash].css',
+			'http://127.0.0.1:3000/assets/index.[hash].js',
+			'http://127.0.0.1:3000/index.html?__WB_REVISION__=[hash]',
+			'http://127.0.0.1:3000/information.svg?__WB_REVISION__=[hash]',
+			'http://127.0.0.1:3000/movie-search.svg?__WB_REVISION__=[hash]',
+			'http://127.0.0.1:3000/youtube-subscription.svg?__WB_REVISION__=[hash]',
+			'http://127.0.0.1:3000/youtube.svg?__WB_REVISION__=[hash]',
+			'http://127.0.0.1:3000/manifest.webmanifest?__WB_REVISION__=[hash]',
 		],
 	});
 });
