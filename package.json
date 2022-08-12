@@ -35,7 +35,6 @@
     "build": "tsc && vite build",
     "deploy": "npm run build && firebase deploy",
     "dev": "vite",
-    "preview": "vite preview --debug --logLevel=info",
     "stage": "vite build --mode staging && firebase emulators:start",
     "test": "npx playwright test"
   },
