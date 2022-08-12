@@ -1,7 +1,7 @@
 import type {PlaywrightTestConfig} from '@playwright/test';
 import {devices} from '@playwright/test';
 
-const URL = 'http://127.0.0.1:3000/';
+const URL = 'http://localhost:3000/';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -44,19 +44,19 @@ const config: PlaywrightTestConfig = {
 			},
 		},
 
-		// {
-		// 	name: 'firefox',
-		// 	use: {
-		// 		...devices['Desktop Firefox'],
-		// 	},
-		// },
+		{
+			name: 'firefox',
+			use: {
+				...devices['Desktop Firefox'],
+			},
+		},
 
-		// {
-		// 	name: 'webkit',
-		// 	use: {
-		// 		...devices['Desktop Safari'],
-		// 	},
-		// },
+		{
+			name: 'webkit',
+			use: {
+				...devices['Desktop Safari'],
+			},
+		},
 
 		/* Test against mobile viewports. */
 		// {

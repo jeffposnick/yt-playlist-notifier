@@ -6,11 +6,11 @@ test('Adding a hash works with defaults', async () => {
 	const helper = new ContentHashHelper();
 
 	const withHash = helper.addHash(
-		`http://127.0.0.1:3000/main.[hash].js?willnotreplace=[hash]`,
+		`http://localhost:3000/main.[hash].js?willnotreplace=[hash]`,
 		'abcd1234',
 	);
 	expect(withHash).toBe(
-		'http://127.0.0.1:3000/main.abcd1234.js?willnotreplace=[hash]',
+		'http://localhost:3000/main.abcd1234.js?willnotreplace=[hash]',
 	);
 });
 
@@ -18,25 +18,25 @@ test('Adding a hash works with explicit config', async () => {
 	const helper = new ContentHashHelper({placeholder: '[custom-placeholder]'});
 
 	const withHash = helper.addHash(
-		`http://127.0.0.1:3000/main.[custom-placeholder].js?willnotreplace=[hash]`,
+		`http://localhost:3000/main.[custom-placeholder].js?willnotreplace=[hash]`,
 		'abcd1234',
 	);
 	expect(withHash).toBe(
-		'http://127.0.0.1:3000/main.abcd1234.js?willnotreplace=[hash]',
+		'http://localhost:3000/main.abcd1234.js?willnotreplace=[hash]',
 	);
 });
 
 test('Removing a hash works with defaults', async () => {
 	const helper = new ContentHashHelper();
 
-	const noHash = helper.removeHash('http://127.0.0.1:3000/main.abcd1234.js');
-	expect(noHash).toBe('http://127.0.0.1:3000/main.[hash].js');
+	const noHash = helper.removeHash('http://localhost:3000/main.abcd1234.js');
+	expect(noHash).toBe('http://localhost:3000/main.[hash].js');
 
 	const noHashWBRevision = helper.removeHash(
-		'http://127.0.0.1:3000/index.html?__WB_REVISION__=abb15c1ff1c0eaa557d218a26bf9b1b5',
+		'http://localhost:3000/index.html?__WB_REVISION__=abb15c1ff1c0eaa557d218a26bf9b1b5',
 	);
 	expect(noHashWBRevision).toBe(
-		'http://127.0.0.1:3000/index.html?__WB_REVISION__=[hash]',
+		'http://localhost:3000/index.html?__WB_REVISION__=[hash]',
 	);
 });
 
@@ -46,10 +46,10 @@ test('Removing a hash works with custom regexps', async () => {
 	});
 
 	const noHash = helper.removeHash(
-		'http://127.0.0.1:3000/ignore.abcd1234.this/main~WXYZ~js',
+		'http://localhost:3000/ignore.abcd1234.this/main~WXYZ~js',
 	);
 	expect(noHash).toBe(
-		'http://127.0.0.1:3000/ignore.abcd1234.this/main~[hash]~js',
+		'http://localhost:3000/ignore.abcd1234.this/main~[hash]~js',
 	);
 });
 
@@ -60,10 +60,10 @@ test('Removing a hash works with custom regexps and placeholders', async () => {
 	});
 
 	const noHash = helper.removeHash(
-		'http://127.0.0.1:3000/ignore.abcd1234.this/main~WXYZ~js',
+		'http://localhost:3000/ignore.abcd1234.this/main~WXYZ~js',
 	);
 	expect(noHash).toBe(
-		'http://127.0.0.1:3000/ignore.abcd1234.this/main~(custom-placeholder)~js',
+		'http://localhost:3000/ignore.abcd1234.this/main~(custom-placeholder)~js',
 	);
 });
 
@@ -73,7 +73,7 @@ test('removeHash() throws an exception when the matching RegExp does not have ma
 	});
 
 	expect(() =>
-		helper.removeHash('http://127.0.0.1:3000/main.abcd.js'),
+		helper.removeHash('http://localhost:3000/main.abcd.js'),
 	).toThrow();
 });
 
@@ -83,6 +83,6 @@ test('removeHash() throws an exception when the matching RegExp does not have an
 	});
 
 	expect(() =>
-		helper.removeHash('http://127.0.0.1:3000/main.abcd.js'),
+		helper.removeHash('http://localhost:3000/main.abcd.js'),
 	).toThrow();
 });
