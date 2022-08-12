@@ -1,4 +1,6 @@
 name: Playwright Tests
+env:
+  DEBUG: 'pw:webserver'
 on:
   push:
     branches: [main]
@@ -16,8 +18,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright Tests
         run: npm run test
       - uses: actions/upload-artifact@v2
         if: always()
