@@ -15,6 +15,28 @@ declare global {
 	}
 }
 
+// See https://stackoverflow.com/a/3561711/385997
+function escapeRegex(str: string) {
+	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+export function createRegexp({
+	characters,
+	size,
+	before,
+	after,
+}: {
+	characters: string;
+	size: number;
+	before: string;
+	after: string;
+}) {
+	return new RegExp(
+		`${escapeRegex(before)}(${characters}{${size}})${escapeRegex(after)}`,
+		'd',
+	);
+}
+
 export class ContentHashHelper {
 	placeholder: string;
 	regexps: Array<RegExp>;
@@ -22,8 +44,13 @@ export class ContentHashHelper {
 	constructor({
 		placeholder = '[hash]',
 		regexps = [
-			new RegExp('\\.([0-9a-f]{8})\\.', 'd'),
-			new RegExp('__WB_REVISION__=([0-9a-f]{32})', 'd'),
+			createRegexp({characters: '[0-9a-f]', size: 8, before: '.', after: '.'}),
+			createRegexp({
+				characters: '[0-9a-f]',
+				size: 32,
+				before: '__WB_REVISION__=',
+				after: '',
+			}),
 		],
 	}: {
 		placeholder?: string;
