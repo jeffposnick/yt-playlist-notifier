@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {ContentHashHelper} from './lib/content-hash-helper';
+import {ContentHashHelper} from '../lib/content-hash-helper';
 
 test('The service worker registers and precaches', async ({baseURL, page}) => {
 	await page.goto('/');

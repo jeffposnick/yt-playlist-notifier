@@ -1,6 +1,6 @@
 import {test, expect} from '@playwright/test';
 
-import {ContentHashHelper} from './content-hash-helper';
+import {ContentHashHelper} from '../../lib/content-hash-helper';
 
 test('Adding a hash works with defaults', async () => {
 	const helper = new ContentHashHelper();
