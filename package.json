@@ -24,7 +24,7 @@
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": false,
-    "printWidth": 80,
+    "printWidth": 100,
     "quoteProps": "consistent",
     "useTabs": true,
     "semi": true,
