@@ -1,4 +1,3 @@
-/// <reference lib="webworker" />
 declare const self: ServiceWorkerGlobalScope;
 
 import {getNewVideos} from '../lib/get-new-videos.js';
