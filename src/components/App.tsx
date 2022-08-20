@@ -30,8 +30,12 @@ async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
 }
 
 export const App: FunctionalComponent = () => {
-	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>([]);
-	const asyncNewestVideos = useAsync(loadNewestVideosFromIDB, [subscribedPlaylists]);
+	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
+		[],
+	);
+	const asyncNewestVideos = useAsync(loadNewestVideosFromIDB, [
+		subscribedPlaylists,
+	]);
 
 	useEffect(() => {
 		const initData = async () => {

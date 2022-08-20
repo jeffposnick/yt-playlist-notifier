@@ -15,7 +15,10 @@ import {checkForUpdates} from './updates.js';
 
 precacheAndRoute(self.__WB_MANIFEST || []);
 
-registerRoute(({request}) => request.mode === 'navigate', createHandlerBoundToURL('/index.html'));
+registerRoute(
+	({request}) => request.mode === 'navigate',
+	createHandlerBoundToURL('/index.html'),
+);
 
 registerRoute(
 	({url}) => url.origin === 'https://i.ytimg.com',

@@ -29,10 +29,17 @@ export const VideoItem: FunctionalComponent<{
 					{decode(item.snippet.title)}
 				</a>
 				<div>
-					by <a href={channelHref}>{decode(item.snippet.videoOwnerChannelTitle)}</a>
+					by{' '}
+					<a href={channelHref}>
+						{decode(item.snippet.videoOwnerChannelTitle)}
+					</a>
 				</div>
 			</span>
-			<img height={thumbnail.height / 3} src={thumbnail.url} width={thumbnail.width / 3} />
+			<img
+				height={thumbnail.height / 3}
+				src={thumbnail.url}
+				width={thumbnail.width / 3}
+			/>
 		</div>
 	);
 };

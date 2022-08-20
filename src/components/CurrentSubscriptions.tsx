@@ -23,12 +23,16 @@ export const CurrentSubscriptions: FunctionalComponent<{
 			<div class="card-container">
 				{subscribedPlaylists?.length === 0 ? (
 					<p>
-						<a href={ROUTES.get('SEARCH')?.path}>Find and subscribe</a> to a playlist with videos to
-						get started.
+						<a href={ROUTES.get('SEARCH')?.path}>Find and subscribe</a> to a
+						playlist with videos to get started.
 					</p>
 				) : (
 					subscribedPlaylists?.map(({playlistItem}) => (
-						<PlaylistItem buttonText="🚫" item={playlistItem} clickCallback={handleClick} />
+						<PlaylistItem
+							buttonText="🚫"
+							item={playlistItem}
+							clickCallback={handleClick}
+						/>
 					))
 				)}
 			</div>

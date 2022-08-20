@@ -1,5 +1,9 @@
 import {test, expect} from '@playwright/test';
-import {HEX_CHARACTER_CLASS, createRegExp, removeHash} from 'remove-filename-hash';
+import {
+	HEX_CHARACTER_CLASS,
+	createRegExp,
+	removeHash,
+} from 'remove-filename-hash';
 
 test('The service worker registers and precaches', async ({baseURL, page}) => {
 	await page.goto('/');
@@ -26,7 +30,12 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 					stringWithHash: url,
 					replacement: '[hash]',
 					regexps: [
-						createRegExp({characters: HEX_CHARACTER_CLASS, size: 8, before: '.', after: '.'}),
+						createRegExp({
+							characters: HEX_CHARACTER_CLASS,
+							size: 8,
+							before: '.',
+							after: '.',
+						}),
 						createRegExp({
 							characters: HEX_CHARACTER_CLASS,
 							size: 32,

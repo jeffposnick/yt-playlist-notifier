@@ -55,10 +55,13 @@ export const PlaylistSearchForm: FunctionalComponent<{
 
 	const isSubscribed = (item: PlaylistItemLike) =>
 		subscribedPlaylists?.some(
-			(subscribedItem) => getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
+			(subscribedItem) =>
+				getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
 		) || false;
 
-	const handleSubmit = async (event: JSX.TargetedEvent<HTMLFormElement, Event>) => {
+	const handleSubmit = async (
+		event: JSX.TargetedEvent<HTMLFormElement, Event>,
+	) => {
 		event.preventDefault();
 		setSearchTerm(search.current?.value || '');
 	};
@@ -96,9 +99,17 @@ export const PlaylistSearchForm: FunctionalComponent<{
 					) : (
 						asyncSearchResults.result.map((item) => {
 							return isSubscribed(item) ? (
-								<PlaylistItem buttonText="🚫" item={item} clickCallback={handleUnsubscribeClick} />
+								<PlaylistItem
+									buttonText="🚫"
+									item={item}
+									clickCallback={handleUnsubscribeClick}
+								/>
 							) : (
-								<PlaylistItem buttonText="🔔" item={item} clickCallback={handleSubscribeClick} />
+								<PlaylistItem
+									buttonText="🔔"
+									item={item}
+									clickCallback={handleSubscribeClick}
+								/>
 							);
 						})
 					))}

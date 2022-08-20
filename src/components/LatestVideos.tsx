@@ -7,7 +7,10 @@ import {PlaylistItemList} from '../lib/youtube.js';
 import {VideoItem} from './VideoItem.js';
 
 export const LatestVideos: FunctionalComponent<{
-	asyncNewestVideos: UseAsyncReturn<Array<PlaylistItemList.Item>, Array<Array<Value>>>;
+	asyncNewestVideos: UseAsyncReturn<
+		Array<PlaylistItemList.Item>,
+		Array<Array<Value>>
+	>;
 }> = ({asyncNewestVideos}) => {
 	return (
 		<>
@@ -16,8 +19,8 @@ export const LatestVideos: FunctionalComponent<{
 				{asyncNewestVideos.result &&
 					(asyncNewestVideos.result.length === 0 ? (
 						<p>
-							<a href={ROUTES.get('SEARCH')?.path}>Find and subscribe</a> to a playlist with videos
-							to get started.
+							<a href={ROUTES.get('SEARCH')?.path}>Find and subscribe</a> to a
+							playlist with videos to get started.
 						</p>
 					) : (
 						asyncNewestVideos.result.map((item) => <VideoItem item={item} />)

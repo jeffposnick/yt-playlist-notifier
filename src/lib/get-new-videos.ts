@@ -16,7 +16,9 @@ function filterNewVideos(
 		oldVideoIDs.add(item.snippet.resourceId.videoId);
 	}
 
-	return latestItems.filter((item) => !oldVideoIDs.has(item.snippet.resourceId.videoId));
+	return latestItems.filter(
+		(item) => !oldVideoIDs.has(item.snippet.resourceId.videoId),
+	);
 }
 
 export async function getNewVideos() {
