@@ -1,7 +1,7 @@
 import {defineConfig} from 'vite';
 import preact from '@preact/preset-vite';
 import {VitePWA} from 'vite-plugin-pwa';
-import markdown, {Mode} from 'vite-plugin-markdown';
+import * as markdown from 'vite-plugin-markdown';
 import postcssJitProps from 'postcss-jit-props';
 import OpenProps from 'open-props';
 
@@ -17,7 +17,7 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		markdown({mode: [Mode.REACT]}),
+		markdown.plugin({mode: [markdown.Mode.REACT]}),
 		preact(),
 		VitePWA({
 			filename: 'sw.ts',

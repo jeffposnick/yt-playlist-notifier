@@ -4,14 +4,14 @@ import {useAsync} from 'react-async-hook';
 import {useState, useEffect} from 'preact/hooks';
 import Router from 'preact-router';
 
-import {About} from './About';
-import {CurrentSubscriptions} from './CurrentSubscriptions';
-import {getNewVideos} from '../lib/get-new-videos';
-import {getSubscribedPlaylists, Value} from '../lib/idb';
-import {LatestVideos} from './LatestVideos';
-import {NUMBER_OF_LATEST_VIDEOS, ROUTES} from '../constants';
-import {PlaylistItemList} from '../lib/youtube';
-import {PlaylistSearchForm} from './PlaylistSearchForm';
+import {About} from './About.js';
+import {CurrentSubscriptions} from './CurrentSubscriptions.js';
+import {getNewVideos} from '../lib/get-new-videos.js';
+import {getSubscribedPlaylists, Value} from '../lib/idb.js';
+import {LatestVideos} from './LatestVideos.js';
+import {NUMBER_OF_LATEST_VIDEOS, ROUTES} from '../constants.js';
+import {PlaylistItemList} from '../lib/youtube.js';
+import {PlaylistSearchForm} from './PlaylistSearchForm.js';
 
 async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
 	const allVideos: Array<PlaylistItemList.Item> = [];
@@ -30,12 +30,8 @@ async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
 }
 
 export const App: FunctionalComponent = () => {
-	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
-		[],
-	);
-	const asyncNewestVideos = useAsync(loadNewestVideosFromIDB, [
-		subscribedPlaylists,
-	]);
+	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>([]);
+	const asyncNewestVideos = useAsync(loadNewestVideosFromIDB, [subscribedPlaylists]);
 
 	useEffect(() => {
 		const initData = async () => {

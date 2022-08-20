@@ -8,15 +8,15 @@ import {
 	playlistList,
 	playlistSearch,
 	PlaylistItemLike,
-} from '../lib/youtube';
+} from '../lib/youtube.js';
 import {
 	getSubscribedPlaylists,
 	removeSubscribedPlaylist,
 	setPlaylistItems,
 	Value,
-} from '../lib/idb';
-import {PlaylistItem} from './PlaylistItem';
-import {requestPermission} from '../lib/notifications';
+} from '../lib/idb.js';
+import {PlaylistItem} from './PlaylistItem.js';
+import {requestPermission} from '../lib/notifications.js';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
 	if (!searchTerm) {
@@ -55,13 +55,10 @@ export const PlaylistSearchForm: FunctionalComponent<{
 
 	const isSubscribed = (item: PlaylistItemLike) =>
 		subscribedPlaylists?.some(
-			(subscribedItem) =>
-				getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
+			(subscribedItem) => getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
 		) || false;
 
-	const handleSubmit = async (
-		event: JSX.TargetedEvent<HTMLFormElement, Event>,
-	) => {
+	const handleSubmit = async (event: JSX.TargetedEvent<HTMLFormElement, Event>) => {
 		event.preventDefault();
 		setSearchTerm(search.current?.value || '');
 	};
@@ -99,17 +96,9 @@ export const PlaylistSearchForm: FunctionalComponent<{
 					) : (
 						asyncSearchResults.result.map((item) => {
 							return isSubscribed(item) ? (
-								<PlaylistItem
-									buttonText="🚫"
-									item={item}
-									clickCallback={handleUnsubscribeClick}
-								/>
+								<PlaylistItem buttonText="🚫" item={item} clickCallback={handleUnsubscribeClick} />
 							) : (
-								<PlaylistItem
-									buttonText="🔔"
-									item={item}
-									clickCallback={handleSubscribeClick}
-								/>
+								<PlaylistItem buttonText="🔔" item={item} clickCallback={handleSubscribeClick} />
 							);
 						})
 					))}

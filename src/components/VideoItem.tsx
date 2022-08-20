@@ -1,7 +1,7 @@
 import {FunctionalComponent} from 'preact';
 
-import {decode} from '../lib/decode-html-entities';
-import {PlaylistItemList} from '../lib/youtube';
+import {decode} from '../lib/decode-html-entities.js';
+import {PlaylistItemList} from '../lib/youtube.js';
 
 export const VideoItem: FunctionalComponent<{
 	item: PlaylistItemList.Item;
@@ -29,17 +29,10 @@ export const VideoItem: FunctionalComponent<{
 					{decode(item.snippet.title)}
 				</a>
 				<div>
-					by{' '}
-					<a href={channelHref}>
-						{decode(item.snippet.videoOwnerChannelTitle)}
-					</a>
+					by <a href={channelHref}>{decode(item.snippet.videoOwnerChannelTitle)}</a>
 				</div>
 			</span>
-			<img
-				height={thumbnail.height / 3}
-				src={thumbnail.url}
-				width={thumbnail.width / 3}
-			/>
+			<img height={thumbnail.height / 3} src={thumbnail.url} width={thumbnail.width / 3} />
 		</div>
 	);
 };
