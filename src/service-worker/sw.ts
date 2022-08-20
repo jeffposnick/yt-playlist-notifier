@@ -10,15 +10,12 @@ import {createHandlerBoundToURL, precacheAndRoute} from 'workbox-precaching';
 import {registerRoute} from 'workbox-routing';
 import {StaleWhileRevalidate} from 'workbox-strategies';
 
-import {UPDATE_CHECK} from '../constants';
-import {checkForUpdates} from './updates';
+import {UPDATE_CHECK} from '../constants.js';
+import {checkForUpdates} from './updates.js';
 
 precacheAndRoute(self.__WB_MANIFEST || []);
 
-registerRoute(
-	({request}) => request.mode === 'navigate',
-	createHandlerBoundToURL('/index.html'),
-);
+registerRoute(({request}) => request.mode === 'navigate', createHandlerBoundToURL('/index.html'));
 
 registerRoute(
 	({url}) => url.origin === 'https://i.ytimg.com',

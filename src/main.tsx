@@ -6,8 +6,8 @@ if (import.meta.env.MODE === 'development') {
 import {render} from 'preact';
 
 import './index.css';
-import {App} from './components/App';
-import {initSW} from './lib/sw-helpers';
+import {App} from './components/App.js';
+import {initSW} from './lib/sw-helpers.js';
 
 render(<App />, document.getElementById('app')!);
 

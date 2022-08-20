@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {ROUTES} from '../src/constants';
+import {ROUTES} from '../src/constants.js';
 
 test('/about page renders as expected', async ({baseURL, page}) => {
 	await page.goto('/');

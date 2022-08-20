@@ -1,5 +1,5 @@
 import {get, set, values, del} from 'idb-keyval';
-import {getPlaylistID, PlaylistItemLike, PlaylistItemList} from './youtube';
+import {getPlaylistID, PlaylistItemLike, PlaylistItemList} from './youtube.js';
 
 export interface Value {
 	playlistItem: PlaylistItemLike;

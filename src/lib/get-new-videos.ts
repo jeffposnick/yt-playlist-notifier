@@ -1,11 +1,11 @@
-import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb';
+import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb.js';
 
 import {
 	getPlaylistID,
 	getPlaylistItems,
 	PlaylistItemLike,
 	PlaylistItemList,
-} from '../lib/youtube';
+} from '../lib/youtube.js';
 
 function filterNewVideos(
 	previousItems: Array<PlaylistItemList.Item>,
@@ -16,9 +16,7 @@ function filterNewVideos(
 		oldVideoIDs.add(item.snippet.resourceId.videoId);
 	}
 
-	return latestItems.filter(
-		(item) => !oldVideoIDs.has(item.snippet.resourceId.videoId),
-	);
+	return latestItems.filter((item) => !oldVideoIDs.has(item.snippet.resourceId.videoId));
 }
 
 export async function getNewVideos() {

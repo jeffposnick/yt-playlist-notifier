@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {ContentHashHelper} from '../lib/content-hash-helper';
+import {HEX_CHARACTER_CLASS, createRegExp, removeHash} from 'remove-filename-hash';
 
 test('The service worker registers and precaches', async ({baseURL, page}) => {
 	await page.goto('/');
@@ -19,9 +19,24 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 		return cacheState;
 	});
 
-	const helper = new ContentHashHelper();
 	for (const [cacheName, urls] of Object.entries(cacheContents)) {
-		cacheContents[cacheName] = urls.map((url) => helper.removeHash(url)).sort();
+		cacheContents[cacheName] = urls
+			.map((url) =>
+				removeHash({
+					stringWithHash: url,
+					replacement: '[hash]',
+					regexps: [
+						createRegExp({characters: HEX_CHARACTER_CLASS, size: 8, before: '.', after: '.'}),
+						createRegExp({
+							characters: HEX_CHARACTER_CLASS,
+							size: 32,
+							before: '__WB_REVISION__=',
+							after: '',
+						}),
+					],
+				}),
+			)
+			.sort();
 	}
 
 	expect(cacheContents).toEqual({

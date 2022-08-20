@@ -1,4 +1,4 @@
-import {UPDATE_CHECK} from '../constants';
+import {UPDATE_CHECK} from '../constants.js';
 
 interface PeriodicSyncManager {
 	register(tag: string, options?: {minInterval: number}): Promise<void>;
