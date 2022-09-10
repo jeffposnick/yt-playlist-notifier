@@ -1,7 +1,7 @@
 import {FunctionalComponent} from 'preact';
 import {Link} from 'preact-router/match';
-import {useAsync} from 'react-async-hook';
-import {useState, useEffect} from 'preact/hooks';
+import {signal, effect} from '@preact/signals';
+import {useEffect} from 'preact/hooks';
 import Router from 'preact-router';
 
 import {About} from './About.js';
@@ -30,20 +30,25 @@ async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
 }
 
 export const App: FunctionalComponent = () => {
-	const [subscribedPlaylists, setSubscribedPlaylists] = useState<Array<Value>>(
-		[],
-	);
-	const asyncNewestVideos = useAsync(loadNewestVideosFromIDB, [
-		subscribedPlaylists,
-	]);
+	const subscribedPlaylists = signal<Array<Value>>([]);
+	const newestVideos = signal<
+		Awaited<ReturnType<typeof loadNewestVideosFromIDB>>
+	>([]);
+
+	effect(async () => {
+		newestVideos.value = await loadNewestVideosFromIDB(
+			subscribedPlaylists.value,
+		);
+	});
 
 	useEffect(() => {
 		const initData = async () => {
-			const subscribedPlaylistsFromIDB = await getSubscribedPlaylists();
-			setSubscribedPlaylists(subscribedPlaylistsFromIDB);
+			subscribedPlaylists.value = await getSubscribedPlaylists();
 			const newVideosFromYT = await getNewVideos();
 			if (newVideosFromYT.length > 0) {
-				await asyncNewestVideos.execute(subscribedPlaylistsFromIDB);
+				newestVideos.value = await loadNewestVideosFromIDB(
+					subscribedPlaylists.value,
+				);
 			}
 		};
 
@@ -55,18 +60,16 @@ export const App: FunctionalComponent = () => {
 			<main>
 				<Router>
 					<LatestVideos
-						asyncNewestVideos={asyncNewestVideos}
+						newestVideos={newestVideos}
 						default
 						path={ROUTES.get('VIDEOS')?.path}
 					/>
 					<PlaylistSearchForm
 						path={ROUTES.get('SEARCH')?.path}
-						setSubscribedPlaylists={setSubscribedPlaylists}
 						subscribedPlaylists={subscribedPlaylists}
 					/>
 					<CurrentSubscriptions
 						path={ROUTES.get('SUBSCRIPTIONS')?.path}
-						setSubscribedPlaylists={setSubscribedPlaylists}
 						subscribedPlaylists={subscribedPlaylists}
 					/>
 					<About path={ROUTES.get('ABOUT')?.path} />

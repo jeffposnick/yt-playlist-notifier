@@ -1,6 +1,6 @@
 import {FunctionalComponent, JSX} from 'preact';
-import {useAsync} from 'react-async-hook';
-import {StateUpdater, useRef, useState} from 'preact/hooks';
+import {useRef} from 'preact/hooks';
+import {Signal, useSignal} from '@preact/signals';
 
 import {
 	getPlaylistID,
@@ -20,7 +20,7 @@ import {requestPermission} from '../lib/notifications.js';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
 	if (!searchTerm) {
-		return;
+		return [];
 	}
 
 	try {
@@ -42,19 +42,20 @@ const performPlaylistSearch = async (searchTerm?: string) => {
 			return results;
 		}
 	}
+
 	return await playlistSearch(searchTerm);
 };
 
 export const PlaylistSearchForm: FunctionalComponent<{
-	setSubscribedPlaylists: StateUpdater<Array<Value>>;
-	subscribedPlaylists: Array<Value>;
-}> = ({setSubscribedPlaylists, subscribedPlaylists}) => {
+	subscribedPlaylists: Signal<Array<Value>>;
+}> = ({subscribedPlaylists}) => {
 	const search = useRef<HTMLInputElement>(null);
-	const [searchTerm, setSearchTerm] = useState<string>('');
-	const asyncSearchResults = useAsync(performPlaylistSearch, [searchTerm]);
+	const searchResults = useSignal<
+		undefined | Awaited<ReturnType<typeof performPlaylistSearch>>
+	>(undefined);
 
 	const isSubscribed = (item: PlaylistItemLike) =>
-		subscribedPlaylists?.some(
+		subscribedPlaylists.value.some(
 			(subscribedItem) =>
 				getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
 		) || false;
@@ -63,21 +64,19 @@ export const PlaylistSearchForm: FunctionalComponent<{
 		event: JSX.TargetedEvent<HTMLFormElement, Event>,
 	) => {
 		event.preventDefault();
-		setSearchTerm(search.current?.value || '');
+		searchResults.value = await performPlaylistSearch(search.current?.value);
 	};
 
 	const handleUnsubscribeClick = async (item: PlaylistItemLike) => {
 		await removeSubscribedPlaylist(getPlaylistID(item));
-		const subscribedPlaylists = await getSubscribedPlaylists();
-		setSubscribedPlaylists?.(subscribedPlaylists);
+		subscribedPlaylists.value = await getSubscribedPlaylists();
 	};
 
 	const handleSubscribeClick = async (item: PlaylistItemLike) => {
 		const playlistItems = await getPlaylistItems(getPlaylistID(item));
 		await setPlaylistItems(item, playlistItems);
 		await requestPermission();
-		const subscribedPlaylists = await getSubscribedPlaylists();
-		setSubscribedPlaylists?.(subscribedPlaylists);
+		subscribedPlaylists.value = await getSubscribedPlaylists();
 	};
 
 	return (
@@ -93,31 +92,24 @@ export const PlaylistSearchForm: FunctionalComponent<{
 			</form>
 			<p>Tip: You can also search for a "PL..." ID, or playlist page URL!</p>
 			<div class="card-container">
-				{asyncSearchResults.result &&
-					(asyncSearchResults.result.length === 0 ? (
-						<p>No matching playlists found.</p>
-					) : (
-						asyncSearchResults.result.map((item) => {
-							return isSubscribed(item) ? (
-								<PlaylistItem
-									buttonText="🚫"
-									item={item}
-									clickCallback={handleUnsubscribeClick}
-								/>
-							) : (
-								<PlaylistItem
-									buttonText="🔔"
-									item={item}
-									clickCallback={handleSubscribeClick}
-								/>
-							);
-						})
-					))}
-				{asyncSearchResults.error && (
-					<>
-						<p>Could not load search results:</p>
-						<pre>{asyncSearchResults.error.message}</pre>
-					</>
+				{searchResults.value?.length === 0 ? (
+					<p>No matching playlists found.</p>
+				) : (
+					(searchResults.value || []).map((item) => {
+						return isSubscribed(item) ? (
+							<PlaylistItem
+								buttonText="🚫"
+								item={item}
+								clickCallback={handleUnsubscribeClick}
+							/>
+						) : (
+							<PlaylistItem
+								buttonText="🔔"
+								item={item}
+								clickCallback={handleSubscribeClick}
+							/>
+						);
+					})
 				)}
 			</div>
 		</>
