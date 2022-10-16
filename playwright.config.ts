@@ -1,4 +1,4 @@
-import {devices, PlaywrightTestConfig} from '@playwright/test';
+import {type PlaywrightTestConfig, devices} from '@playwright/test';
 
 const URL = 'http://localhost:3000/';
 
