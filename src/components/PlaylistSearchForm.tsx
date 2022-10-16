@@ -60,23 +60,27 @@ export const PlaylistSearchForm: FunctionalComponent<{
 				getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
 		) || false;
 
-	const handleSubmit = async (
-		event: JSX.TargetedEvent<HTMLFormElement, Event>,
-	) => {
+	const handleSubmit = (event: JSX.TargetedEvent<HTMLFormElement, Event>) => {
 		event.preventDefault();
-		searchResults.value = await performPlaylistSearch(search.current?.value);
+		void performPlaylistSearch(search.current?.value).then(
+			(value) => (searchResults.value = value),
+		);
 	};
 
-	const handleUnsubscribeClick = async (item: PlaylistItemLike) => {
-		await removeSubscribedPlaylist(getPlaylistID(item));
-		subscribedPlaylists.value = await getSubscribedPlaylists();
+	const handleUnsubscribeClick = (item: PlaylistItemLike) => {
+		void (async () => {
+			await removeSubscribedPlaylist(getPlaylistID(item));
+			subscribedPlaylists.value = await getSubscribedPlaylists();
+		})();
 	};
 
-	const handleSubscribeClick = async (item: PlaylistItemLike) => {
-		const playlistItems = await getPlaylistItems(getPlaylistID(item));
-		await setPlaylistItems(item, playlistItems);
-		await requestPermission();
-		subscribedPlaylists.value = await getSubscribedPlaylists();
+	const handleSubscribeClick = (item: PlaylistItemLike) => {
+		void (async () => {
+			const playlistItems = await getPlaylistItems(getPlaylistID(item));
+			await setPlaylistItems(item, playlistItems);
+			await requestPermission();
+			subscribedPlaylists.value = await getSubscribedPlaylists();
+		})();
 	};
 
 	return (

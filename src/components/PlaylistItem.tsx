@@ -6,7 +6,7 @@ import {getPlaylistID, PlaylistItemLike} from '../lib/youtube.js';
 export const PlaylistItem: FunctionalComponent<{
 	buttonText: string;
 	item: PlaylistItemLike;
-	clickCallback: (item: PlaylistItemLike) => Promise<void>;
+	clickCallback: (item: PlaylistItemLike) => void;
 }> = ({buttonText, item, clickCallback}) => {
 	const playlistHref = `https://www.youtube.com/playlist?list=${getPlaylistID(
 		item,

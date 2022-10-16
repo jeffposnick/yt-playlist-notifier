@@ -10,9 +10,11 @@ import {Value} from '../lib/idb.js';
 export const CurrentSubscriptions: FunctionalComponent<{
 	subscribedPlaylists: Signal<Array<Value>>;
 }> = ({subscribedPlaylists}) => {
-	const handleClick = async (item: PlaylistItemLike) => {
-		await removeSubscribedPlaylist(getPlaylistID(item));
-		subscribedPlaylists.value = await getSubscribedPlaylists();
+	const handleClick = (item: PlaylistItemLike) => {
+		void (async () => {
+			await removeSubscribedPlaylist(getPlaylistID(item));
+			subscribedPlaylists.value = await getSubscribedPlaylists();
+		})();
 	};
 
 	return (

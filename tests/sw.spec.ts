@@ -12,7 +12,7 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 		const registration = await navigator.serviceWorker.ready;
 		return registration.active?.scriptURL;
 	});
-	expect(swURL).toBe(`${baseURL}sw.js`);
+	expect(swURL).toBe(`${baseURL ?? ''}sw.js`);
 
 	const cacheContents = await page.evaluate(async () => {
 		const cacheState: Record<string, Array<string>> = {};

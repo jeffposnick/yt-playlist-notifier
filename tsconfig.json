@@ -3,7 +3,7 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "preact",
 		"lib": ["ESNext"],
-		"types": ["./markdown"]
+		"types": ["./src/types/markdown", "vite/client"]
 	},
 	"include": ["src/"],
 	"exclude": ["src/service-worker"],
