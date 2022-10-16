@@ -37,7 +37,7 @@
 	},
 	"name": "yt-playlist-notifier",
 	"scripts": {
-		"build": "tsc --noEmit --project tsconfig.json && tsc --noEmit --project src/service-worker/tsconfig.json && tsc --noEmit --project tests/tsconfig.json && vite build",
+		"build": "eslint . && tsc --noEmit --project tsconfig.json && tsc --noEmit --project src/service-worker/tsconfig.json && tsc --noEmit --project tests/tsconfig.json && vite build",
 		"deploy": "npm run build && firebase deploy",
 		"dev": "vite",
 		"lint": "eslint .",
