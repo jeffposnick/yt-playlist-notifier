@@ -18,8 +18,37 @@ module.exports = {
 			},
 		},
 		{
+			files: ['src/**/*'],
+			env: {browser: true},
+			extends: [
+				'plugin:@typescript-eslint/recommended-requiring-type-checking',
+			],
+			parserOptions: {
+				tsconfigRootDir: '.',
+				project: ['./tsconfig.json'],
+			},
+		},
+		{
 			files: ['src/service-worker/**/*'],
 			env: {serviceworker: true},
+			extends: [
+				'plugin:@typescript-eslint/recommended-requiring-type-checking',
+			],
+			parserOptions: {
+				tsconfigRootDir: '.',
+				project: ['./src/service-worker/tsconfig.json'],
+			},
+		},
+		{
+			files: ['tests/**/*'],
+			env: {node: true},
+			extends: [
+				'plugin:@typescript-eslint/recommended-requiring-type-checking',
+			],
+			parserOptions: {
+				tsconfigRootDir: '.',
+				project: ['./tests/tsconfig.json'],
+			},
 		},
 	],
 	parser: '@typescript-eslint/parser',

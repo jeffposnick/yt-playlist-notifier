@@ -13,7 +13,7 @@ import {NUMBER_OF_LATEST_VIDEOS, ROUTES} from '../constants.js';
 import {PlaylistSearchForm} from './PlaylistSearchForm.js';
 import * as PlaylistItemList from '../types/PlaylistItemList.js';
 
-async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
+function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
 	const allVideos: Array<PlaylistItemList.Item> = [];
 
 	for (const playlist of subscribedPlaylists) {
@@ -35,24 +35,18 @@ export const App: FunctionalComponent = () => {
 		Awaited<ReturnType<typeof loadNewestVideosFromIDB>>
 	>([]);
 
-	effect(async () => {
-		newestVideos.value = await loadNewestVideosFromIDB(
-			subscribedPlaylists.value,
-		);
+	effect(() => {
+		newestVideos.value = loadNewestVideosFromIDB(subscribedPlaylists.value);
 	});
 
 	useEffect(() => {
-		const initData = async () => {
+		void (async () => {
 			subscribedPlaylists.value = await getSubscribedPlaylists();
 			const newVideosFromYT = await getNewVideos();
 			if (newVideosFromYT.length > 0) {
-				newestVideos.value = await loadNewestVideosFromIDB(
-					subscribedPlaylists.value,
-				);
+				newestVideos.value = loadNewestVideosFromIDB(subscribedPlaylists.value);
 			}
-		};
-
-		initData();
+		})();
 	}, [newestVideos, subscribedPlaylists]);
 
 	return (
