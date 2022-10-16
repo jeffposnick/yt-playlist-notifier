@@ -1,7 +1,8 @@
 declare const self: ServiceWorkerGlobalScope;
 
 import {getNewVideos} from '../lib/get-new-videos.js';
-import {PlaylistItemLike, PlaylistItemList} from '../lib/youtube.js';
+import {PlaylistItemLike} from '../lib/youtube.js';
+import * as PlaylistItemList from '../types/PlaylistItemList.js';
 
 async function showNotification(
 	playlistItem: PlaylistItemLike,

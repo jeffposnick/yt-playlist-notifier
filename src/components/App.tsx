@@ -10,8 +10,8 @@ import {getNewVideos} from '../lib/get-new-videos.js';
 import {getSubscribedPlaylists, Value} from '../lib/idb.js';
 import {LatestVideos} from './LatestVideos.js';
 import {NUMBER_OF_LATEST_VIDEOS, ROUTES} from '../constants.js';
-import {PlaylistItemList} from '../lib/youtube.js';
 import {PlaylistSearchForm} from './PlaylistSearchForm.js';
+import * as PlaylistItemList from '../types/PlaylistItemList.js';
 
 async function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
 	const allVideos: Array<PlaylistItemList.Item> = [];
@@ -53,7 +53,7 @@ export const App: FunctionalComponent = () => {
 		};
 
 		initData();
-	}, []);
+	}, [newestVideos, subscribedPlaylists]);
 
 	return (
 		<>
@@ -76,9 +76,9 @@ export const App: FunctionalComponent = () => {
 				</Router>
 			</main>
 			<footer>
-				{Array.from(ROUTES.values()).map(({iconUrl, path, title}) => (
-					<Link activeClassName="active" href={path}>
-						<img class="svgIcon" src={iconUrl} alt={title}></img>
+				{Array.from(ROUTES.values()).map(({iconUrl, path, title}, id) => (
+					<Link activeClassName="active" href={path} key={id}>
+						<img class="svgIcon" src={iconUrl} alt={title} />
 					</Link>
 				))}
 			</footer>

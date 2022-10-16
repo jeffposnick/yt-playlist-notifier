@@ -1,5 +1,3 @@
-/// <reference path="../../markdown.d.ts" />
-
 import {FunctionalComponent} from 'preact';
 import {ReactComponent} from '../../README.md';
 

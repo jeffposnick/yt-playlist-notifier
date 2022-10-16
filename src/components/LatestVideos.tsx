@@ -2,8 +2,8 @@ import {FunctionalComponent} from 'preact';
 import {Signal} from '@preact/signals';
 
 import {ROUTES} from '../constants.js';
-import {PlaylistItemList} from '../lib/youtube.js';
 import {VideoItem} from './VideoItem.js';
+import * as PlaylistItemList from '../types/PlaylistItemList.js';
 
 export const LatestVideos: FunctionalComponent<{
 	newestVideos: Signal<Array<PlaylistItemList.Item>>;
@@ -18,7 +18,9 @@ export const LatestVideos: FunctionalComponent<{
 						playlist with videos to get started.
 					</p>
 				) : (
-					newestVideos.value.map((item) => <VideoItem item={item} />)
+					newestVideos.value.map((item, id) => (
+						<VideoItem item={item} key={id} />
+					))
 				)}
 			</div>
 		</>

@@ -1,10 +1,10 @@
 import {getSubscribedPlaylists, setPlaylistItems} from '../lib/idb.js';
 
+import * as PlaylistItemList from '../types/PlaylistItemList.js';
 import {
 	getPlaylistID,
 	getPlaylistItems,
 	PlaylistItemLike,
-	PlaylistItemList,
 } from '../lib/youtube.js';
 
 function filterNewVideos(

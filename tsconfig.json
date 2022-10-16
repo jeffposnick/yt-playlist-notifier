@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
-		"jsx": "preserve",
-		"jsxFactory": "h",
-		"jsxFragmentFactory": "Fragment",
-		"lib": ["ESNext"]
+		"jsx": "react-jsx",
+		"jsxImportSource": "preact",
+		"lib": ["ESNext"],
+		"types": ["./markdown"]
 	},
 	"include": ["src/"],
 	"exclude": ["src/service-worker"],
