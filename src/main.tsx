@@ -1,5 +1,4 @@
 if (import.meta.env.MODE === 'development') {
-	// @ts-ignore
 	import('preact/debug');
 }
 
@@ -9,7 +8,11 @@ import './index.css';
 import {App} from './components/App.js';
 import {initSW} from './lib/sw-helpers.js';
 
-render(<App />, document.getElementById('app')!);
+const appEl = document.getElementById('app');
+if (!appEl) {
+	throw new Error('Missing #app element in HTML.');
+}
+render(<App />, appEl);
 
 if (import.meta.env.MODE !== 'development') {
 	initSW();

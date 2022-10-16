@@ -1,7 +1,7 @@
 import {FunctionalComponent} from 'preact';
 
 import {decode} from '../lib/decode-html-entities.js';
-import {PlaylistItemList} from '../lib/youtube.js';
+import * as PlaylistItemList from '../types/PlaylistItemList.js';
 
 export const VideoItem: FunctionalComponent<{
 	item: PlaylistItemList.Item;

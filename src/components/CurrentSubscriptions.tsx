@@ -25,11 +25,12 @@ export const CurrentSubscriptions: FunctionalComponent<{
 						playlist with videos to get started.
 					</p>
 				) : (
-					subscribedPlaylists.value.map(({playlistItem}) => (
+					subscribedPlaylists.value.map(({playlistItem}, id) => (
 						<PlaylistItem
 							buttonText="🚫"
 							item={playlistItem}
 							clickCallback={handleClick}
+							key={id}
 						/>
 					))
 				)}

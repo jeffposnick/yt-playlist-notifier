@@ -24,7 +24,7 @@ export function initSW() {
 			navigator.serviceWorker.ready.then(async (registration) => {
 				if ('periodicSync' in registration) {
 					const status = await navigator.permissions.query({
-						// @ts-expect-error
+						// @ts-expect-error periodicsync is not included in the default SW interface.
 						name: 'periodic-background-sync',
 					});
 

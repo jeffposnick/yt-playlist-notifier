@@ -35,7 +35,7 @@ self.addEventListener('notificationclick', (event) => {
 	event.notification.close();
 });
 
-// @ts-expect-error
+// @ts-expect-error periodicsync is not included in the default SW interface.
 self.addEventListener('periodicsync', (event: PeriodicBackgroundSyncEvent) => {
 	if (event.tag === UPDATE_CHECK) {
 		event.waitUntil(checkForUpdates());
