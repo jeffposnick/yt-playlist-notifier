@@ -1,22 +1,15 @@
 import {FunctionalComponent, JSX} from 'preact';
-import {useRef} from 'preact/hooks';
-import {Signal, useSignal} from '@preact/signals';
+import {useQuery} from '@tanstack/react-query';
+import {useRef, useState} from 'preact/hooks';
 
 import {
 	getPlaylistID,
-	getPlaylistItems,
 	playlistList,
 	playlistSearch,
 	PlaylistItemLike,
 } from '../lib/youtube.js';
-import {
-	getSubscribedPlaylists,
-	removeSubscribedPlaylist,
-	setPlaylistItems,
-	Value,
-} from '../lib/idb.js';
+import {Value} from '../lib/idb.js';
 import {PlaylistItem} from './PlaylistItem.js';
-import {requestPermission} from '../lib/notifications.js';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
 	if (!searchTerm) {
@@ -47,40 +40,29 @@ const performPlaylistSearch = async (searchTerm?: string) => {
 };
 
 export const PlaylistSearchForm: FunctionalComponent<{
-	subscribedPlaylists: Signal<Array<Value>>;
-}> = ({subscribedPlaylists}) => {
+	handleSubscribe: (item: PlaylistItemLike) => void;
+	handleUnsubscribe: (item: PlaylistItemLike) => void;
+	subscribedPlaylists: Array<Value>;
+}> = ({handleSubscribe, handleUnsubscribe, subscribedPlaylists}) => {
+	const [query, setQuery] = useState<string>();
 	const search = useRef<HTMLInputElement>(null);
-	const searchResults = useSignal<
-		undefined | Awaited<ReturnType<typeof performPlaylistSearch>>
-	>(undefined);
+
+	const {data: searchResults} = useQuery<
+		Awaited<ReturnType<typeof performPlaylistSearch>>
+	>(['searchResults', query], () => performPlaylistSearch(query), {
+		enabled: Boolean(query),
+		initialData: [],
+	});
 
 	const isSubscribed = (item: PlaylistItemLike) =>
-		subscribedPlaylists.value.some(
+		subscribedPlaylists.some(
 			(subscribedItem) =>
 				getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
 		) || false;
 
 	const handleSubmit = (event: JSX.TargetedEvent<HTMLFormElement, Event>) => {
 		event.preventDefault();
-		void performPlaylistSearch(search.current?.value).then(
-			(value) => (searchResults.value = value),
-		);
-	};
-
-	const handleUnsubscribeClick = (item: PlaylistItemLike) => {
-		void (async () => {
-			await removeSubscribedPlaylist(getPlaylistID(item));
-			subscribedPlaylists.value = await getSubscribedPlaylists();
-		})();
-	};
-
-	const handleSubscribeClick = (item: PlaylistItemLike) => {
-		void (async () => {
-			const playlistItems = await getPlaylistItems(getPlaylistID(item));
-			await setPlaylistItems(item, playlistItems);
-			await requestPermission();
-			subscribedPlaylists.value = await getSubscribedPlaylists();
-		})();
+		setQuery(search.current?.value);
 	};
 
 	return (
@@ -96,21 +78,21 @@ export const PlaylistSearchForm: FunctionalComponent<{
 			</form>
 			<p>Tip: You can also search for a "PL..." ID, or playlist page URL!</p>
 			<div class="card-container">
-				{searchResults.value?.length === 0 ? (
+				{searchResults.length === 0 ? (
 					<p>No matching playlists found.</p>
 				) : (
-					(searchResults.value || []).map((item) => {
+					searchResults.map((item) => {
 						return isSubscribed(item) ? (
 							<PlaylistItem
 								buttonText="🚫"
 								item={item}
-								clickCallback={handleUnsubscribeClick}
+								clickCallback={handleUnsubscribe}
 							/>
 						) : (
 							<PlaylistItem
 								buttonText="🔔"
 								item={item}
-								clickCallback={handleSubscribeClick}
+								clickCallback={handleSubscribe}
 							/>
 						);
 					})
