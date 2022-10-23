@@ -22,12 +22,11 @@ async function fetchAPI<T>(
 	}
 
 	const response = await fetch(urlObj.href);
-	const json = (await response.json()) as T;
-
 	if (response.ok) {
-		return json;
+		return (await response.json()) as T;
 	}
-	throw new Error(JSON.stringify(json, null, 2));
+
+	throw new Error(`${response.status} - ${await response.text()}`);
 }
 
 export async function playlistList(playlistID: string) {

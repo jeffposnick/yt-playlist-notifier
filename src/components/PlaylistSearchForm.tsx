@@ -44,15 +44,17 @@ export const PlaylistSearchForm: FunctionalComponent<{
 	handleUnsubscribe: (item: PlaylistItemLike) => void;
 	subscribedPlaylists: Array<Value>;
 }> = ({handleSubscribe, handleUnsubscribe, subscribedPlaylists}) => {
-	const [query, setQuery] = useState<string>();
+	const [searchTerm, setSearchTerm] = useState<string>();
 	const search = useRef<HTMLInputElement>(null);
 
-	const {data: searchResults} = useQuery<
-		Awaited<ReturnType<typeof performPlaylistSearch>>
-	>(['searchResults', query], () => performPlaylistSearch(query), {
-		enabled: Boolean(query),
-		initialData: [],
-	});
+	const result = useQuery<Awaited<ReturnType<typeof performPlaylistSearch>>>(
+		['searchResults', searchTerm],
+		() => performPlaylistSearch(searchTerm),
+		{
+			enabled: Boolean(searchTerm),
+		},
+	);
+	const searchResults = result.data;
 
 	const isSubscribed = (item: PlaylistItemLike) =>
 		subscribedPlaylists.some(
@@ -62,7 +64,7 @@ export const PlaylistSearchForm: FunctionalComponent<{
 
 	const handleSubmit = (event: JSX.TargetedEvent<HTMLFormElement, Event>) => {
 		event.preventDefault();
-		setQuery(search.current?.value);
+		setSearchTerm(search.current?.value);
 	};
 
 	return (
@@ -78,10 +80,14 @@ export const PlaylistSearchForm: FunctionalComponent<{
 			</form>
 			<p>Tip: You can also search for a "PL..." ID, or playlist page URL!</p>
 			<div class="card-container">
-				{searchResults.length === 0 ? (
+				{result.isFetching && <p>Searching...</p>}
+				{result.isError && (
+					<p>Sorry, an error occurred: {(result.error as Error).message}</p>
+				)}
+				{searchResults?.length === 0 ? (
 					<p>No matching playlists found.</p>
 				) : (
-					searchResults.map((item) => {
+					searchResults?.map((item) => {
 						return isSubscribed(item) ? (
 							<PlaylistItem
 								buttonText="🚫"
