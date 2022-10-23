@@ -1,12 +1,12 @@
 import {FunctionalComponent} from 'preact';
 
 import {ROUTES} from '../constants.js';
+import {useQueries} from '../lib/use-queries.js';
 import {VideoItem} from './VideoItem.js';
-import * as PlaylistItemList from '../types/PlaylistItemList.js';
 
-export const LatestVideos: FunctionalComponent<{
-	newestVideos: Array<PlaylistItemList.Item>;
-}> = ({newestVideos}) => {
+export const LatestVideos: FunctionalComponent = () => {
+	const {newestVideos} = useQueries();
+
 	return (
 		<>
 			<h4>Videos from subscriptions:</h4>

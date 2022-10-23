@@ -2,14 +2,14 @@ import {FunctionalComponent, JSX} from 'preact';
 import {useQuery} from '@tanstack/react-query';
 import {useRef, useState} from 'preact/hooks';
 
+import {PlaylistItem} from './PlaylistItem.js';
+import {useQueries} from '../lib/use-queries.js';
 import {
 	getPlaylistID,
 	playlistList,
 	playlistSearch,
 	PlaylistItemLike,
 } from '../lib/youtube.js';
-import {Value} from '../lib/idb.js';
-import {PlaylistItem} from './PlaylistItem.js';
 
 const performPlaylistSearch = async (searchTerm?: string) => {
 	if (!searchTerm) {
@@ -39,11 +39,9 @@ const performPlaylistSearch = async (searchTerm?: string) => {
 	return await playlistSearch(searchTerm);
 };
 
-export const PlaylistSearchForm: FunctionalComponent<{
-	handleSubscribe: (item: PlaylistItemLike) => void;
-	handleUnsubscribe: (item: PlaylistItemLike) => void;
-	subscribedPlaylists: Array<Value>;
-}> = ({handleSubscribe, handleUnsubscribe, subscribedPlaylists}) => {
+export const PlaylistSearchForm: FunctionalComponent = () => {
+	const {handleSubscribe, handleUnsubscribe, subscribedPlaylists} =
+		useQueries();
 	const [searchTerm, setSearchTerm] = useState<string>();
 	const search = useRef<HTMLInputElement>(null);
 

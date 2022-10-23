@@ -1,14 +1,12 @@
 import {FunctionalComponent} from 'preact';
 
-import {PlaylistItemLike} from '../lib/youtube.js';
 import {PlaylistItem} from './PlaylistItem.js';
 import {ROUTES} from '../constants.js';
-import {Value} from '../lib/idb.js';
+import {useQueries} from '../lib/use-queries.js';
 
-export const CurrentSubscriptions: FunctionalComponent<{
-	handleUnsubscribe: (item: PlaylistItemLike) => void;
-	subscribedPlaylists: Array<Value>;
-}> = ({handleUnsubscribe, subscribedPlaylists}) => {
+export const CurrentSubscriptions: FunctionalComponent = () => {
+	const {handleUnsubscribe, subscribedPlaylists} = useQueries();
+
 	return (
 		<>
 			<h4>You're getting updates to:</h4>
