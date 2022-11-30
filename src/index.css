@@ -79,6 +79,7 @@ footer {
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-evenly;
+	padding-bottom: env(safe-area-inset-bottom);
 }
 
 footer > a {
