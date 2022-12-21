@@ -33,7 +33,7 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 						createRegExp({
 							characters: HEX_CHARACTER_CLASS,
 							size: 8,
-							before: '.',
+							before: '-',
 							after: '.',
 						}),
 						createRegExp({
@@ -50,8 +50,8 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 
 	expect(cacheContents).toEqual({
 		'workbox-precache-v2-http://localhost:3000/': [
-			'http://localhost:3000/assets/index.[hash].css',
-			'http://localhost:3000/assets/index.[hash].js',
+			'http://localhost:3000/assets/index-[hash].css',
+			'http://localhost:3000/assets/index-[hash].js',
 			'http://localhost:3000/index.html?__WB_REVISION__=[hash]',
 			'http://localhost:3000/information.svg?__WB_REVISION__=[hash]',
 			'http://localhost:3000/manifest.webmanifest?__WB_REVISION__=[hash]',
