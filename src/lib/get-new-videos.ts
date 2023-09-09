@@ -22,20 +22,22 @@ function filterNewVideos(
 }
 
 export async function getNewVideos() {
+	console.debug('getNewVideos() called');
 	const newVideos: Array<{
 		playlistItem: PlaylistItemLike;
 		video: PlaylistItemList.Item;
 	}> = [];
 	const playlists = await getSubscribedPlaylists();
-
+	console.debug({playlists: JSON.stringify(playlists)});
 	for (const {playlistItem, videos} of playlists) {
 		const latestVideos = await getPlaylistItems(getPlaylistID(playlistItem));
+		console.debug({latestVideos: JSON.stringify(latestVideos)});
 		await setPlaylistItems(playlistItem, latestVideos);
 
 		for (const video of filterNewVideos(videos, latestVideos)) {
 			newVideos.push({playlistItem, video});
 		}
 	}
-
+	console.debug({newVideos: JSON.stringify(newVideos)});
 	return newVideos;
 }

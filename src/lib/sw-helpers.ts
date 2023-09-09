@@ -35,14 +35,15 @@ export function initSW() {
 					}
 				}
 
-				if (window.matchMedia('(display-mode: standalone)').matches) {
-					document.addEventListener('visibilitychange', () => {
-						if (document.visibilityState !== 'hidden') {
-							navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
-							void registration.update();
-						}
+				document.addEventListener('visibilitychange', () => {
+					console.debug({
+						visibiltyChange: JSON.stringify(document.visibilityState),
 					});
-				}
+					if (document.visibilityState !== 'hidden') {
+						navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
+						void registration.update();
+					}
+				});
 			});
 		}
 	});
