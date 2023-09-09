@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  test:
+  lint-and-test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '20.6.1'
-          npm-version: '10.1.0'
+          cache: 'npm'
       - run: npm ci
       - run: npm run lint
       - run: npx playwright install --with-deps
