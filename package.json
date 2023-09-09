@@ -17,7 +17,6 @@
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"firebase-tools": "^12.5.3",
-		"husky": "^8.0.3",
 		"idb-keyval": "^6.2.1",
 		"open-props": "^1.5.15",
 		"parse-entities": "^4.0.1",
@@ -29,7 +28,7 @@
 		"remove-filename-hash": "^0.0.8",
 		"typescript": "~5.2.2",
 		"vite": "^4.4.9",
-		"vite-plugin-markdown": "^2.1.0",
+		"vite-plugin-markdown": "^2.2.0-2",
 		"vite-plugin-pwa": "^0.16.5",
 		"workbox-expiration": "^7.0.0",
 		"workbox-precaching": "^7.0.0",
@@ -44,12 +43,12 @@
 		"lint": "eslint .",
 		"prettier": "prettier --write .",
 		"stage": "vite build --mode staging && firebase emulators:start --project=yt-playlist-notifier",
-		"test": "playwright test",
-		"prepare": "husky install"
+		"test": "playwright test"
 	},
 	"type": "module",
 	"version": "0.0.0",
 	"volta": {
-		"node": "20.6.1"
+		"node": "20.6.1",
+		"npm": "10.1.0"
 	}
 }
