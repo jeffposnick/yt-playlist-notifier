@@ -1,6 +1,6 @@
 ### YT Playlist Notifier
 
-Have you ever to subscribe to updates to a specific playlist within a YouTube channel, instead of all the new videos in a channel? Unfortunately, YouTube doesn't support playlist subscriptions.
+Have you ever wanted to subscribe to updates to a specific playlist within a YouTube channel, instead of all the new videos in a channel? Unfortunately, YouTube doesn't support playlist subscriptions.
 
 But, YouTube has an [API](https://developers.google.com/youtube/v3)...
 
