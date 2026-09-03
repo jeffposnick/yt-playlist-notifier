@@ -16,11 +16,28 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run lint
-      - run: npx playwright install --with-deps
-      - run: npm run test
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+      - name: Install browsers and system dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+      - name: Install OS dependencies for browsers
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
+      - name: Run Playwright tests
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npm run test -- --project=chromium
+          else
+            npm run test
+          fi
       - uses: actions/upload-artifact@v7
-        if: always()
+        if: ${{ !cancelled() }}
         with:
           name: playwright-report
           path: playwright-report/
-          retention-days: 30
+          retention-days: 14
