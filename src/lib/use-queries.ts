@@ -1,6 +1,7 @@
+import {useEffect} from 'preact/hooks';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 
-import {NUMBER_OF_LATEST_VIDEOS} from '../constants.js';
+import {NUMBER_OF_LATEST_VIDEOS, VIDEOS_UPDATED} from '../constants.js';
 import {requestPermission} from './notifications.js';
 import * as PlaylistItemList from '../types/PlaylistItemList.js';
 import {
@@ -29,6 +30,23 @@ function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
 
 export function useQueries() {
 	const queryClient = useQueryClient();
+
+	useEffect(() => {
+		if (!('serviceWorker' in navigator)) {
+			return;
+		}
+
+		const handleMessage = (event: MessageEvent) => {
+			if (event.data === VIDEOS_UPDATED) {
+				void queryClient.invalidateQueries(['subscribedPlaylists']);
+			}
+		};
+
+		navigator.serviceWorker.addEventListener('message', handleMessage);
+		return () => {
+			navigator.serviceWorker.removeEventListener('message', handleMessage);
+		};
+	}, [queryClient]);
 
 	const {data: subscribedPlaylists} = useQuery<Array<Value>>(
 		['subscribedPlaylists'],

@@ -35,11 +35,19 @@ export function initSW() {
 					}
 				}
 
+				const requestUpdateCheck = () => {
+					navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
+					void registration.update();
+				};
+
+				// Check for updates on every launch, not just when an already-open
+				// standalone app is brought back to the foreground.
+				requestUpdateCheck();
+
 				if (window.matchMedia('(display-mode: standalone)').matches) {
 					document.addEventListener('visibilitychange', () => {
 						if (document.visibilityState !== 'hidden') {
-							navigator.serviceWorker.controller?.postMessage(UPDATE_CHECK);
-							void registration.update();
+							requestUpdateCheck();
 						}
 					});
 				}

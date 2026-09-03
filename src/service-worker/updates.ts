@@ -3,6 +3,7 @@ declare const self: ServiceWorkerGlobalScope;
 import {getNewVideos} from '../lib/get-new-videos.js';
 import {PlaylistItemLike} from '../lib/youtube.js';
 import * as PlaylistItemList from '../types/PlaylistItemList.js';
+import {VIDEOS_UPDATED} from '../constants.js';
 
 async function showNotification(
 	playlistItem: PlaylistItemLike,
@@ -19,5 +20,10 @@ export async function checkForUpdates() {
 	const newVideos = await getNewVideos();
 	for (const {playlistItem, video} of newVideos) {
 		await showNotification(playlistItem, video);
+	}
+
+	const clients = await self.clients.matchAll();
+	for (const client of clients) {
+		client.postMessage(VIDEOS_UPDATED);
 	}
 }
