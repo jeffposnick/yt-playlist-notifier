@@ -59,9 +59,7 @@ test.describe('playlist search', () => {
 		await expect(page.locator('.card .title')).toHaveText(
 			'Directly found playlist',
 		);
-		expect(mock.requests.some((url) => url.includes('/playlists?'))).toBe(
-			true,
-		);
+		expect(mock.requests.some((url) => url.includes('/playlists?'))).toBe(true);
 		expect(mock.requests.some((url) => url.includes('/search?'))).toBe(false);
 	});
 
@@ -89,9 +87,7 @@ test.describe('playlist search', () => {
 		const playlistsRequest = mock.requests.find((url) =>
 			url.includes('/playlists?'),
 		);
-		expect(playlistsRequest).toContain(
-			'id=PLdirectlookup00000000000001',
-		);
+		expect(playlistsRequest).toContain('id=PLdirectlookup00000000000001');
 	});
 
 	test('falls back to keyword search when a direct ID lookup finds nothing', async ({
@@ -109,9 +105,7 @@ test.describe('playlist search', () => {
 		await expect(page.locator('.card .title')).toHaveText(
 			'Fallback search result',
 		);
-		expect(mock.requests.some((url) => url.includes('/playlists?'))).toBe(
-			true,
-		);
+		expect(mock.requests.some((url) => url.includes('/playlists?'))).toBe(true);
 		expect(mock.requests.some((url) => url.includes('/search?'))).toBe(true);
 	});
 
@@ -122,7 +116,9 @@ test.describe('playlist search', () => {
 		await page.locator('#playlist-search').fill('no results for this');
 		await page.getByRole('button', {name: 'Search'}).click();
 
-		await expect(page.locator('text=No matching playlists found.')).toBeVisible();
+		await expect(
+			page.locator('text=No matching playlists found.'),
+		).toBeVisible();
 		await expect(page.locator('.card')).toHaveCount(0);
 	});
 

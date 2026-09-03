@@ -86,12 +86,14 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
 					searchResults?.map((item) => {
 						return isSubscribed(item) ? (
 							<PlaylistItem
+								key={getPlaylistID(item)}
 								buttonText="🚫"
 								item={item}
 								clickCallback={handleUnsubscribe}
 							/>
 						) : (
 							<PlaylistItem
+								key={getPlaylistID(item)}
 								buttonText="🔔"
 								item={item}
 								clickCallback={handleSubscribe}

@@ -29,7 +29,7 @@ test('shows the newest videos first and caps the list at the display limit', asy
 	};
 
 	await page.goto('/');
-	await seedSubscriptions(page, {'PLmanyvideos00000000000001': value});
+	await seedSubscriptions(page, {PLmanyvideos00000000000001: value});
 	await page.reload();
 
 	const titles = page.locator('.card .title');
@@ -81,8 +81,8 @@ test('merges videos from multiple subscriptions into one date-sorted list', asyn
 
 	await page.goto('/');
 	await seedSubscriptions(page, {
-		'PLplaylistA0000000000000001': playlistA,
-		'PLplaylistB0000000000000002': playlistB,
+		PLplaylistA0000000000000001: playlistA,
+		PLplaylistB0000000000000002: playlistB,
 	});
 	await page.reload();
 
@@ -118,7 +118,7 @@ test('skips videos that are missing fields required for rendering', async ({
 	};
 
 	await page.goto('/');
-	await seedSubscriptions(page, {'PLincomplete0000000000000001': value});
+	await seedSubscriptions(page, {PLincomplete0000000000000001: value});
 	await page.reload();
 
 	const titles = page.locator('.card .title');

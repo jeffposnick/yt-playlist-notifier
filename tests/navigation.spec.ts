@@ -25,17 +25,15 @@ test.describe('primary navigation', () => {
 		const searchTitle = ROUTES.get('SEARCH')?.title ?? '';
 		const videosTitle = ROUTES.get('VIDEOS')?.title ?? '';
 
-		await expect(
-			page.locator(`a:has(img[alt="${searchTitle}"])`),
-		).toHaveClass(/active/);
+		await expect(page.locator(`a:has(img[alt="${searchTitle}"])`)).toHaveClass(
+			/active/,
+		);
 		await expect(
 			page.locator(`a:has(img[alt="${videosTitle}"])`),
 		).not.toHaveClass(/active/);
 	});
 
-	test('deep-linking directly to a route renders that view', async ({
-		page,
-	}) => {
+	test('deep-linking directly to a route renders that view', async ({page}) => {
 		await page.goto('/subscriptions');
 		await expect(page.locator('h4')).toHaveText("You're getting updates to:");
 

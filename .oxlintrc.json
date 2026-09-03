@@ -1,0 +1,41 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["typescript", "unicorn", "oxc", "react"],
+	"categories": {
+		"correctness": "error"
+	},
+	"env": {
+		"builtin": true
+	},
+	"settings": {
+		"react": {
+			"version": "18"
+		}
+	},
+	"overrides": [
+		{
+			"files": ["*.config.{js,ts}"],
+			"env": {
+				"node": true
+			}
+		},
+		{
+			"files": ["src/**/*"],
+			"env": {
+				"browser": true
+			}
+		},
+		{
+			"files": ["src/service-worker/**/*"],
+			"env": {
+				"serviceworker": true
+			}
+		},
+		{
+			"files": ["tests/**/*"],
+			"env": {
+				"node": true
+			}
+		}
+	]
+}

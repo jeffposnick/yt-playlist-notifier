@@ -33,7 +33,9 @@ export async function seedSubscriptions(
 						resolve();
 					};
 					tx.onerror = () =>
-						reject(new Error(tx.error?.message ?? 'IndexedDB transaction failed'));
+						reject(
+							new Error(tx.error?.message ?? 'IndexedDB transaction failed'),
+						);
 				};
 				request.onerror = () =>
 					reject(new Error(request.error?.message ?? 'IndexedDB open failed'));

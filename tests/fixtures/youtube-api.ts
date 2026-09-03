@@ -107,8 +107,10 @@ export function makePlaylistItemListItem(
 				kind: 'youtube#video',
 				videoId,
 			},
-			videoOwnerChannelTitle: overrides.videoOwnerChannelTitle ?? 'Video Channel',
-			videoOwnerChannelId: overrides.videoOwnerChannelId ?? 'UCchannel00000000000000003',
+			videoOwnerChannelTitle:
+				overrides.videoOwnerChannelTitle ?? 'Video Channel',
+			videoOwnerChannelId:
+				overrides.videoOwnerChannelId ?? 'UCchannel00000000000000003',
 		},
 	};
 }
