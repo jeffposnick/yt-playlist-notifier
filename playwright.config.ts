@@ -7,8 +7,14 @@ const URL = 'http://localhost:3000/';
  */
 const config: PlaywrightTestConfig = {
 	testDir: './tests',
-	/* Maximum time one test can run for. */
-	timeout: 5 * 1000,
+	/*
+	 * Maximum time one test can run for, including fixture setup (e.g.
+	 * browser/page launch). CI runs single-worker, so by the time WebKit's
+	 * first test launches, dozens of Chromium/Firefox tests have already run
+	 * and the runner is under more CPU/memory pressure than a local machine,
+	 * so give it more headroom there.
+	 */
+	timeout: (process.env.CI ? 20 : 5) * 1000,
 	expect: {
 		/**
 		 * Maximum time expect() should wait for the condition to be met.
