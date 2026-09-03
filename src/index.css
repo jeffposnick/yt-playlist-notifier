@@ -18,6 +18,7 @@ main {
 
 .card-container {
 	align-items: flex-start;
+	container-type: inline-size;
 	display: flex;
 	flex-direction: column;
 	gap: var(--size-5);
@@ -33,12 +34,23 @@ main {
 	border-radius: var(--radius-3);
 	border: var(--border-size-1) solid var(--surface-4);
 	box-shadow: var(--shadow-2);
+	content-visibility: auto;
+	contain-intrinsic-size: auto 96px;
 	display: flex;
 	flex-direction: row;
 	gap: var(--size-2);
 	justify-content: space-between;
 	padding: var(--size-4);
 	width: 100%;
+}
+
+/* Stack title/actions instead of a cramped row once the container (not the
+   viewport) gets narrow, e.g. a small phone or a future sidebar placement. */
+@container (max-width: 380px) {
+	.card {
+		align-items: flex-start;
+		flex-direction: column;
+	}
 }
 
 .card .title {
@@ -97,11 +109,11 @@ footer > a.active {
 
 :where(button) {
 	--_text: inherit;
-	--_bg: white;
+	--_bg: light-dark(white, var(--surface-3));
 	--_border: var(--surface-3);
 	--_highlight-size: 0;
-	--_highlight-color: hsl(210 11% 71% / 25%);
-	--_ink-shadow: 0 1px 0 var(--gray-3);
+	--_highlight-color: light-dark(hsl(210 11% 71% / 25%), hsl(210 10% 5% / 25%));
+	--_ink-shadow: 0 1px 0 light-dark(var(--gray-3), var(--surface-1));
 	--_icon-size: var(--size-4);
 	--_icon-color: var(--link);
 
@@ -144,9 +156,22 @@ footer > a.active {
 	--_text: var(--link);
 }
 
+:where(
+	button[type='submit'],
+	form button:not([type='button']),
+	button[type='reset']
+) {
+	--_bg: light-dark(white, var(--surface-1));
+}
+
+:where(button[type='reset']) {
+	--_text: light-dark(currentColor, var(--red-2));
+	--_border: light-dark(var(--surface-3), var(--surface-2));
+}
+
 :where(button[disabled]) {
-	--_bg: none;
-	--_text: var(--gray-6);
+	--_bg: light-dark(transparent, var(--surface-1));
+	--_text: light-dark(var(--gray-6), var(--gray-5));
 	cursor: not-allowed;
 	box-shadow: var(--shadow-1);
 }
@@ -173,29 +198,9 @@ footer > a.active {
 	}
 }
 
+/* `filter` isn't a <color>, so it can't be expressed with light-dark() like
+   the rest of the button theming above. */
 @media (prefers-color-scheme: dark) {
-	:where(button) {
-		--_highlight-color: hsl(210 10% 5% / 25%);
-		--_bg: var(--surface-3);
-		--_ink-shadow: 0 1px 0 var(--surface-1);
-	}
-
-	:where(button[type='reset']) {
-		--_text: var(--red-2);
-		--_border: var(--surface-2);
-	}
-
-	:where(button[disabled]) {
-		--_text: var(--gray-5);
-	}
-
-	:where(button[type='submit']),
-	:where(form button:not([type='button'])),
-	:where(button[type='reset']),
-	:where(button[disabled]) {
-		--_bg: var(--surface-1);
-	}
-
 	.svgIcon {
 		filter: invert(100%);
 	}
