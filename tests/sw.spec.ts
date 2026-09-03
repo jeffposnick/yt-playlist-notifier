@@ -1,5 +1,6 @@
 import {test, expect} from '@playwright/test';
 import {
+	BASE64_URL_CHARACTER_CLASS,
 	HEX_CHARACTER_CLASS,
 	createRegExp,
 	removeHash,
@@ -31,7 +32,7 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 					replacement: '[hash]',
 					regexps: [
 						createRegExp({
-							characters: HEX_CHARACTER_CLASS,
+							characters: BASE64_URL_CHARACTER_CLASS,
 							size: 8,
 							before: '-',
 							after: '.',

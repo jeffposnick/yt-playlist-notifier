@@ -1,9 +1,34 @@
+import type {Plugin} from 'vite';
 import {defineConfig} from 'vite';
 import preact from '@preact/preset-vite';
 import {VitePWA} from 'vite-plugin-pwa';
-import * as markdown from 'vite-plugin-markdown';
+import {marked} from 'marked';
 import postcssJitProps from 'postcss-jit-props';
 import OpenProps from 'open-props';
+
+// Renders imported `.md` files into a Preact `ReactComponent`, matching the
+// `import {ReactComponent} from './some.md';` shape that About.tsx expects.
+function markdown(): Plugin {
+	return {
+		name: 'markdown-to-preact',
+		transform(code, id) {
+			if (!id.endsWith('.md')) {
+				return;
+			}
+
+			const html = marked.parse(code, {async: false});
+			return {
+				code: `import {h} from 'preact';
+const html = ${JSON.stringify(html)};
+export function ReactComponent() {
+	return h('div', {dangerouslySetInnerHTML: {__html: html}});
+}
+`,
+				map: null,
+			};
+		},
+	};
+}
 
 export default defineConfig(({mode}) => {
 	if (mode === 'staging') {
@@ -21,7 +46,7 @@ export default defineConfig(({mode}) => {
 			},
 		},
 		plugins: [
-			markdown.plugin({mode: [markdown.Mode.REACT]}),
+			markdown(),
 			preact(),
 			VitePWA({
 				filename: 'sw.ts',
@@ -56,8 +81,5 @@ export default defineConfig(({mode}) => {
 				strategies: 'injectManifest',
 			}),
 		],
-		esbuild: {
-			logOverride: {'this-is-undefined-in-esm': 'silent'},
-		},
 	};
 });

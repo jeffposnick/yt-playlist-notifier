@@ -25,7 +25,7 @@ const performPlaylistSearch = async (searchTerm?: string) => {
 				return results;
 			}
 		}
-	} catch (error: unknown) {
+	} catch {
 		// no-op
 	}
 
@@ -45,13 +45,11 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
 	const [searchTerm, setSearchTerm] = useState<string>();
 	const search = useRef<HTMLInputElement>(null);
 
-	const result = useQuery<Awaited<ReturnType<typeof performPlaylistSearch>>>(
-		['searchResults', searchTerm],
-		() => performPlaylistSearch(searchTerm),
-		{
-			enabled: Boolean(searchTerm),
-		},
-	);
+	const result = useQuery<Awaited<ReturnType<typeof performPlaylistSearch>>>({
+		queryKey: ['searchResults', searchTerm],
+		queryFn: () => performPlaylistSearch(searchTerm),
+		enabled: Boolean(searchTerm),
+	});
 	const searchResults = result.data;
 
 	const isSubscribed = (item: PlaylistItemLike) =>
@@ -80,7 +78,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
 			<div class="card-container">
 				{result.isFetching && <p>Searching...</p>}
 				{result.isError && (
-					<p>Sorry, an error occurred: {(result.error as Error).message}</p>
+					<p>Sorry, an error occurred: {result.error.message}</p>
 				)}
 				{searchResults?.length === 0 ? (
 					<p>No matching playlists found.</p>

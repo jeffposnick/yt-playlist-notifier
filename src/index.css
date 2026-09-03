@@ -108,7 +108,9 @@ footer > a.active {
 	background: var(--_bg);
 	color: var(--_text);
 	border: var(--border-size-2) solid var(--_border);
-	box-shadow: var(--shadow-2), 0 1px var(--surface-3),
+	box-shadow:
+		var(--shadow-2),
+		0 1px var(--surface-3),
 		0 0 0 var(--_highlight-size) var(--_highlight-color);
 	text-shadow: var(--_ink-shadow);
 
@@ -128,7 +130,8 @@ footer > a.active {
 
 @media (prefers-reduced-motion: no-preference) {
 	:where(button) {
-		transition: border-color 0.5s var(--ease-3) 3s,
+		transition:
+			border-color 0.5s var(--ease-3) 3s,
 			box-shadow 0.5s var(--ease-elastic-3);
 	}
 }
@@ -159,8 +162,11 @@ footer > a.active {
 		--_highlight-size: var(--size-2);
 	}
 
-	:where(button[type='submit'], button[type='reset'], form
-			button:not([type])):active:not([disabled]) {
+	:where(
+			button[type='submit'],
+			button[type='reset'],
+			form button:not([type])
+		):active:not([disabled]) {
 		--_border: currentColor;
 		transition-delay: 0s;
 		transition-duration: 0.1s;

@@ -12,11 +12,18 @@ export const App: FunctionalComponent = () => {
 		<QueryClientProvider client={queryClient}>
 			<Main />
 			<footer>
-				{Array.from(ROUTES.values()).map(({iconUrl, path, title}, id) => (
-					<Link activeClassName="active" href={path} key={id}>
-						<img class="svgIcon" src={iconUrl} alt={title} />
-					</Link>
-				))}
+				{Array.from(ROUTES.values()).map(({iconUrl, path, title}, id) => {
+					// preact-router's `LinkProps` type doesn't include `href`, even
+					// though it's forwarded to the underlying anchor element. Passing
+					// it via a spread (rather than inline) sidesteps the excess
+					// property check.
+					const linkProps = {activeClassName: 'active', href: path};
+					return (
+						<Link {...linkProps} key={id}>
+							<img class="svgIcon" src={iconUrl} alt={title} />
+						</Link>
+					);
+				})}
 			</footer>
 		</QueryClientProvider>
 	);

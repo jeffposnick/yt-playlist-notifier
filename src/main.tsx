@@ -1,5 +1,5 @@
 if (import.meta.env.MODE === 'development') {
-	import('preact/debug');
+	void import('preact/debug');
 }
 
 import {render} from 'preact';

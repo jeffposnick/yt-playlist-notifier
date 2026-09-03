@@ -6,15 +6,13 @@ import * as PlaylistItemList from '../types/PlaylistItemList.js';
 export const VideoItem: FunctionalComponent<{
 	item: PlaylistItemList.Item;
 }> = ({item}) => {
-	if (
-		!(
-			item.snippet.title &&
-			item.snippet.videoOwnerChannelId &&
-			item.snippet.videoOwnerChannelTitle &&
-			item.snippet.thumbnails.medium &&
-			item.snippet.thumbnails.medium.url
-		)
-	) {
+	if (!(
+		item.snippet.title &&
+		item.snippet.videoOwnerChannelId &&
+		item.snippet.videoOwnerChannelTitle &&
+		item.snippet.thumbnails.medium &&
+		item.snippet.thumbnails.medium.url
+	)) {
 		return null;
 	}
 

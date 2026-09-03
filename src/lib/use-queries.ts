@@ -38,7 +38,7 @@ export function useQueries() {
 
 		const handleMessage = (event: MessageEvent) => {
 			if (event.data === VIDEOS_UPDATED) {
-				void queryClient.invalidateQueries(['subscribedPlaylists']);
+				void queryClient.invalidateQueries({queryKey: ['subscribedPlaylists']});
 			}
 		};
 
@@ -48,30 +48,32 @@ export function useQueries() {
 		};
 	}, [queryClient]);
 
-	const {data: subscribedPlaylists} = useQuery<Array<Value>>(
-		['subscribedPlaylists'],
-		() => getSubscribedPlaylists(),
-		{initialData: []},
-	);
-
-	const {data: newestVideos} = useQuery<Array<PlaylistItemList.Item>>(
-		['newestVideos', ...subscribedPlaylists],
-		() => loadNewestVideosFromIDB(subscribedPlaylists),
-		{
-			initialData: [],
-		},
-	);
-
-	const unsubscribeMutation = useMutation(async (item: PlaylistItemLike) => {
-		await removeSubscribedPlaylist(getPlaylistID(item));
-		await queryClient.invalidateQueries(['subscribedPlaylists']);
+	const {data: subscribedPlaylists} = useQuery<Array<Value>>({
+		queryKey: ['subscribedPlaylists'],
+		queryFn: () => getSubscribedPlaylists(),
+		initialData: [],
 	});
 
-	const subscribeMutation = useMutation(async (item: PlaylistItemLike) => {
-		const playlistItems = await getPlaylistItems(getPlaylistID(item));
-		await setPlaylistItems(item, playlistItems);
-		await queryClient.invalidateQueries(['subscribedPlaylists']);
-		await requestPermission();
+	const {data: newestVideos} = useQuery<Array<PlaylistItemList.Item>>({
+		queryKey: ['newestVideos', ...subscribedPlaylists],
+		queryFn: () => loadNewestVideosFromIDB(subscribedPlaylists),
+		initialData: [],
+	});
+
+	const unsubscribeMutation = useMutation({
+		mutationFn: async (item: PlaylistItemLike) => {
+			await removeSubscribedPlaylist(getPlaylistID(item));
+			await queryClient.invalidateQueries({queryKey: ['subscribedPlaylists']});
+		},
+	});
+
+	const subscribeMutation = useMutation({
+		mutationFn: async (item: PlaylistItemLike) => {
+			const playlistItems = await getPlaylistItems(getPlaylistID(item));
+			await setPlaylistItems(item, playlistItems);
+			await queryClient.invalidateQueries({queryKey: ['subscribedPlaylists']});
+			await requestPermission();
+		},
 	});
 
 	const handleUnsubscribe = (item: PlaylistItemLike) => {
