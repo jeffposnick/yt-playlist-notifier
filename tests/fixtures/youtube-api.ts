@@ -51,6 +51,39 @@ export function makePlaylistSearchItem(
 	};
 }
 
+/**
+ * Simulates a quirk of the search endpoint: despite passing `type=playlist`,
+ * it can still return a bare channel result (e.g. when the query exactly
+ * matches a channel's name). This has no `playlistId`, and should be
+ * filtered out before reaching the UI.
+ */
+export function makeChannelSearchItem(
+	overrides: {
+		channelId?: string;
+		title?: string;
+	} = {},
+): PlaylistSearch.Item {
+	const channelId = overrides.channelId ?? 'UCchannel00000000000000004';
+	return {
+		kind: 'youtube#searchResult',
+		etag: 'etag-search-channel',
+		id: {
+			kind: 'youtube#channel',
+			channelId,
+		} as unknown as PlaylistSearch.ID,
+		snippet: {
+			publishedAt: new Date('2024-01-01T00:00:00Z'),
+			channelId,
+			title: overrides.title ?? 'Search Result Channel',
+			description: "Well done! You've found the channel.",
+			thumbnails: thumbnailSet(channelId),
+			channelTitle: overrides.title ?? 'Search Result Channel',
+			liveBroadcastContent: 'none',
+			publishTime: new Date('2024-01-01T00:00:00Z'),
+		},
+	};
+}
+
 export function makePlaylistListItem(
 	overrides: {
 		playlistId?: string;
