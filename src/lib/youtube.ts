@@ -41,7 +41,10 @@ export async function playlistSearch(searchTerm: string) {
 		q: searchTerm,
 		type: 'playlist',
 	});
-	return results.items;
+	// Despite the `type: 'playlist'` param above, the API can still return a
+	// bare channel result (e.g. when the query exactly matches a channel's
+	// name), which has no `playlistId` and can't be subscribed to.
+	return results.items.filter((item) => item.id.kind === 'youtube#playlist');
 }
 
 export async function getPlaylistItems(playlistID: string) {

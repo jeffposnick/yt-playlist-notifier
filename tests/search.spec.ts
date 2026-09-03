@@ -1,6 +1,7 @@
 import {test, expect} from '@playwright/test';
 
 import {
+	makeChannelSearchItem,
 	makePlaylistListItem,
 	makePlaylistSearchItem,
 	mockYouTubeAPI,
@@ -139,6 +140,29 @@ test.describe('playlist search', () => {
 		await expect(
 			page.locator('text=Sorry, an error occurred: 500 - Quota exceeded'),
 		).toBeVisible({timeout: 25000});
+	});
+
+	test('filters out a bare channel result mixed into the search response', async ({
+		page,
+	}) => {
+		await mockYouTubeAPI(page, {
+			search: [
+				makeChannelSearchItem({title: 'Taskmaster'}),
+				makePlaylistSearchItem({
+					title: 'Taskmaster - Full Episodes',
+					channelTitle: 'Taskmaster',
+				}),
+			],
+		});
+
+		await page.goto('/search');
+		await page.locator('#playlist-search').fill('Taskmaster');
+		await page.getByRole('button', {name: 'Search'}).click();
+
+		await expect(page.locator('.card')).toHaveCount(1);
+		await expect(page.locator('.card .title')).toHaveText(
+			'Taskmaster - Full Episodes',
+		);
 	});
 
 	test('decodes HTML entities in playlist titles and channel names', async ({
