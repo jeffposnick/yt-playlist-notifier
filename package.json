@@ -53,7 +53,13 @@
 	"type": "module",
 	"version": "0.0.0",
 	"volta": {
-		"node": "20.6.1",
-		"npm": "10.1.0"
+		"node": "24.20.0"
+	},
+	"allowScripts": {
+		"esbuild@0.18.20": true,
+		"protobufjs@7.2.4": true,
+		"protobufjs@7.6.6": true,
+		"fsevents@2.3.2": true,
+		"fsevents@2.3.3": true
 	}
 }
