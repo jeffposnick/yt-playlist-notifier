@@ -4,10 +4,13 @@ interface PeriodicBackgroundSyncEvent extends ExtendableEvent {
 	tag: string;
 }
 
-import {ExpirationPlugin} from 'workbox-expiration';
-import {createHandlerBoundToURL, precacheAndRoute} from 'workbox-precaching';
-import {registerRoute} from 'workbox-routing';
-import {StaleWhileRevalidate} from 'workbox-strategies';
+import {ExpirationPlugin} from '@vite-pwa/workbox-swkit/expiration';
+import {
+	createHandlerBoundToURL,
+	precacheAndRoute,
+} from '@vite-pwa/workbox-swkit/precaching';
+import {registerRoute} from '@vite-pwa/workbox-swkit/routing';
+import {StaleWhileRevalidate} from '@vite-pwa/workbox-swkit/strategies';
 
 import {UPDATE_CHECK} from '../constants.js';
 import {checkForUpdates} from './updates.js';

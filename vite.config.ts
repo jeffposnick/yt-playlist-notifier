@@ -1,6 +1,6 @@
 import {defineConfig} from 'vite';
 import preact from '@preact/preset-vite';
-import {VitePWA} from 'vite-plugin-pwa';
+import {VitePWA} from '@unplugin-pwa/vite';
 
 export default defineConfig(({mode}) => {
 	if (mode === 'staging') {
@@ -15,7 +15,9 @@ export default defineConfig(({mode}) => {
 		plugins: [
 			preact(),
 			VitePWA({
-				filename: 'sw.ts',
+				buildSW: {
+					swSrc: 'src/service-worker/sw.ts',
+				},
 				includeManifestIcons: false,
 				injectRegister: false,
 				manifest: {
@@ -42,8 +44,7 @@ export default defineConfig(({mode}) => {
 						},
 					],
 				},
-				srcDir: 'src/service-worker',
-				strategies: 'injectManifest',
+				strategies: 'buildSW',
 			}),
 		],
 	};
