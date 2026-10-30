@@ -32,7 +32,7 @@ test('shows the newest videos first and caps the list at the display limit', asy
 	await seedSubscriptions(page, {PLmanyvideos00000000000001: value});
 	await page.reload();
 
-	const titles = page.locator('.card .title');
+	const titles = page.locator('.video-card .title');
 	await expect(titles).toHaveCount(NUMBER_OF_LATEST_VIDEOS);
 	// Newest (highest index/date) is first, oldest shown is last.
 	await expect(titles.first()).toHaveText(`Episode ${totalVideos - 1}`);
@@ -86,7 +86,7 @@ test('merges videos from multiple subscriptions into one date-sorted list', asyn
 	});
 	await page.reload();
 
-	const titles = page.locator('.card .title');
+	const titles = page.locator('.video-card .title');
 	await expect(titles).toHaveCount(3);
 	await expect(titles.nth(0)).toHaveText('A: new video');
 	await expect(titles.nth(1)).toHaveText('B: middle video');
@@ -121,7 +121,7 @@ test('skips videos that are missing fields required for rendering', async ({
 	await seedSubscriptions(page, {PLincomplete0000000000000001: value});
 	await page.reload();
 
-	const titles = page.locator('.card .title');
+	const titles = page.locator('.video-card .title');
 	await expect(titles).toHaveCount(1);
 	await expect(titles.first()).toHaveText('Complete video');
 });
@@ -130,4 +130,94 @@ test('the empty videos state links to the search page', async ({page}) => {
 	await page.goto('/');
 	const link = page.getByRole('link', {name: 'Find and subscribe'});
 	await expect(link).toHaveAttribute('href', '/search');
+});
+
+test('the playlist chips filter the videos to one playlist', async ({page}) => {
+	const makeValue = (
+		playlistId: string,
+		title: string,
+		dates: Array<string>,
+	) => ({
+		playlistItem: makePlaylistListItem({playlistId, title}),
+		videos: dates.map((publishedAt, index) =>
+			makePlaylistItemListItem({
+				playlistId,
+				videoId: `${playlistId}-${index}`,
+				title: `${title} video ${index}`,
+				publishedAt,
+			}),
+		),
+	});
+
+	await page.goto('/');
+	await seedSubscriptions(page, {
+		PLchipsA00000000000000000001: makeValue(
+			'PLchipsA00000000000000000001',
+			'Cooking',
+			['2024-01-01T00:00:00Z', '2024-03-01T00:00:00Z'],
+		),
+		PLchipsB00000000000000000002: makeValue(
+			'PLchipsB00000000000000000002',
+			'Woodworking',
+			['2024-02-01T00:00:00Z'],
+		),
+	});
+	await page.reload();
+
+	const titles = page.locator('.video-card .title');
+	await expect(titles).toHaveCount(3);
+	// Each video names the playlist it came from in the unfiltered view.
+	await expect(page.locator('.video-card').first()).toContainText('Cooking');
+
+	const chips = page.getByRole('group', {name: 'Filter by playlist'});
+	await chips.getByRole('button', {name: 'Woodworking'}).click();
+	await expect(titles).toHaveCount(1);
+	await expect(titles.first()).toHaveText('Woodworking video 0');
+	await expect(
+		chips.getByRole('button', {name: 'Woodworking'}),
+	).toHaveAttribute('aria-pressed', 'true');
+
+	await chips.getByRole('button', {name: 'All'}).click();
+	await expect(titles).toHaveCount(3);
+});
+
+test('videos added since the previous visit are marked as new', async ({
+	page,
+}) => {
+	const value: Value = {
+		playlistItem: makePlaylistListItem({
+			playlistId: 'PLnewbadge00000000000000001',
+		}),
+		videos: [
+			makePlaylistItemListItem({
+				playlistId: 'PLnewbadge00000000000000001',
+				videoId: 'before',
+				title: 'Seen before',
+				publishedAt: '2024-01-01T00:00:00Z',
+			}),
+			makePlaylistItemListItem({
+				playlistId: 'PLnewbadge00000000000000001',
+				videoId: 'after',
+				title: 'Added since',
+				publishedAt: '2024-06-01T00:00:00Z',
+			}),
+		],
+	};
+
+	await page.goto('/');
+	await seedSubscriptions(page, {PLnewbadge00000000000000001: value});
+	await page.evaluate(() => {
+		localStorage.setItem(
+			'last-visit',
+			String(Date.parse('2024-03-01T00:00:00Z')),
+		);
+	});
+	await page.reload();
+
+	await expect(
+		page.locator('.video-card', {hasText: 'Added since'}).locator('.new-badge'),
+	).toBeVisible();
+	await expect(
+		page.locator('.video-card', {hasText: 'Seen before'}).locator('.new-badge'),
+	).toHaveCount(0);
 });

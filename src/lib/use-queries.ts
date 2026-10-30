@@ -12,10 +12,10 @@ import {
 } from './idb.js';
 import {getPlaylistID, getPlaylistItems, PlaylistItemLike} from './youtube.js';
 
-function loadNewestVideosFromIDB(subscribedPlaylists: Array<Value>) {
+export function getNewestVideos(subscribedPlaylists: Array<Value>) {
 	const allVideos: Array<PlaylistItemList.Item> = [];
 
-	for (const playlist of subscribedPlaylists || []) {
+	for (const playlist of subscribedPlaylists) {
 		for (const video of playlist.videos) {
 			allVideos.push(video);
 		}
@@ -54,12 +54,6 @@ export function useQueries() {
 		initialData: [],
 	});
 
-	const {data: newestVideos} = useQuery<Array<PlaylistItemList.Item>>({
-		queryKey: ['newestVideos', ...subscribedPlaylists],
-		queryFn: () => loadNewestVideosFromIDB(subscribedPlaylists),
-		initialData: [],
-	});
-
 	const unsubscribeMutation = useMutation({
 		mutationFn: async (item: PlaylistItemLike) => {
 			await removeSubscribedPlaylist(getPlaylistID(item));
@@ -84,10 +78,15 @@ export function useQueries() {
 		void subscribeMutation.mutate(item);
 	};
 
+	const isSubscribing = (item: PlaylistItemLike) =>
+		subscribeMutation.isPending &&
+		subscribeMutation.variables !== undefined &&
+		getPlaylistID(subscribeMutation.variables) === getPlaylistID(item);
+
 	return {
 		handleSubscribe,
 		handleUnsubscribe,
-		newestVideos,
+		isSubscribing,
 		subscribedPlaylists,
 	};
 }

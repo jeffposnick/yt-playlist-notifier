@@ -1,7 +1,7 @@
 declare const self: ServiceWorkerGlobalScope;
 
 import {getNewVideos} from '../lib/get-new-videos.js';
-import {PlaylistItemLike} from '../lib/youtube.js';
+import {isChannelUploads, PlaylistItemLike} from '../lib/youtube.js';
 import * as PlaylistItemList from '../types/PlaylistItemList.js';
 import {VIDEOS_UPDATED} from '../constants.js';
 
@@ -10,7 +10,9 @@ async function showNotification(
 	video: PlaylistItemList.Item,
 ) {
 	await self.registration.showNotification(video.snippet.title ?? '', {
-		body: `A new video was added to '${playlistItem.snippet.title}'`,
+		body: isChannelUploads(playlistItem)
+			? `'${playlistItem.snippet.title}' uploaded a new video`
+			: `A new video was added to '${playlistItem.snippet.title}'`,
 		icon: video.snippet.thumbnails.high.url,
 		tag: `https://youtu.be/${video.snippet.resourceId.videoId}`,
 	});
