@@ -1,0 +1,26 @@
+name: Deploy to Firebase Hosting on PR
+on: pull_request
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+jobs:
+  build-and-preview:
+    # Secrets aren't available to PRs from forks, so skip those.
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: 'package.json'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+        env:
+          VITE_YT_API_KEY: ${{ secrets.VITE_YT_API_KEY }}
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_YT_PLAYLIST_NOTIFIER }}
+          projectId: yt-playlist-notifier

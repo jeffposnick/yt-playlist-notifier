@@ -35,3 +35,15 @@ Create an [`.env.local` file](https://vitejs.dev/guide/env-and-mode.html#env-fil
 ```sh
 VITE_YT_API_KEY=[your API key here]
 ```
+
+### Deployment
+
+Deployment to [Firebase Hosting](https://firebase.google.com/docs/hosting) happens via GitHub Actions:
+
+- Every pull request from a branch in this repo is built and deployed to a temporary [preview channel](https://firebase.google.com/docs/hosting/test-preview-deploy), and a comment with the preview URL is added to the PR.
+- Every push to `main` is linted, built, and deployed to the live site.
+
+These workflows require two repository secrets:
+
+- `FIREBASE_SERVICE_ACCOUNT_YT_PLAYLIST_NOTIFIER`: the JSON key for a service account with permission to deploy to Firebase Hosting.
+- `VITE_YT_API_KEY`: the YouTube Data API browser key used in the production build.
