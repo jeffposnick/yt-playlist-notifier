@@ -54,11 +54,7 @@ test('The service worker registers and precaches', async ({baseURL, page}) => {
 			'http://localhost:3000/assets/index-[hash].css',
 			'http://localhost:3000/assets/index-[hash].js',
 			'http://localhost:3000/index.html?__WB_REVISION__=[hash]',
-			'http://localhost:3000/information.svg?__WB_REVISION__=[hash]',
 			'http://localhost:3000/manifest.webmanifest?__WB_REVISION__=[hash]',
-			'http://localhost:3000/movie-search.svg?__WB_REVISION__=[hash]',
-			'http://localhost:3000/youtube-subscription.svg?__WB_REVISION__=[hash]',
-			'http://localhost:3000/youtube.svg?__WB_REVISION__=[hash]',
 		],
 	});
 });

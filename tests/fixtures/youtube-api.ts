@@ -1,5 +1,6 @@
 import type {Page, Route} from '@playwright/test';
 
+import * as ChannelList from '../../src/types/ChannelList.js';
 import * as PlaylistList from '../../src/types/PlaylistList.js';
 import * as PlaylistSearch from '../../src/types/PlaylistSearch.js';
 import * as PlaylistItemList from '../../src/types/PlaylistItemList.js';
@@ -52,10 +53,8 @@ export function makePlaylistSearchItem(
 }
 
 /**
- * Simulates a quirk of the search endpoint: despite passing `type=playlist`,
- * it can still return a bare channel result (e.g. when the query exactly
- * matches a channel's name). This has no `playlistId`, and should be
- * filtered out before reaching the UI.
+ * A channel result from the search endpoint. It has no `playlistId`, so the
+ * app swaps it for the channel's uploads playlist before reaching the UI.
  */
 export function makeChannelSearchItem(
 	overrides: {
@@ -80,6 +79,32 @@ export function makeChannelSearchItem(
 			channelTitle: overrides.title ?? 'Search Result Channel',
 			liveBroadcastContent: 'none',
 			publishTime: new Date('2024-01-01T00:00:00Z'),
+		},
+	};
+}
+
+export function makeChannelListItem(
+	overrides: {
+		channelId?: string;
+		title?: string;
+	} = {},
+): ChannelList.Item {
+	const channelId = overrides.channelId ?? 'UCchannellookup000000001';
+	return {
+		kind: 'youtube#channel',
+		etag: 'etag-channel',
+		id: channelId,
+		snippet: {
+			title: overrides.title ?? 'Looked-up Channel',
+			description: 'A channel found by ID, URL or handle.',
+			publishedAt: new Date('2024-01-01T00:00:00Z'),
+			thumbnails: thumbnailSet(channelId),
+		},
+		contentDetails: {
+			relatedPlaylists: {
+				likes: '',
+				uploads: channelId.replace(/^UC/, 'UU'),
+			},
 		},
 	};
 }
@@ -156,6 +181,7 @@ export interface YouTubeMock {
 export interface YouTubeMockOptions {
 	search?: Array<PlaylistSearch.Item> | {status: number; body: string};
 	playlistList?: Array<PlaylistList.Item> | {status: number; body: string};
+	channels?: Array<ChannelList.Item>;
 	playlistItems?:
 		| Array<PlaylistItemList.Item>
 		| ((playlistId: string) => Array<PlaylistItemList.Item>);
@@ -211,6 +237,15 @@ export async function mockYouTubeAPI(
 				await fulfillResults(route, options.playlistList);
 			} else {
 				await route.fulfill(options.playlistList);
+			}
+			return;
+		}
+
+		if (url.pathname.endsWith('/channels')) {
+			if (!options.channels) {
+				await route.fulfill({status: 404, body: 'Not mocked'});
+			} else {
+				await fulfillResults(route, options.channels);
 			}
 			return;
 		}

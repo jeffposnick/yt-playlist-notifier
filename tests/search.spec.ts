@@ -1,6 +1,7 @@
 import {test, expect} from '@playwright/test';
 
 import {
+	makeChannelListItem,
 	makeChannelSearchItem,
 	makePlaylistListItem,
 	makePlaylistSearchItem,
@@ -27,15 +28,20 @@ test.describe('playlist search', () => {
 
 		await page.goto('/search');
 		await page.locator('#playlist-search').fill('lo-fi beats');
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
-		await expect(page.locator('.card .title')).toHaveText(
+		await expect(page.locator('.result-row .title')).toHaveText(
 			'Lo-fi beats to code to',
 		);
-		await expect(page.locator('.card')).toContainText('Chill Channel');
-		await expect(page.locator('.card button')).toHaveText('🔔');
+		await expect(page.locator('.result-row')).toContainText('Chill Channel');
+		await expect(
+			page
+				.locator('.result-row')
+				.getByRole('button', {name: 'Follow', exact: true}),
+		).toBeVisible();
 
-		expect(mock.requests.some((url) => url.includes('/search?'))).toBe(true);
+		const searchRequest = mock.requests.find((url) => url.includes('/search?'));
+		expect(searchRequest).toContain('type=playlist%2Cchannel');
 		expect(mock.requests.some((url) => url.includes('/playlists?'))).toBe(
 			false,
 		);
@@ -55,9 +61,9 @@ test.describe('playlist search', () => {
 
 		await page.goto('/search');
 		await page.locator('#playlist-search').fill('PLdirectlookup00000000000001');
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
-		await expect(page.locator('.card .title')).toHaveText(
+		await expect(page.locator('.result-row .title')).toHaveText(
 			'Directly found playlist',
 		);
 		expect(mock.requests.some((url) => url.includes('/playlists?'))).toBe(true);
@@ -82,9 +88,11 @@ test.describe('playlist search', () => {
 			.fill(
 				'https://www.youtube.com/playlist?list=PLdirectlookup00000000000001',
 			);
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
-		await expect(page.locator('.card .title')).toHaveText('Found via URL');
+		await expect(page.locator('.result-row .title')).toHaveText(
+			'Found via URL',
+		);
 		const playlistsRequest = mock.requests.find((url) =>
 			url.includes('/playlists?'),
 		);
@@ -101,9 +109,9 @@ test.describe('playlist search', () => {
 
 		await page.goto('/search');
 		await page.locator('#playlist-search').fill('PLdoesnotexist000000000001');
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
-		await expect(page.locator('.card .title')).toHaveText(
+		await expect(page.locator('.result-row .title')).toHaveText(
 			'Fallback search result',
 		);
 		expect(mock.requests.some((url) => url.includes('/playlists?'))).toBe(true);
@@ -115,12 +123,12 @@ test.describe('playlist search', () => {
 
 		await page.goto('/search');
 		await page.locator('#playlist-search').fill('no results for this');
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
 		await expect(
-			page.locator('text=No matching playlists found.'),
+			page.locator('text=No matching playlists or channels found.'),
 		).toBeVisible();
-		await expect(page.locator('.card')).toHaveCount(0);
+		await expect(page.locator('.result-row')).toHaveCount(0);
 	});
 
 	test('shows an error message when the API call fails', async ({page}) => {
@@ -135,19 +143,22 @@ test.describe('playlist search', () => {
 
 		await page.goto('/search');
 		await page.locator('#playlist-search').fill('anything');
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
 		await expect(
 			page.locator('text=Sorry, an error occurred: 500 - Quota exceeded'),
 		).toBeVisible({timeout: 25000});
 	});
 
-	test('filters out a bare channel result mixed into the search response', async ({
+	test('turns a channel search result into its uploads playlist', async ({
 		page,
 	}) => {
 		await mockYouTubeAPI(page, {
 			search: [
-				makeChannelSearchItem({title: 'Taskmaster'}),
+				makeChannelSearchItem({
+					channelId: 'UCtaskmaster000000000001',
+					title: 'Taskmaster',
+				}),
 				makePlaylistSearchItem({
 					title: 'Taskmaster - Full Episodes',
 					channelTitle: 'Taskmaster',
@@ -157,11 +168,79 @@ test.describe('playlist search', () => {
 
 		await page.goto('/search');
 		await page.locator('#playlist-search').fill('Taskmaster');
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
-		await expect(page.locator('.card')).toHaveCount(1);
-		await expect(page.locator('.card .title')).toHaveText(
-			'Taskmaster - Full Episodes',
+		await expect(page.locator('.result-row')).toHaveCount(2);
+		const channelRow = page.locator('.result-row').first();
+		await expect(channelRow.locator('.title')).toHaveText('Taskmaster');
+		await expect(channelRow).toContainText('All uploads');
+		await expect(channelRow.locator('a.title')).toHaveAttribute(
+			'href',
+			'https://www.youtube.com/playlist?list=UUtaskmaster000000000001',
+		);
+		await expect(page.locator('.result-row').nth(1)).not.toContainText(
+			'All uploads',
+		);
+	});
+
+	for (const [description, searchTerm, expectedParam] of [
+		[
+			'a channel URL',
+			'https://www.youtube.com/channel/UCchannellookup000000001',
+			'id=UCchannellookup000000001',
+		],
+		[
+			'a raw channel ID',
+			'UCchannellookup000000001',
+			'id=UCchannellookup000000001',
+		],
+		[
+			'a channel handle URL',
+			'https://www.youtube.com/@lookedup/videos',
+			'forHandle=%40lookedup',
+		],
+		['a bare @handle', '@lookedup', 'forHandle=%40lookedup'],
+		[
+			'a URL without a scheme',
+			'youtube.com/@lookedup',
+			'forHandle=%40lookedup',
+		],
+	]) {
+		test(`searching for ${description} looks up the channel's uploads`, async ({
+			page,
+		}) => {
+			const mock = await mockYouTubeAPI(page, {
+				channels: [makeChannelListItem({title: 'Looked-up Channel'})],
+			});
+
+			await page.goto('/search');
+			await page.locator('#playlist-search').fill(searchTerm);
+			await page.getByRole('button', {name: 'Search', exact: true}).click();
+
+			const row = page.locator('.result-row');
+			await expect(row.locator('.title')).toHaveText('Looked-up Channel');
+			await expect(row).toContainText('All uploads');
+			await expect(row.locator('a.title')).toHaveAttribute(
+				'href',
+				'https://www.youtube.com/playlist?list=UUchannellookup000000001',
+			);
+
+			const channelsRequest = mock.requests.find((url) =>
+				url.includes('/channels?'),
+			);
+			expect(channelsRequest).toContain(expectedParam);
+			expect(channelsRequest).toContain('part=snippet%2CcontentDetails');
+			expect(mock.requests.some((url) => url.includes('/search?'))).toBe(false);
+		});
+	}
+
+	test('the clear button empties the search field', async ({page}) => {
+		await page.goto('/search');
+		await page.locator('#playlist-search').fill('something');
+		await page.getByRole('button', {name: 'Clear search'}).click();
+		await expect(page.locator('#playlist-search')).toHaveValue('');
+		await expect(page.getByRole('button', {name: 'Clear search'})).toHaveCount(
+			0,
 		);
 	});
 
@@ -179,11 +258,11 @@ test.describe('playlist search', () => {
 
 		await page.goto('/search');
 		await page.locator('#playlist-search').fill('rock');
-		await page.getByRole('button', {name: 'Search'}).click();
+		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
-		await expect(page.locator('.card .title')).toHaveText(
+		await expect(page.locator('.result-row .title')).toHaveText(
 			'Rock & Roll Classics',
 		);
-		await expect(page.locator('.card')).toContainText('AT&T Music');
+		await expect(page.locator('.result-row')).toContainText('AT&T Music');
 	});
 });

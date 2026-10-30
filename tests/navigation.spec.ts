@@ -4,12 +4,12 @@ import {ROUTES} from '../src/constants.js';
 
 test.describe('primary navigation', () => {
 	for (const [key, route] of ROUTES) {
-		test(`footer icon navigates to the ${key} route`, async ({
-			baseURL,
-			page,
-		}) => {
+		test(`tab navigates to the ${key} route`, async ({baseURL, page}) => {
 			await page.goto('/');
-			await page.locator(`img[alt="${route.title}"]`).click();
+			await page
+				.getByRole('navigation', {name: 'Primary'})
+				.getByRole('link', {name: route.label})
+				.click();
 
 			const expectedURL =
 				route.path === '/'
@@ -19,32 +19,41 @@ test.describe('primary navigation', () => {
 		});
 	}
 
-	test('the icon for the current route is marked active', async ({page}) => {
+	test('the tab for the current route is marked as the current page', async ({
+		page,
+	}) => {
 		await page.goto(ROUTES.get('SEARCH')?.path ?? '/search');
 
-		const searchTitle = ROUTES.get('SEARCH')?.title ?? '';
-		const videosTitle = ROUTES.get('VIDEOS')?.title ?? '';
-
-		await expect(page.locator(`a:has(img[alt="${searchTitle}"])`)).toHaveClass(
-			/active/,
-		);
+		const nav = page.getByRole('navigation', {name: 'Primary'});
 		await expect(
-			page.locator(`a:has(img[alt="${videosTitle}"])`),
-		).not.toHaveClass(/active/);
+			nav.getByRole('link', {name: ROUTES.get('SEARCH')?.label}),
+		).toHaveAttribute('aria-current', 'page');
+		await expect(
+			nav.getByRole('link', {name: ROUTES.get('VIDEOS')?.label}),
+		).not.toHaveAttribute('aria-current', 'page');
 	});
 
 	test('deep-linking directly to a route renders that view', async ({page}) => {
+		const heading = page.getByRole('heading', {level: 1});
+
 		await page.goto('/subscriptions');
-		await expect(page.locator('h4')).toHaveText("You're getting updates to:");
+		await expect(heading).toHaveText('Your playlists');
 
 		await page.goto('/search');
-		await expect(page.locator('h4')).toHaveText('Subscribe to playlists:');
+		await expect(heading).toHaveText('Find playlists');
 	});
 
 	test('an unknown path falls back to the default (videos) route', async ({
 		page,
 	}) => {
 		await page.goto('/this-route-does-not-exist');
-		await expect(page.locator('h4')).toHaveText('Videos from subscriptions:');
+		await expect(page.getByRole('heading', {level: 1})).toHaveText(
+			'Playlist Notifier',
+		);
+		await expect(
+			page
+				.getByRole('navigation', {name: 'Primary'})
+				.getByRole('link', {name: ROUTES.get('VIDEOS')?.label}),
+		).toHaveAttribute('aria-current', 'page');
 	});
 });

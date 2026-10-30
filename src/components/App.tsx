@@ -1,30 +1,44 @@
 import {FunctionalComponent} from 'preact';
-import {Link} from 'preact-router/match';
 import {QueryClientProvider, QueryClient} from '@tanstack/react-query';
+import {useState} from 'preact/hooks';
 
 import {Main} from './Main.js';
 import {ROUTES} from '../constants.js';
+import {InfoIcon, PlaylistIcon, SearchIcon, VideoIcon} from './Icons.js';
 
 const queryClient = new QueryClient();
 
+const ROUTE_ICONS: Record<string, FunctionalComponent> = {
+	ABOUT: InfoIcon,
+	SEARCH: SearchIcon,
+	SUBSCRIPTIONS: PlaylistIcon,
+	VIDEOS: VideoIcon,
+};
+
 export const App: FunctionalComponent = () => {
+	const [currentPath, setCurrentPath] = useState<string>();
+
 	return (
 		<QueryClientProvider client={queryClient}>
-			<Main />
-			<footer>
-				{Array.from(ROUTES.values()).map(({iconUrl, path, title}, id) => {
-					// preact-router's `LinkProps` type doesn't include `href`, even
-					// though it's forwarded to the underlying anchor element. Passing
-					// it via a spread (rather than inline) sidesteps the excess
-					// property check.
-					const linkProps = {activeClassName: 'active', href: path};
+			<Main onRouteChange={setCurrentPath} />
+			<nav aria-label="Primary" class="tab-bar">
+				{Array.from(ROUTES.entries()).map(([key, {label, path, title}]) => {
+					const RouteIcon = ROUTE_ICONS[key];
+					const isActive = path === currentPath;
 					return (
-						<Link {...linkProps} key={id}>
-							<img class="svgIcon" src={iconUrl} alt={title} />
-						</Link>
+						<a
+							aria-current={isActive ? 'page' : undefined}
+							class={isActive ? 'active' : undefined}
+							href={path}
+							key={key}
+							title={title}
+						>
+							<span class="tab-icon">{RouteIcon && <RouteIcon />}</span>
+							{label}
+						</a>
 					);
 				})}
-			</footer>
+			</nav>
 		</QueryClientProvider>
 	);
 };
