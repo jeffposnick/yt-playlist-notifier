@@ -3,6 +3,7 @@ import {FunctionalComponent} from 'preact';
 import {decode} from '../lib/decode-html-entities.js';
 import {isNewSinceLastVisit} from '../lib/last-visit.js';
 import {relativeTime} from '../lib/relative-time.js';
+import {thumbnailSrcset} from '../lib/thumbnails.js';
 import * as PlaylistItemList from '../types/PlaylistItemList.js';
 import {PlaylistIcon} from './Icons.js';
 
@@ -29,7 +30,13 @@ export const VideoItem: FunctionalComponent<{
 	return (
 		<article class="card video-card">
 			<a aria-hidden="true" class="video-thumb" href={videoHref} tabIndex={-1}>
-				<img alt="" loading="lazy" src={thumbnail.url} />
+				<img
+					alt=""
+					loading="lazy"
+					sizes="(max-width: 611px) calc(100vw - 32px), 440px"
+					src={thumbnail.url}
+					srcset={thumbnailSrcset(item.snippet.thumbnails)}
+				/>
 				{isNewSinceLastVisit(item.snippet.publishedAt) && (
 					<span class="new-badge">New</span>
 				)}

@@ -35,8 +35,8 @@ export interface Thumbnails {
 	default: Default;
 	medium: Default;
 	high: Default;
-	standard: Default;
-	maxres: Default;
+	standard?: Default;
+	maxres?: Default;
 }
 
 export interface Default {
