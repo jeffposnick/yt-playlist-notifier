@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from './fixtures/test.js';
 
 import {
 	makeChannelListItem,
@@ -7,11 +7,6 @@ import {
 	makePlaylistSearchItem,
 	mockYouTubeAPI,
 } from './fixtures/youtube-api.js';
-
-// The service worker isn't relevant to these tests, and WebKit's route
-// interception doesn't reliably intercept fetches from an SW-controlled
-// page, so mocked API calls would otherwise leak through to the real API.
-test.use({serviceWorkers: 'block'});
 
 test.describe('playlist search', () => {
 	test('searching by keyword hits the search endpoint and renders a result', async ({
@@ -126,17 +121,15 @@ test.describe('playlist search', () => {
 		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
 		await expect(
-			page.locator('text=No matching playlists or channels found.'),
+			page.getByText('No matching playlists or channels found.'),
 		).toBeVisible();
 		await expect(page.locator('.result-row')).toHaveCount(0);
 	});
 
 	test('shows an error message when the API call fails', async ({page}) => {
-		// react-query retries failed queries 3x with backoff (~7s) before
-		// surfacing the error, so this needs more room than the suite's
-		// default 5s test / 1s expect budget.
-		test.setTimeout(30000);
-
+		// react-query retries failed queries 3x with exponential backoff before
+		// surfacing the error, so fast-forward through the retry delays.
+		await page.clock.install();
 		await mockYouTubeAPI(page, {
 			search: {status: 500, body: 'Quota exceeded'},
 		});
@@ -145,9 +138,13 @@ test.describe('playlist search', () => {
 		await page.locator('#playlist-search').fill('anything');
 		await page.getByRole('button', {name: 'Search', exact: true}).click();
 
-		await expect(
-			page.locator('text=Sorry, an error occurred: 500 - Quota exceeded'),
-		).toBeVisible({timeout: 25000});
+		const error = page.getByText(
+			'Sorry, an error occurred: 500 - Quota exceeded',
+		);
+		await expect(async () => {
+			await page.clock.fastForward(1000);
+			await expect(error).toBeVisible({timeout: 100});
+		}).toPass();
 	});
 
 	test('turns a channel search result into its uploads playlist', async ({

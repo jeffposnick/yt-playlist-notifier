@@ -1,11 +1,11 @@
-import type {Page, Route} from '@playwright/test';
+import type {BrowserContext, Page, Route} from '@playwright/test';
 
 import * as ChannelList from '../../src/types/ChannelList.js';
 import * as PlaylistList from '../../src/types/PlaylistList.js';
 import * as PlaylistSearch from '../../src/types/PlaylistSearch.js';
 import * as PlaylistItemList from '../../src/types/PlaylistItemList.js';
 
-const API_PREFIX = 'https://youtube.googleapis.com/youtube/v3/';
+export const API_PREFIX = 'https://youtube.googleapis.com/youtube/v3/';
 
 function thumbnailSet(seed: string) {
 	const image = (suffix: string, width: number, height: number) => ({
@@ -207,15 +207,17 @@ async function fulfillResults(route: Route, items: Array<unknown>) {
 /**
  * Intercepts all calls to the YouTube Data API and responds with canned
  * data, so tests don't depend on network access or a real API key. Must be
- * awaited before triggering navigation/actions that issue the request.
+ * awaited before triggering navigation/actions that issue the request. Pass
+ * the BrowserContext instead of the Page to also intercept requests made by
+ * the service worker (Chromium only).
  */
 export async function mockYouTubeAPI(
-	page: Page,
+	target: Page | BrowserContext,
 	options: YouTubeMockOptions,
 ): Promise<YouTubeMock> {
 	const mock: YouTubeMock = {requests: []};
 
-	await page.route(`${API_PREFIX}**`, async (route) => {
+	await target.route(`${API_PREFIX}**`, async (route) => {
 		const url = new URL(route.request().url());
 		mock.requests.push(url.href);
 

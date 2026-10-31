@@ -37,6 +37,14 @@ const config: PlaywrightTestConfig = {
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: 'on-first-retry',
 		baseURL: URL,
+		/*
+		 * Most tests don't care about the service worker, and when it's running
+		 * it kicks off an update check on every load that fetches from the
+		 * YouTube API. Firefox and WebKit can't route requests made by a service
+		 * worker, so those would leak through to the real API. Tests that need
+		 * it opt back in.
+		 */
+		serviceWorkers: 'block',
 	},
 
 	/* Configure projects for major browsers */
@@ -45,6 +53,11 @@ const config: PlaywrightTestConfig = {
 			name: 'chromium',
 			use: {
 				...devices['Desktop Chrome'],
+				/*
+				 * Use Chromium's new headless mode rather than the headless shell,
+				 * which reports notifications as denied even after they're granted.
+				 */
+				channel: 'chromium',
 			},
 		},
 
