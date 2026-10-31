@@ -1,11 +1,14 @@
-name: Playwright Tests
+name: Test and Deploy
 on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
 jobs:
-  lint-and-test:
+  test-and-deploy:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -16,6 +19,9 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run lint
+      - run: npm run build
+        env:
+          VITE_YT_API_KEY: ${{ secrets.VITE_YT_API_KEY }}
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v6
@@ -41,3 +47,18 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 14
+      - name: Deploy to Firebase Hosting live channel
+        if: ${{ github.event_name == 'push' }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_YT_PLAYLIST_NOTIFIER }}
+          channelId: live
+          projectId: yt-playlist-notifier
+      - name: Deploy to Firebase Hosting preview channel
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_YT_PLAYLIST_NOTIFIER }}
+          projectId: yt-playlist-notifier
