@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from './fixtures/test.js';
 
 import {NUMBER_OF_LATEST_VIDEOS} from '../src/constants.js';
 import type {Value} from '../src/lib/idb.js';
@@ -220,4 +220,51 @@ test('videos added since the previous visit are marked as new', async ({
 	await expect(
 		page.locator('.video-card', {hasText: 'Seen before'}).locator('.new-badge'),
 	).toHaveCount(0);
+});
+
+test('video cards link to YouTube and only lazy-load below the first row', async ({
+	page,
+}) => {
+	const playlistId = 'PLcardlinks0000000000000001';
+	const value: Value = {
+		playlistItem: makePlaylistListItem({playlistId}),
+		videos: Array.from({length: 6}, (_unused, index) =>
+			makePlaylistItemListItem({
+				playlistId,
+				videoId: `card-${index}`,
+				title: `Card ${index}`,
+				publishedAt: new Date(2024, 0, 6 - index).toISOString(),
+				videoOwnerChannelId: 'UCcardowner00000000000001',
+				videoOwnerChannelTitle: 'Card Owner',
+			}),
+		),
+	};
+
+	await page.goto('/');
+	await seedSubscriptions(page, {[playlistId]: value});
+	await page.reload();
+
+	const firstCard = page.locator('.video-card').first();
+	await expect(firstCard.locator('a.title')).toHaveAttribute(
+		'href',
+		'https://youtu.be/card-0',
+	);
+	await expect(
+		firstCard.getByRole('link', {name: 'Card Owner'}),
+	).toHaveAttribute(
+		'href',
+		'https://www.youtube.com/channel/UCcardowner00000000000001',
+	);
+
+	const images = page.locator('.video-card img');
+	await expect(images).toHaveCount(6);
+	await expect(images.first()).toHaveAttribute('fetchpriority', 'high');
+	await expect(page.locator('.video-card img[fetchpriority]')).toHaveCount(1);
+	for (let index = 0; index < 6; index++) {
+		if (index < 4) {
+			await expect(images.nth(index)).not.toHaveAttribute('loading');
+		} else {
+			await expect(images.nth(index)).toHaveAttribute('loading', 'lazy');
+		}
+	}
 });

@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from './fixtures/test.js';
 
 import {
 	makeChannelListItem,
@@ -6,11 +6,6 @@ import {
 	makePlaylistSearchItem,
 	mockYouTubeAPI,
 } from './fixtures/youtube-api.js';
-
-// The service worker isn't relevant to these tests, and WebKit's route
-// interception doesn't reliably intercept fetches from an SW-controlled
-// page, so mocked API calls would otherwise leak through to the real API.
-test.use({serviceWorkers: 'block'});
 
 test('subscribing and unsubscribing to a playlist updates every view', async ({
 	page,
@@ -141,4 +136,20 @@ test('following a channel subscribes to its uploads playlist', async ({
 
 	await page.goto('/');
 	await expect(page.locator('.video-card .title')).toHaveText('Fresh upload');
+});
+
+test('the notification status reflects a granted permission', async ({
+	browserName,
+	context,
+	page,
+}) => {
+	test.skip(
+		browserName === 'webkit',
+		"WebKit's Notification.permission stays 'default' after granting it.",
+	);
+
+	await context.grantPermissions(['notifications']);
+	await page.goto('/subscriptions');
+	await expect(page.getByText('Notifications are on')).toBeVisible();
+	await expect(page.getByRole('button', {name: 'Turn on'})).toHaveCount(0);
 });
