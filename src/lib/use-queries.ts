@@ -21,11 +21,24 @@ export function getNewestVideos(subscribedPlaylists: Array<Value>) {
 		}
 	}
 
-	return allVideos
-		.sort((a, b) => {
-			return b.snippet.publishedAt.localeCompare(a.snippet.publishedAt);
-		})
-		.slice(0, NUMBER_OF_LATEST_VIDEOS);
+	allVideos.sort((a, b) => {
+		return b.snippet.publishedAt.localeCompare(a.snippet.publishedAt);
+	});
+
+	// The same video can be in more than one subscribed playlist (or appear
+	// more than once in a single playlist). Only show it once, using its most
+	// recent appearance.
+	const seenVideoIDs = new Set<string>();
+	const uniqueVideos = allVideos.filter((video) => {
+		const videoID = video.snippet.resourceId.videoId;
+		if (seenVideoIDs.has(videoID)) {
+			return false;
+		}
+		seenVideoIDs.add(videoID);
+		return true;
+	});
+
+	return uniqueVideos.slice(0, NUMBER_OF_LATEST_VIDEOS);
 }
 
 export function useQueries() {

@@ -268,3 +268,51 @@ test('video cards link to YouTube and only lazy-load below the first row', async
 		}
 	}
 });
+
+test('a video in more than one subscription is only shown once', async ({
+	page,
+}) => {
+	const makeValue = (playlistId: string, title: string): Value => ({
+		playlistItem: makePlaylistListItem({playlistId, title}),
+		videos: [
+			makePlaylistItemListItem({
+				playlistId,
+				videoId: 'shared-video',
+				title: 'Shared video',
+				publishedAt:
+					playlistId === 'PLdupesB00000000000000000002'
+						? '2024-02-01T00:00:00Z'
+						: '2024-01-01T00:00:00Z',
+			}),
+			makePlaylistItemListItem({
+				playlistId,
+				videoId: `${playlistId}-only`,
+				title: `${title} only`,
+				publishedAt: '2023-01-01T00:00:00Z',
+			}),
+		],
+	});
+
+	await page.goto('/');
+	await seedSubscriptions(page, {
+		PLdupesA00000000000000000001: makeValue(
+			'PLdupesA00000000000000000001',
+			'Playlist A',
+		),
+		PLdupesB00000000000000000002: makeValue(
+			'PLdupesB00000000000000000002',
+			'Playlist B',
+		),
+	});
+	await page.reload();
+
+	const titles = page.locator('.video-card .title');
+	await expect(titles).toHaveCount(3);
+	await expect(
+		page.locator('.video-card', {hasText: 'Shared video'}),
+	).toHaveCount(1);
+	// The most recent appearance wins.
+	await expect(
+		page.locator('.video-card', {hasText: 'Shared video'}),
+	).toContainText('Playlist B');
+});

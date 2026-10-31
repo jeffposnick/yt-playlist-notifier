@@ -197,3 +197,63 @@ for (const [description, playlistId, expectedBody] of [
 		]);
 	});
 }
+
+test('the update check only notifies once about a video in several subscriptions', async ({
+	browserName,
+	context,
+	page,
+}) => {
+	test.skip(
+		browserName !== 'chromium',
+		'Only Chromium can route requests made by a service worker.',
+	);
+
+	const playlistIds = [
+		'PLupdatedupes000000000001',
+		'PLupdatedupes000000000002',
+	];
+	const newVideo = makePlaylistItemListItem({
+		playlistId: playlistIds[0],
+		videoId: 'shared-new',
+		title: 'Shared new video',
+		publishedAt: '2024-06-01T00:00:00Z',
+	});
+	const subscriptions: Record<string, Value> = {};
+	for (const playlistId of playlistIds) {
+		subscriptions[playlistId] = {
+			playlistItem: makePlaylistListItem({playlistId}),
+			videos: [],
+		};
+	}
+
+	// Every playlist request gets the same response, so both subscriptions see
+	// the same new video.
+	await mockYouTubeAPI(context, {playlistItems: [newVideo]});
+
+	await page.goto('/');
+	await waitForController(page);
+
+	const [sw] = context.serviceWorkers();
+	await sw.evaluate(() => {
+		const scope = globalThis as unknown as {
+			registration: ServiceWorkerRegistration;
+			shown: Array<string | undefined>;
+		};
+		scope.shown = [];
+		scope.registration.showNotification = async (_title, options) => {
+			scope.shown.push(options?.tag);
+		};
+	});
+
+	await seedSubscriptions(page, subscriptions);
+	await page.evaluate((message) => {
+		navigator.serviceWorker.controller?.postMessage(message);
+	}, UPDATE_CHECK);
+
+	await expect(page.locator('.video-card .title')).toHaveText([
+		'Shared new video',
+	]);
+	expect(
+		await sw.evaluate(() => (globalThis as unknown as {shown: unknown}).shown),
+	).toEqual(['https://youtu.be/shared-new']);
+});

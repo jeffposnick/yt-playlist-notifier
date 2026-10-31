@@ -35,3 +35,17 @@ Create an [`.env.local` file](https://vitejs.dev/guide/env-and-mode.html#env-fil
 ```sh
 VITE_YT_API_KEY=[your API key here]
 ```
+
+### Running tests
+
+The end-to-end tests use [Playwright](https://playwright.dev/). Install the browsers once with `npx playwright install`, then run:
+
+```sh
+npm test
+```
+
+If your environment already has a Chromium build that doesn't match the one this version of Playwright expects (for example, a cloud dev container with a pre-installed browser), point the Chromium project at it instead and run only that project:
+
+```sh
+PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/path/to/chromium npx playwright test --project=chromium
+```

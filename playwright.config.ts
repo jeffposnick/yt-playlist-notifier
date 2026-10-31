@@ -58,6 +58,16 @@ const config: PlaywrightTestConfig = {
 				 * which reports notifications as denied even after they're granted.
 				 */
 				channel: 'chromium',
+				/*
+				 * Opt-in override for environments with a pre-installed Chromium
+				 * that doesn't match this Playwright version's expected build.
+				 * Unset in CI, which installs its own browsers.
+				 */
+				...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH && {
+					launchOptions: {
+						executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
+					},
+				}),
 			},
 		},
 

@@ -26,6 +26,9 @@ export async function getNewVideos() {
 		playlistItem: PlaylistItemLike;
 		video: PlaylistItemList.Item;
 	}> = [];
+	// Avoid notifying more than once about a video that was added to several
+	// subscribed playlists.
+	const notifiedVideoIDs = new Set<string>();
 	const playlists = await getSubscribedPlaylists();
 
 	for (const {playlistItem, videos} of playlists) {
@@ -33,6 +36,11 @@ export async function getNewVideos() {
 		await setPlaylistItems(playlistItem, latestVideos);
 
 		for (const video of filterNewVideos(videos, latestVideos)) {
+			const videoID = video.snippet.resourceId.videoId;
+			if (notifiedVideoIDs.has(videoID)) {
+				continue;
+			}
+			notifiedVideoIDs.add(videoID);
 			newVideos.push({playlistItem, video});
 		}
 	}
