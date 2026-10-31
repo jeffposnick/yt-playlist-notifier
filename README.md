@@ -23,7 +23,6 @@ If you're using a browser that supports [periodic background sync](https://web.d
 - [Workbox](https://github.com/vite-pwa/workbox) (the Vite PWA fork), via the [`@unplugin-pwa/vite`](https://github.com/vite-pwa/unplugin-pwa/tree/main/packages/vite) plugin.
 - [YouTube Data API](https://developers.google.com/youtube/v3)
 - [`idb-keyval`](https://github.com/jakearchibald/idb-keyval) for persisting local state.
-- [Icon Kitchen](https://icon.kitchen/) for the app icons.
 - [quicktype](https://app.quicktype.io/) for generating TypeScript types out of the YouTube Data API responses.
 
 ### Local development
