@@ -7,11 +7,18 @@ on:
     branches:
       - main
 jobs:
+  lint_and_test:
+    uses: ./.github/workflows/playwright.yml
+    secrets:
+      VITE_YT_API_KEY: ${{ secrets.VITE_YT_API_KEY }}
   build_and_deploy:
+    needs: lint_and_test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
+        env:
+          VITE_YT_API_KEY: ${{ secrets.VITE_YT_API_KEY }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

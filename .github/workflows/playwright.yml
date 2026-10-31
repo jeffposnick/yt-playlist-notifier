@@ -1,9 +1,9 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_call:
+    secrets:
+      VITE_YT_API_KEY:
+        required: false
 jobs:
   lint-and-test:
     timeout-minutes: 60
@@ -29,6 +29,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps
       - name: Run Playwright tests
+        env:
+          VITE_YT_API_KEY: ${{ secrets.VITE_YT_API_KEY }}
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             npm run test -- --project=chromium
