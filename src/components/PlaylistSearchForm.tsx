@@ -1,4 +1,4 @@
-import {FunctionalComponent, JSX} from 'preact';
+import {FunctionalComponent, TargetedSubmitEvent} from 'preact';
 import {useQuery} from '@tanstack/react-query';
 import {useRef, useState} from 'preact/hooks';
 
@@ -113,7 +113,7 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
 				getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
 		) || false;
 
-	const handleSubmit = (event: JSX.TargetedEvent<HTMLFormElement, Event>) => {
+	const handleSubmit = (event: TargetedSubmitEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setSearchTerm(search.current?.value.trim());
 	};
