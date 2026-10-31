@@ -94,9 +94,12 @@ const config: PlaywrightTestConfig = {
 	/* Folder for test artifacts such as screenshots, videos, traces, etc. */
 	outputDir: 'test-results/',
 
-	/* Run your local dev server before starting the tests */
+	/*
+	 * Run your local dev server before starting the tests. CI has already run
+	 * the production build that gets deployed, so just serve that.
+	 */
 	webServer: {
-		command: 'npm run stage',
+		command: process.env.CI ? 'npm run serve' : 'npm run stage',
 		reuseExistingServer: !process.env.CI,
 		url: URL,
 	},

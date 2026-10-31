@@ -36,7 +36,8 @@
 		"lint:tsc-tests": "tsc --noEmit --project tests/tsconfig.json",
 		"lint": "concurrently --group npm:lint:*",
 		"format": "oxfmt --write .",
-		"stage": "vite build --mode staging && firebase emulators:start --project=yt-playlist-notifier",
+		"serve": "firebase emulators:start --project=yt-playlist-notifier",
+		"stage": "vite build --mode staging && npm run serve",
 		"test": "playwright test"
 	},
 	"type": "module",
