@@ -7,6 +7,8 @@
 		"@types/node": "^24.19.2",
 		"@types/serviceworker": "^0.0.203",
 		"@typescript/lib-dom": "npm:@types/web@^0.0.359",
+		"@unplugin-pwa/vite": "^0.0.3",
+		"@vite-pwa/workbox-swkit": "^8.0.13",
 		"concurrently": "^10.0.6",
 		"firebase-tools": "^15.34.2",
 		"idb-keyval": "^6.2.1",
@@ -17,12 +19,7 @@
 		"preact-router": "^4.1.2",
 		"remove-filename-hash": "^0.0.8",
 		"typescript": "~7.0.2",
-		"vite": "^8.3.5",
-		"vite-plugin-pwa": "^2.0.0",
-		"workbox-expiration": "^7.4.1",
-		"workbox-precaching": "^7.4.1",
-		"workbox-routing": "^7.4.1",
-		"workbox-strategies": "^7.4.1"
+		"vite": "^8.3.5"
 	},
 	"engines": {
 		"node": "^24"
