@@ -3,13 +3,20 @@ import {FunctionalComponent} from 'preact';
 import {decode} from '../lib/decode-html-entities.js';
 import {isNewSinceLastVisit} from '../lib/last-visit.js';
 import {relativeTime} from '../lib/relative-time.js';
+import {thumbnailSrcset} from '../lib/thumbnails.js';
 import * as PlaylistItemList from '../types/PlaylistItemList.js';
 import {PlaylistIcon} from './Icons.js';
 
+// The most columns the video grid shows at its maximum width.
+const FIRST_ROW_SIZE = 4;
+
 export const VideoItem: FunctionalComponent<{
+	// The position in the grid. The first row is visible on load, so it isn't
+	// lazy-loaded, and the first thumbnail is likely the largest paint.
+	index: number;
 	item: PlaylistItemList.Item;
 	playlistTitle?: string;
-}> = ({item, playlistTitle}) => {
+}> = ({index, item, playlistTitle}) => {
 	if (
 		!(
 			item.snippet.title &&
@@ -29,7 +36,14 @@ export const VideoItem: FunctionalComponent<{
 	return (
 		<article class="card video-card">
 			<a aria-hidden="true" class="video-thumb" href={videoHref} tabIndex={-1}>
-				<img alt="" loading="lazy" src={thumbnail.url} />
+				<img
+					alt=""
+					fetchpriority={index === 0 ? 'high' : undefined}
+					loading={index < FIRST_ROW_SIZE ? undefined : 'lazy'}
+					sizes="(max-width: 611px) calc(100vw - 32px), 440px"
+					src={thumbnail.url}
+					srcset={thumbnailSrcset(item.snippet.thumbnails)}
+				/>
 				{isNewSinceLastVisit(item.snippet.publishedAt) && (
 					<span class="new-badge">New</span>
 				)}

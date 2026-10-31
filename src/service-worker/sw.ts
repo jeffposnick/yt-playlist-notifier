@@ -30,8 +30,25 @@ registerRoute(
 self.addEventListener('install', () => void self.skipWaiting());
 self.addEventListener('activate', () => void self.clients.claim());
 
+// On Android, a plain https: URL opened from a notification stays in the
+// browser (or the installed PWA's Custom Tab) instead of handing off to the
+// YouTube app. An intent: URL targets the app directly, and falls back to the
+// original URL when the app isn't installed.
+function getVideoURL(url: string) {
+	if (!/Android/i.test(self.navigator.userAgent)) {
+		return url;
+	}
+
+	const videoId = new URL(url).pathname.slice(1);
+	return (
+		`intent://www.youtube.com/watch?v=${videoId}#Intent;scheme=https;` +
+		'package=com.google.android.youtube;' +
+		`S.browser_fallback_url=${encodeURIComponent(url)};end`
+	);
+}
+
 self.addEventListener('notificationclick', (event) => {
-	event.waitUntil(self.clients.openWindow(event.notification.tag));
+	event.waitUntil(self.clients.openWindow(getVideoURL(event.notification.tag)));
 	event.notification.close();
 });
 

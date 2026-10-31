@@ -82,8 +82,9 @@ export const LatestVideos: FunctionalComponent = () => {
 					<EmptyState heading="No videos yet" />
 				) : (
 					<div class="video-grid">
-						{newestVideos.map((item) => (
+						{newestVideos.map((item, index) => (
 							<VideoItem
+								index={index}
 								item={item}
 								key={item.id}
 								playlistTitle={

@@ -8,13 +8,20 @@ import {LatestVideos} from '../components/LatestVideos.js';
 import {PlaylistSearchForm} from '../components/PlaylistSearchForm.js';
 import {ROUTES} from '../constants.js';
 
+const APP_TITLE = 'YT Playlist Notifier';
+
 export const Main: FunctionalComponent<{
 	onRouteChange: (path: string | undefined) => void;
 }> = ({onRouteChange}) => {
 	// Report the path of the route that actually rendered (rather than the
 	// URL), so that the default route's tab is active for unknown URLs too.
 	const handleChange = ({current}: RouterOnChangeArgs) => {
-		onRouteChange((current?.props as {path?: string} | undefined)?.path);
+		const path = (current?.props as {path?: string} | undefined)?.path;
+		onRouteChange(path);
+
+		// Give each view its own title, for tabs, history, and screen readers.
+		const route = [...ROUTES.values()].find((route) => route.path === path);
+		document.title = route ? `${route.label} · ${APP_TITLE}` : APP_TITLE;
 	};
 
 	return (

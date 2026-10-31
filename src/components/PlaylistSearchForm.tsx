@@ -113,6 +113,20 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
 				getPlaylistID(subscribedItem.playlistItem) === getPlaylistID(item),
 		) || false;
 
+	const hasResults = Boolean(searchResults && searchResults.length > 0);
+	let statusMessage = '';
+	if (result.isFetching) {
+		statusMessage = 'Searching…';
+	} else if (result.isError) {
+		statusMessage = `Sorry, an error occurred: ${result.error.message}`;
+	} else if (searchResults?.length === 0) {
+		statusMessage = 'No matching playlists or channels found.';
+	} else if (searchResults) {
+		statusMessage = `${searchResults.length} ${
+			searchResults.length === 1 ? 'result' : 'results'
+		}`;
+	}
+
 	const handleSubmit = (event: TargetedSubmitEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setSearchTerm(search.current?.value.trim());
@@ -127,56 +141,56 @@ export const PlaylistSearchForm: FunctionalComponent = () => {
 		<>
 			<header class="page-header">
 				<h1>Find playlists</h1>
-				<form class="search-form" onSubmit={handleSubmit}>
-					<label class="visually-hidden" for="playlist-search">
-						Search playlists and channels
-					</label>
-					<div class="search-field">
-						<button aria-label="Search" class="icon-button" type="submit">
-							<SearchIcon size={20} />
-						</button>
-						<input
-							aria-describedby="playlist-search-hint"
-							autocomplete="off"
-							id="playlist-search"
-							onInput={(event) => setInputValue(event.currentTarget.value)}
-							ref={search}
-							type="search"
-							value={inputValue}
-						/>
-						{inputValue && (
-							<button
-								aria-label="Clear search"
-								class="icon-button"
-								onClick={handleClear}
-								type="button"
-							>
-								<CloseIcon size={18} />
+				<search>
+					<form class="search-form" onSubmit={handleSubmit}>
+						<label class="visually-hidden" for="playlist-search">
+							Search playlists and channels
+						</label>
+						<div class="search-field">
+							<button aria-label="Search" class="icon-button" type="submit">
+								<SearchIcon size={20} />
 							</button>
-						)}
-					</div>
-					<p class="hint" id="playlist-search-hint">
-						Search by name, or paste a playlist or channel URL, a PL… ID, or an
-						@handle.
-					</p>
-				</form>
+							<input
+								aria-describedby="playlist-search-hint"
+								autocapitalize="off"
+								autocomplete="off"
+								// Chromium reflects autocorrect as a boolean property, so a string
+								// "off" would turn it on. Preact's types only allow a string.
+								{...({autocorrect: false} as object)}
+								enterkeyhint="search"
+								id="playlist-search"
+								name="q"
+								onInput={(event) => setInputValue(event.currentTarget.value)}
+								ref={search}
+								spellcheck={false}
+								type="search"
+								value={inputValue}
+							/>
+							{inputValue && (
+								<button
+									aria-label="Clear search"
+									class="icon-button"
+									onClick={handleClear}
+									type="button"
+								>
+									<CloseIcon size={18} />
+								</button>
+							)}
+						</div>
+						<p class="hint" id="playlist-search-hint">
+							Search by name, or paste a playlist or channel URL, a PL… ID, or
+							an @handle.
+						</p>
+					</form>
+				</search>
 			</header>
 			<div class="page-body">
-				{result.isFetching && <p class="status-text">Searching…</p>}
-				{result.isError && (
-					<p class="status-text">
-						Sorry, an error occurred: {result.error.message}
-					</p>
-				)}
-				{!result.isFetching && searchResults?.length === 0 && (
-					<p class="status-text">No matching playlists or channels found.</p>
-				)}
-				{searchResults && searchResults.length > 0 && (
+				{/* Always rendered, so screen readers announce changes to it. */}
+				<p class={hasResults ? 'section-label' : 'status-text'} role="status">
+					{statusMessage}
+				</p>
+				{searchResults && hasResults && (
 					<>
-						<p class="section-label">
-							{searchResults.length}{' '}
-							{searchResults.length === 1 ? 'result' : 'results'}
-						</p>
 						<ul class="result-list">
 							{searchResults.map((item) => (
 								<li class="card result-row" key={getPlaylistID(item)}>
