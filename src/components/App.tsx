@@ -22,7 +22,7 @@ export const App: FunctionalComponent = () => {
 		<QueryClientProvider client={queryClient}>
 			<Main onRouteChange={setCurrentPath} />
 			<nav aria-label="Primary" class="tab-bar">
-				{Array.from(ROUTES.entries()).map(([key, {label, path, title}]) => {
+				{Array.from(ROUTES.entries()).map(([key, {label, path}]) => {
 					const RouteIcon = ROUTE_ICONS[key];
 					const isActive = path === currentPath;
 					return (
@@ -31,7 +31,6 @@ export const App: FunctionalComponent = () => {
 							class={isActive ? 'active' : undefined}
 							href={path}
 							key={key}
-							title={title}
 						>
 							<span class="tab-icon">{RouteIcon && <RouteIcon />}</span>
 							{label}

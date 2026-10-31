@@ -8,22 +8,34 @@
 		"cleanUrls": true,
 		"headers": [
 			{
+				"source": "**/*",
 				"headers": [
 					{
 						"key": "Cache-Control",
 						"value": "max-age=0"
+					},
+					{
+						"key": "X-Content-Type-Options",
+						"value": "nosniff"
+					},
+					{
+						"key": "X-Frame-Options",
+						"value": "DENY"
+					},
+					{
+						"key": "Content-Security-Policy",
+						"value": "frame-ancestors 'none'"
 					}
-				],
-				"source": "**/*"
+				]
 			},
 			{
+				"source": "/assets/**",
 				"headers": [
 					{
 						"key": "Cache-Control",
-						"value": "max-age=31536000"
+						"value": "max-age=31536000, immutable"
 					}
-				],
-				"regex": ".+\\.[0-9a-f]{8}\\.(js|css)$"
+				]
 			}
 		],
 		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],

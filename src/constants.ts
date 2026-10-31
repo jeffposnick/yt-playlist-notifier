@@ -1,7 +1,6 @@
 interface RouteInfo {
 	label: string;
 	path: string;
-	title: string;
 }
 
 export const ROUTES = new Map<string, RouteInfo>([
@@ -10,7 +9,6 @@ export const ROUTES = new Map<string, RouteInfo>([
 		{
 			label: 'Videos',
 			path: '/',
-			title: 'Latest videos from subscribed playlists.',
 		},
 	],
 	[
@@ -18,7 +16,6 @@ export const ROUTES = new Map<string, RouteInfo>([
 		{
 			label: 'Find',
 			path: '/search',
-			title: 'Find playlists and channels to subscribe to.',
 		},
 	],
 	[
@@ -26,7 +23,6 @@ export const ROUTES = new Map<string, RouteInfo>([
 		{
 			label: 'Playlists',
 			path: '/subscriptions',
-			title: 'List of current playlist subscriptions.',
 		},
 	],
 	[
@@ -34,7 +30,6 @@ export const ROUTES = new Map<string, RouteInfo>([
 		{
 			label: 'About',
 			path: '/about',
-			title: 'About this project.',
 		},
 	],
 ]);
