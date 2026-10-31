@@ -1,4 +1,4 @@
-name: Test and Deploy
+name: CI
 on:
   push:
     branches: [main]
@@ -12,20 +12,26 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   test-and-deploy:
+    name: Lint, build, test, and deploy
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
       # PRs only test Chromium, so skip downloading the other browsers and their OS dependencies.
       PLAYWRIGHT_BROWSERS: ${{ github.event_name == 'pull_request' && 'chromium' || 'chromium firefox webkit' }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
         env:
           VITE_YT_API_KEY: ${{ secrets.VITE_YT_API_KEY }}
       - name: Get Playwright version
@@ -51,7 +57,8 @@ jobs:
         run: |
           read -ra browsers <<< "$PLAYWRIGHT_BROWSERS"
           npm run test -- "${browsers[@]/#/--project=}"
-      - uses: actions/upload-artifact@v7
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-report

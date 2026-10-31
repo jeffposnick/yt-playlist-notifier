@@ -24,6 +24,9 @@
 		"workbox-routing": "^7.4.1",
 		"workbox-strategies": "^7.4.1"
 	},
+	"engines": {
+		"node": "^24"
+	},
 	"name": "yt-playlist-notifier",
 	"scripts": {
 		"build": "vite build",
