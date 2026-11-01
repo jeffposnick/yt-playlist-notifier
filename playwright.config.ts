@@ -19,8 +19,10 @@ const config: PlaywrightTestConfig = {
 		/**
 		 * Maximum time expect() should wait for the condition to be met.
 		 * For example in `await expect(locator).toHaveText();`
+		 * As with the test timeout, give CI more headroom: a full page load
+		 * followed by an IndexedDB read has taken over a second in Firefox there.
 		 */
-		timeout: 1000,
+		timeout: (process.env.CI ? 5 : 1) * 1000,
 	},
 	/* Run tests in files in parallel */
 	fullyParallel: true,
